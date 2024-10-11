@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:32:14 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/10/03 18:31:02 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/10/11 17:38:14 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	print_commands(t_shell *shell)
 	current = shell->command;
 	while (current)
 	{
-		printf("Command: %s , R_in: %s , R_out: %s\n", current->name, current -> r_in, current -> r_out);
+		printf("Command: %s, R_in: %s , R_out: %s\n", current->name, current -> r_in, current -> r_out);
 		if (current -> args)
 		{
 			i = 0;
@@ -141,7 +141,7 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		shell.input = readline("\033[1;37m.minishell \033[0m");
-		system("leaks minishell");
+	//	system("leaks minishell");
 		if (!shell.input)
 			error(READLINE_ERR, &shell);
 		if (shell.input[0] != '\0')
@@ -152,9 +152,10 @@ int	main(int argc, char **argv, char **env)
 		create_commands(&shell);
 		print_tokens(&shell);
 		print_commands(&shell);
+		execute_echo(&shell);
     //	execute_command((shell.command) -> name, (shell.command )-> args,&shell);
 		free_shell(&shell);
-		system("leaks minishell");
+		//system("leaks minishell");
 	}
 	//free_env(shell.env);
 	//shell.env = NULL;

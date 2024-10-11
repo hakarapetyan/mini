@@ -15,7 +15,7 @@ void	create_commands(t_shell *shell)
 		{
 			if (!(tmp))
 			{
-				tmp = create_command(shell -> token -> value);
+				tmp = create_command(shell -> token -> value, shell -> token -> var_value);
 				shell -> command = tmp;
 				if (!(shell -> command))
 					error(ALLOCATION_ERR, shell);
@@ -68,7 +68,10 @@ void	add_args(t_token **token,t_commands **tmp,  t_shell *shell)
 		}
 		if ((*token) && (!is_redirection((*token) -> type) && (*token) -> type != PIPE))
 		{
-			(*tmp) -> args[i] = ft_strdup(((*token)) -> value);
+			if ((*token) -> var_value)
+				(*tmp) -> args[i] = ft_strdup(((*token)) -> var_value);
+			else
+				(*tmp) -> args[i] = ft_strdup(((*token)) -> value);
 			if (!(*tmp) -> args[i])
 				error(ALLOCATION_ERR, shell);
 			(*token) = (*token) -> next;
@@ -118,7 +121,7 @@ void	add_command(t_token **tkn, t_commands **tmp, t_shell *shell)
 	{
 		while ((*tmp) -> next)
 			(*tmp) = (*tmp) -> next;
-		(*tmp) -> next = create_command((*tkn) -> next -> value);
+		(*tmp) -> next = create_command((*tkn) -> next -> value, (*tkn) -> next -> var_value);
 		if (!((*tmp) -> next))
 			free_shell(shell);
 		(*tmp) -> next -> prev = *tmp;
@@ -127,16 +130,24 @@ void	add_command(t_token **tkn, t_commands **tmp, t_shell *shell)
 	}
 }
 
-t_commands	*create_command(char *name)
+t_commands	*create_command(char *value, char *var_value)
 {
 	t_commands	*command;
 
-	if (!name)
+	if (!value)
 		return (NULL);
+	(void)var_value;
 	command = malloc(sizeof(t_commands));
 	if (!command)//allocation failed;
 		return (NULL);
-	command -> name = ft_strdup(name);
+		// printf("varval%s\n",var_value);
+		// printf("val%s\n",value);
+	// if (*var_value)
+	// {
+	// 	command -> name = ft_strdup(var_value);
+	// }
+	// else
+		command -> name = ft_strdup(value);
 	command -> args = NULL;
 	command -> r_in = NULL;
 	command -> r_out = NULL;
