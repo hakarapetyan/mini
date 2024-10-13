@@ -44,8 +44,8 @@ char	*extract_quoted_str(char **current, t_shell *shell)
 		(*current)++;
 		return (NULL);
 	}
-	while ((**current) && (is_space(**current)))
-		(*current)++;
+	// while ((**current) && (is_space(**current)))
+	// 	(*current)++;
 	while ((*current)[i] && ((*current)[i] != quote))
 		i++;
 	if (i > 0)
@@ -148,9 +148,48 @@ char	*extract_var_from_quoted_str(char *str, t_shell *shell)
 		free(tmp);
 		tmp = NULL;
 	}
+	printf("----------------%s\n",res);
 	return (res);
 }
 
+
+char	*var_without_quotes(t_shell *shell, char **str)
+{
+	int i;
+	int len;
+	char	*tmp;
+	char	*res;
+
+	i = 0;
+	len = 0;
+	tmp = NULL;
+	res = NULL;
+	if ((*str)[len] == '$' && !((*str)[len + 1]))
+	{
+		(*str)++;
+		return (ft_strdup("$"));
+	}
+	(*str)++;
+	while ((*str)[len] && (ft_isalnum((*str)[len]) || (*str)[len] == '_'))
+		len++;
+	//printf("len = %d\n",len);
+	tmp = malloc(sizeof(char) * (len + 1));
+	if (!tmp)
+		return (NULL);
+
+	while(i != len)
+	{
+		tmp[i] = (*str)[i];
+		i++;
+	}
+	tmp[i] = '\0';
+	(*str) += len;
+	res = is_key(shell -> env, tmp);
+	free_arr(&tmp);
+	if (!res)
+		return (ft_strdup(""));
+	return (ft_strdup(getenv(res)));
+}
 
 char	*var_in_quotes(t_shell *shell, char **str)
 {
@@ -169,7 +208,7 @@ char	*var_in_quotes(t_shell *shell, char **str)
 		return (ft_strdup("$"));
 	}
 	(*str)++;
-	while ((*str)[len] && !is_space((*str)[len]) && !is_quote((*str)[len]) && !is_separator((*str)[len]))
+	while ((*str)[len] && (ft_isalnum((*str)[len]) || (*str)[len] == '_'))
 		len++;
 	tmp = malloc(sizeof(char) * (len + 1));
 	if (!tmp)
@@ -184,6 +223,6 @@ char	*var_in_quotes(t_shell *shell, char **str)
 	res = is_key(shell -> env, tmp);
 	free_arr(&tmp);
 	if (!res)
-		return (ft_strdup("\n"));
+		return (ft_strdup(""));
 	return (ft_strdup(getenv(res)));
 }

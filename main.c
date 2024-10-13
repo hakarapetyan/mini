@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:32:14 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/10/11 17:38:14 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/10/13 18:28:53 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,10 +148,10 @@ int	main(int argc, char **argv, char **env)
 			add_history(shell.input);
 		get_environment(&shell, env);
 		lexical_analyzer(&shell);
-		check_redir_errors(&shell);
+		//check_redir_errors(&shell);
 		create_commands(&shell);
-		print_tokens(&shell);
-		print_commands(&shell);
+		//print_tokens(&shell);
+		//print_commands(&shell);
 		execute_echo(&shell);
     //	execute_command((shell.command) -> name, (shell.command )-> args,&shell);
 		free_shell(&shell);

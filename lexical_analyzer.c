@@ -13,19 +13,24 @@ void add_space(t_shell *shell, char **current, int *flag)
 {
     char	*value;
 	char	*new_value;
+	t_token	*tkn;
 
-	if ((shell) -> token && (*flag) == 0)
+	tkn = get_last_token(shell);
+	if (tkn && (*flag) == 0)
 	{
 		(*flag)++;
-		value = (shell) -> token ->value;
+		value = tkn ->value;
 		new_value = ft_strjoin(value, " ");
+		printf("val=%s|\n",new_value);
 		if (new_value) {
 			//free(value);
 			//free((*shell) -> token -> value);
-			(shell) -> token -> value = new_value;
+			tkn -> value = new_value;
 		}
 	}
+	while (is_space(**current))
 	(*current)++;
+	printf("cr[%s]\n",*current);
 }
 
 void	handle_special_chars(t_shell *shell, char *current)
@@ -35,9 +40,10 @@ void	handle_special_chars(t_shell *shell, char *current)
 
 	flag = 0;
 	while (*current)
-	{
+	{// printf("from[%s]\n",current);
 		state = DEFAULT;
 		state = set_state(*current, state);
+		flag = 0;
 		if (*current == '|')
 			add_token(shell, PIPE, state, extract_separator(&(current)));
 		else if (*current == '<' && (*(current + 1)) == '<')
@@ -53,8 +59,24 @@ void	handle_special_chars(t_shell *shell, char *current)
 		else if (!(is_separator(*current)) && !(is_space(*current)))
 			add_token(shell, WORD, state, extract_word(&(current),shell));
 		else if (is_space(*current))
-			add_space(shell, &current, &flag);
+			add_token(shell, SPACE, state, extract_whitespace(&current));
 	}
+}
+
+char *extract_whitespace(char **current)
+{
+	char	*space;
+
+	space = NULL;
+	if (is_space(**current))
+	{
+		while (is_space(**current))
+		{
+			(*current)++;
+		}
+		space = ft_strdup(" ");
+	}
+	return (space);
 }
 
 
@@ -70,6 +92,33 @@ int	tokenization(t_shell *shell)
 	return (0);
 }
 
+
+static char *extract_var(char *str, t_shell *shell)
+{
+	char	*tmp;
+	int		i;
+
+	i = 0;
+	tmp = NULL;
+	if (!shell -> env)
+		return (NULL);
+	tmp = var_without_quotes(shell, &str);
+	return (tmp);
+}
+
+static int	space_as_delim_strlen(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str[i] == '$')
+		i++;
+	while(str[i] && (ft_isalnum(str[i])) )
+	{
+		i++;
+	}
+	return (i);
+}
 char	*extract_env_var(char **current, t_shell *shell)
 {
 	char	*var;
@@ -79,39 +128,8 @@ char	*extract_env_var(char **current, t_shell *shell)
 	i = 0;
 	var = NULL;
 	res = NULL;
-	if ((*current)[i] == '$' && (!((*current)[i + 1]) || is_quote((*current)[i + 1])))
-	{
-		(*current)++;
-		return (ft_strdup("$"));
-	}
-	i++;
-	if (ft_isalnum((*current)[i]) == 1 || (*current)[i] == '_')
-	{
-		while ((*current)[i] && (ft_isalnum((*current)[i]) || (*current)[i] == '_'))
-			i++;
-		var = ft_substr(*current, 0, i);
-	}
-	else
-		return (NULL);
-	while(i)
-	{
-		(*current)++;
-		i--;
-	}
-	if(ft_search(var,shell))
-	{
-		if (ft_search(var, shell) == 2)
-		{
-			free_arr(&var);
-			return(ft_strdup(""));
-		}
-		else if (ft_search(var, shell) == 1)
-		{
-			res = ft_substr(var, 1, ft_strlen(var) - 1);
-			free_arr(&var);
-			return(res);
-		}
-	}
+	var = extract_var(*current,shell);
+	(*current) += space_as_delim_strlen(*current);
 	return (var);
 }
 

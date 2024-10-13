@@ -24,3 +24,14 @@ int	args_count(t_token **token)
 	}
 	return (count);
 }
+t_token *get_last_token(t_shell *shell)
+{
+	t_token	*tkn;
+
+	tkn = shell -> token;
+	while (tkn -> next)
+	{
+		tkn = tkn -> next;
+	}
+	return (tkn);
+}

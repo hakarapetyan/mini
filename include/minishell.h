@@ -14,6 +14,15 @@
 # include "free.h"
 
 
+char *extract_whitespace(char **current);
+
+char	*var_without_quotes(t_shell *shell, char **str);
+
+
+char	*generate_spaces(int count);
+char	*add_space_to_env_var(char *str, char *tmp);
+
+
 
 //builtins
 void	my_pwd(void);
@@ -72,6 +81,10 @@ void	expand_heredoc(t_shell *shell);
 int		is_word(char *str);
 
 
+
+//utils3
+
+t_token *get_last_token(t_shell *shell);
 //extract_word
 char	*extract_word(char **current, t_shell *shell);
 char	*extract_quoted_str(char **current, t_shell *shell);

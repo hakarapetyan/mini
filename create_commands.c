@@ -140,14 +140,7 @@ t_commands	*create_command(char *value, char *var_value)
 	command = malloc(sizeof(t_commands));
 	if (!command)//allocation failed;
 		return (NULL);
-		// printf("varval%s\n",var_value);
-		// printf("val%s\n",value);
-	// if (*var_value)
-	// {
-	// 	command -> name = ft_strdup(var_value);
-	// }
-	// else
-		command -> name = ft_strdup(value);
+	command -> name = ft_strdup(value);
 	command -> args = NULL;
 	command -> r_in = NULL;
 	command -> r_out = NULL;

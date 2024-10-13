@@ -10,6 +10,7 @@ typedef enum s_token_type
 	R_APPEND,
 	R_HEREDOC,
 	ENV_VAR,
+	SPACE,
 } t_token_type;
 
 typedef enum	s_lexer_state
@@ -24,7 +25,7 @@ typedef struct s_token
 
 	char			*value;
 	char			*var_value;
-	int				space;
+	char			space;
 	t_token_type	type;
 	t_lexer_state	state;
 	struct s_token	*next;

@@ -17,6 +17,10 @@
 		"system_error": "c",
 		"tuple": "c",
 		"type_traits": "c",
-		"vector": "c"
+		"vector": "c",
+		"unordered_map": "c",
+		"locale": "c",
+		"string": "c",
+		"sstream": "c"
 	}
 }
