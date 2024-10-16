@@ -10,7 +10,7 @@ typedef enum s_token_type
 	R_APPEND,
 	R_HEREDOC,
 	ENV_VAR,
-	SPACE,
+	TK_SPACE,
 } t_token_type;
 
 typedef enum	s_lexer_state

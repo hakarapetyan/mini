@@ -36,14 +36,14 @@ void add_space(t_shell *shell, char **current, int *flag)
 void	handle_special_chars(t_shell *shell, char *current)
 {
 	t_lexer_state	state;
-	int				flag;
+	//int				flag;
 
-	flag = 0;
+	//flag = 0;
 	while (*current)
 	{// printf("from[%s]\n",current);
 		state = DEFAULT;
 		state = set_state(*current, state);
-		flag = 0;
+	//	flag = 0;
 		if (*current == '|')
 			add_token(shell, PIPE, state, extract_separator(&(current)));
 		else if (*current == '<' && (*(current + 1)) == '<')
@@ -96,9 +96,9 @@ int	tokenization(t_shell *shell)
 static char *extract_var(char *str, t_shell *shell)
 {
 	char	*tmp;
-	int		i;
+	//int		i;
 
-	i = 0;
+	//i = 0;
 	tmp = NULL;
 	if (!shell -> env)
 		return (NULL);
@@ -122,12 +122,12 @@ static int	space_as_delim_strlen(char *str)
 char	*extract_env_var(char **current, t_shell *shell)
 {
 	char	*var;
-	char	*res;
-	int	i;
+	//char	*res;
+///	int	i;
 
-	i = 0;
+//	i = 0;
 	var = NULL;
-	res = NULL;
+	//res = NULL;
 	var = extract_var(*current,shell);
 	(*current) += space_as_delim_strlen(*current);
 	return (var);

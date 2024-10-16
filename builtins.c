@@ -19,10 +19,56 @@ void my_echo_helper_one(int count, char **input, int i)
 	int flag;
 
 	flag = 0;
-		while (i < count)
+	while (i < count)
+	{
+		/*if (input[i] && ham_strcmp(input[i], " "))
 		{
-			while (input[i] && ham_strcmp(input[i], "-n") == 0)
+			while (input[i])
+			{
+				printf("%s",input[i]);
 				i++;
+			}
+			printf("\n");
+		}
+		else
+		{
+		//	i++;*/
+		if (input[i] && (ham_strcmp(input[i], "-n") == 0 || ham_strcmp(input[i], " ") == 0))
+			i++;
+		else
+		{
+		printf("%s",input[i]);
+			i++;
+		}
+		//	if (input[i] && ham_strcmp(input[i], "-n") == 0)
+		//	
+		//	i++;
+	}
+		//while (i < count)
+		//{
+			//if (input[i] && ham_strcmp(input[i], "-n") == 0)
+			//{
+		//		if (input[i] && ham_strcmp(input[i], "-n") == 0)
+		//		{
+		//			i++;
+		//			if (input[i] && ham_strcmp(input[i], " ") == 0)
+		//			{
+		//				i++;
+		//				if (input[i] && ham_strcmp(input[i], "-n"))
+		//					printf("%s",input[i]);
+		//				i++;
+		//			}
+		//		}
+			//}
+		//	else
+		//	{
+		//		printf("%s",input[i]);
+		//		i++;
+		//	}
+		//}
+				
+		//	while (input[i] && ham_strcmp(input[i], "-n") == 0)
+		//		i++;
 			// if (input[i] && (ham_strcmp(input[i], "-n") == 0 && input[i + 1] && ham_strcmp(input[i + 1], " ") == 0))
 			// {
 			// 		i++;
@@ -32,14 +78,14 @@ void my_echo_helper_one(int count, char **input, int i)
 			// 	// 	i++;
 			// 	// }
 			// }
-					printf("%s",input[i]);
-					i++;
+		//			printf("%s",input[i]);
+		//			i++;
 			//printf("--[%s]\n",input[i]);
 			// while (input[i] && input[i + 1] && ham_strcmp(input[i + 1], " ")&& (ham_strcmp(input[i], "-n") == 0 || ham_strcmp(input[i], " ") == 0))
 			// i++;
 			//if (ham_strcmp(input[i], "-n"))
 			//i++;
-		}
+		//}
 }
 
 
@@ -57,15 +103,20 @@ void	my_echo_helper_two(int count, char **input, int i)
 			j++;
 			i++;
 		}
-		while (i < count)
+		while (i < count && input[i])
 		{
-			printf("%s",input[i]);
-			i++;
+			if (input[i] && ham_strcmp(input[i], " ") == 0)
+                        	i++;
+			if (input[i])
+			{
+				printf("%s",input[i]);
+				i++;
+			}
 		}
 	}
 	else
 	{
-		while (i < count)
+		while (i < count && input[i])
 		{
 			printf("%s",input[i]);
 			i++;
@@ -97,7 +148,7 @@ void my_echo(int count, char **args)
 	i = 0;
 	while (!ham_strcmp(args[i], " ") || !ham_strcmp(args[i], "echo"))
 		i++;
-	if (!ham_strcmp(args[i], "-n"))
+	if (!ham_strcmp(args[i], "-n") && args[i + 1] && !ham_strcmp(args[i + 1], " "))
 	{
 		i++;
 		my_echo_helper_one(count, args, i);

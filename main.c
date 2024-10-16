@@ -111,7 +111,7 @@ void	check_redir_errors(t_shell *shell)
 }
 
 
-void	execute_command(char *command,char **args,t_shell *shell)
+/*void	execute_command(char *command,char **args,t_shell *shell)
 {
 	pid_t	pid;
 	const char *pathname;
@@ -129,7 +129,7 @@ void	execute_command(char *command,char **args,t_shell *shell)
 	}
 	else
 		wait(NULL);
-}
+}*/
 
 int	main(int argc, char **argv, char **env)
 {

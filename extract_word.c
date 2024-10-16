@@ -71,6 +71,7 @@ static int is_valid_var(char **str,t_shell *shell, int i, int j)
 	char	*tmp;
 
 	tmp = NULL;
+	(void)j;
 	while ((*str)[i])
 	{
 		while (*(*str) != '$' && *(*str))
@@ -82,7 +83,7 @@ static int is_valid_var(char **str,t_shell *shell, int i, int j)
 			break;
 		while ((*str)[i] && !is_space((*str)[i]) && (*str)[i] != '$' && !is_quote((*str)[i]))
 			i++;
-		j = i + 1;
+		//j = i + 1;
 		tmp = ft_strdup_interval(str, &i);
 		if (is_key(shell -> env, tmp))
 		{
