@@ -25,6 +25,7 @@ char	*extract_word(char **current, t_shell *shell)
 	}
 	// if (!var)
 	// 			printf("\n");
+	printf("----------------%s\n",var);
 	return (var);
 }
 
@@ -149,7 +150,6 @@ char	*extract_var_from_quoted_str(char *str, t_shell *shell)
 		free(tmp);
 		tmp = NULL;
 	}
-	printf("----------------%s\n",res);
 	return (res);
 }
 

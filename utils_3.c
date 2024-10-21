@@ -7,6 +7,7 @@ int	is_redirection(t_token_type type)
 		return	(1);
 	return (0);
 }
+
 int	args_count(t_token **token)
 {
 	int	count;
