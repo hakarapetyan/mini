@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:32:14 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/10/21 16:04:17 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/10/21 18:23:58 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ int	main(int argc, char **argv, char **env)
 		//check_redir_errors(&shell);
 		create_commands(&shell);
 		//print_tokens(&shell);
-		print_commands(&shell);
+		//print_commands(&shell);
 		execute_echo(&shell);
     //	execute_command((shell.command) -> name, (shell.command )-> args,&shell);
 		free_shell(&shell);

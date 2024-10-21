@@ -59,7 +59,8 @@ void	handle_special_chars(t_shell *shell, char *current)
 		else if (!(is_separator(*current)) && !(is_space(*current)))
 			add_token(shell, WORD, state, extract_word(&(current),shell));
 		else if (is_space(*current))
-			add_token(shell, TK_SPACE, state, extract_whitespace(&current));
+			current++;
+			//add_token(shell, TK_SPACE, state, extract_whitespace(&current));
 	}
 }
 
