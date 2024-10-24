@@ -25,7 +25,7 @@ char	*extract_word(char **current, t_shell *shell)
 	}
 	// if (!var)
 	// 			printf("\n");
-	printf("----------------%s\n",var);
+	//printf("----------------%s\n",var);
 	return (var);
 }
 

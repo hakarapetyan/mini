@@ -7,7 +7,7 @@ void my_pwd()
 	cmd = getcwd(NULL, 0);
 	if(cmd != NULL)
 	{
-		printf("%s\n", cmd);
+		printf("cmd=%s\n", cmd);
 		free(cmd);
 	}
 	else
@@ -16,9 +16,6 @@ void my_pwd()
 
 void my_echo_helper_one(int count, char **input, int i)
 {
-	int flag;
-
-	flag = 0;
 	while (i < count)
 	{
 		if (input[i] && ham_strcmp(input[i], "-n") == 0)
@@ -30,9 +27,6 @@ void my_echo_helper_one(int count, char **input, int i)
 		}
 	}
 }
-
-
-
 
 void	my_echo_helper_two(int count, char **input, int i)
 {
@@ -111,7 +105,7 @@ int	ham_strcmp(char *s1, char *s2)
 	return (s1[i] - s2[i]);
 }
 
-void	execute_echo(t_shell *shell)
+void	execute_echo_pwd(t_shell *shell)
 {
 	t_commands *cmd;
 
@@ -123,6 +117,10 @@ void	execute_echo(t_shell *shell)
 			printf("name=%s\n", cmd->name);
 			my_echo(shell -> token_count, cmd -> args);
 		}
+		else if (ft_strcmp(cmd -> name, "pwd") == 0)
+			my_pwd();
+		// else if (cmd && ft_strcmp(cmd -> name, "cd") == 0)
+		// 	my_cd(shell -> token_count, cmd -> args);
 		cmd = cmd -> next;
 	}
 }

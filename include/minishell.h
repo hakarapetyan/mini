@@ -29,9 +29,14 @@ void	my_pwd(void);
 void	my_echo_helper_one(int argc, char **input, int i);
 void	my_echo_helper_two(int argc, char **input, int i);
 void	my_echo(int argc, char **input);
-void	execute_echo(t_shell *shell);
+void	execute_echo_pwd(t_shell *shell);
 int	ham_strlen(char *str);
 int	ham_strcmp(char *s1, char *s2);
+
+//another_builtins
+void	my_cd_helper(char **argv, int i);
+void	my_cd(int argc, char **argv);
+void	execute_cd(t_shell *shell);
 
 void	init_shell(t_shell *shell);
 
