@@ -14,6 +14,10 @@
 # include "free.h"
 
 
+
+
+char *extract_var(char *str, t_shell *shell);
+
 char *extract_whitespace(char **current);
 
 char	*var_without_quotes(t_shell *shell, char **str);

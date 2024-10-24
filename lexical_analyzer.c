@@ -33,17 +33,25 @@ void add_space(t_shell *shell, char **current, int *flag)
 	printf("cr[%s]\n",*current);
 }
 
+
+// void	check_space(t_shell *shell)
+// {
+// 	t_token	*tkn;
+
+// 	tkn = get_last_token(shell);
+
+// }
 void	handle_special_chars(t_shell *shell, char *current)
 {
 	t_lexer_state	state;
-	//int				flag;
+	int				flag;
 
-	//flag = 0;
+	flag = 0;
 	while (*current)
-	{// printf("from[%s]\n",current);
+	{
+		printf("----%s\n",current);
 		state = DEFAULT;
 		state = set_state(*current, state);
-	//	flag = 0;
 		if (*current == '|')
 			add_token(shell, PIPE, state, extract_separator(&(current)));
 		else if (*current == '<' && (*(current + 1)) == '<')
@@ -55,12 +63,14 @@ void	handle_special_chars(t_shell *shell, char *current)
 		else if (*current == '>')
 			add_token(shell, R_OUT, state, extract_separator(&(current)));
 		else if (*current == '$')
-			add_token(shell, ENV_VAR, state, extract_env_var(&(current),shell));
+			add_token(shell, ENV_VAR, state, extract_word(&(current),shell));
 		else if (!(is_separator(*current)) && !(is_space(*current)))
 			add_token(shell, WORD, state, extract_word(&(current),shell));
 		else if (is_space(*current))
+		{
+
 			current++;
-			//add_token(shell, TK_SPACE, state, extract_whitespace(&current));
+		}
 	}
 }
 
@@ -94,7 +104,7 @@ int	tokenization(t_shell *shell)
 }
 
 
-static char *extract_var(char *str, t_shell *shell)
+char *extract_var(char *str, t_shell *shell)
 {
 	char	*tmp;
 	//int		i;

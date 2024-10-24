@@ -25,7 +25,7 @@ typedef struct s_token
 
 	char			*value;
 	char			*var_value;
-	char			space;
+	int			space;
 	t_token_type	type;
 	t_lexer_state	state;
 	struct s_token	*next;

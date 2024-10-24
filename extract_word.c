@@ -1,32 +1,160 @@
 #include "./include/minishell.h"
 
-char	*extract_word(char **current, t_shell *shell)
+static char	*another_substr(char *s, unsigned int start, size_t len, char *quote)
 {
-	char	*var;
-	int	i;
+	char	*str;
+	size_t	i;
+	size_t	j;
 
-	i = 0;
-	var = NULL;
-	if (**current && is_quote(**current))
-		var = extract_quoted_str(current, shell);
-	else if (**current)
+	i = start;
+	j = 0;
+	if (!s)
+		return (NULL);
+	str = (char *)malloc(sizeof(*s) * (len + 1));
+	if (!str)
+		return (NULL);
+		printf("quote from start= %c\n" ,*quote);
+	while (i < ft_strlen(s) && j < len)
 	{
-		while ((**current) && (is_space(**current) || is_quote(**current)))
-			(*current)++;
-		while ((*current)[i] && (!(is_space((*current)[i])) && !(is_separator((*current)[i])) && !(is_quote((*current)[i]))))
-			i++;
-		if (i > 0)
+		if (s[i] != *quote)
 		{
-			var = ft_substr(*current, 0, i);
-			if (!var)
-				return (NULL);
-			*current += i;
+			printf("%c\n",s[i]);
+			str[j++] = s[i++];
+			if (is_quote(s[i]))
+				*quote = s[i];
+		}
+		else
+		{
+			//*quote = s[i];
+			i++;
+		printf("quote = %c\n" ,*quote);//"hi"'th'
 		}
 	}
-	// if (!var)
-	// 			printf("\n");
-	printf("----------------%s\n",var);
-	return (var);
+	str[j] = '\0';
+	printf(">>%s\n",str);
+	return (str);
+}
+
+// char	*extract_word(char **current, t_shell *shell)
+// {
+// 	//char	quote;
+// 	char	*var;
+// 	char	*res;
+// 	int	i;
+
+// 	i = 0;
+// 	var = NULL;
+// 	if (**current && is_quote(**current))
+// 		var = extract_quoted_str(current, shell);
+// 	else if (**current)
+// 	{
+		// while ((**current) && (is_space(**current)))
+		// 	(*current)++;
+// 		while ((*current)[i] && (!(is_space((*current)[i]))))
+// 			i++;
+// 		if (i > 0)
+// 		{
+// 			var = another_substr(*current, 0, i);
+// 			if (!var)
+// 				return (NULL);
+// 			*current += i;
+// 		}
+// 	}
+// 	printf("here %s\n",var);
+// 	if ((ft_search(var,shell)))
+// 	{
+// 		res = extract_var_from_quoted_str(var,shell);
+// 		free_arr(&var);
+// 		return (res);
+// 	}
+// 	else
+// 		return (var);
+// 	// if (!var)
+// 	// 			printf("\n");
+// 	//return (var);
+// }
+
+
+static int	handle_quote(char **current, char *quote, int *i)
+{
+	int	len;
+
+	len = 0;
+	(*i)++;
+	while ((*current)[(*i)] && (*current)[(*i)] != *quote)
+	{
+		(*i)++;
+		len++;
+	}
+	if ((*current)[(*i)] != *quote)
+		return (0);
+	(*i)++;
+	printf("lnnnnnn%c\n",(*current)[(*i)]);
+	return (len);
+}
+static	char *check_quote(char **current, int *i, char *quote)
+{
+	int	len;
+	char	*res;
+	char	*tmp;
+
+	len = 0;
+	res = NULL;
+	while ((*current)[*i] && !is_space((*current)[(*i)]))
+	{
+		if (is_quote((*current)[*i]))
+		{
+			*quote = (*current)[(*i)];
+			printf("checkic %c\n",*quote);
+			len += handle_quote(current, quote, i);
+			tmp = another_substr(*current, 0, len, quote);
+			res = ft_strjoin(res, tmp);
+			printf("ressss = %s\n",*current);
+		}
+		else
+		{
+			while ((*current)[(*i)] && (ft_isalnum((*current)[*i]) || (*current)[*i] == '_'))
+			{
+				printf("str = %c\n", (*current)[(*i)]);
+				(*i)++;
+				len++;
+			}
+			tmp = another_substr(*current, 0, len, quote);
+			res = ft_strjoin(res, tmp);
+		}
+		free(tmp);
+		tmp = NULL;
+		//	*current += *i;
+	}
+	printf("i -> %d\n",*i);
+	return (res);
+}
+char	*extract_word(char **current, t_shell *shell)
+{
+	int	i;
+	char	quote;
+	char	*var;
+	char	*res;
+
+	i = 0;
+	quote = '\0';
+	while ((**current) && (is_space(**current)))
+		(*current)++;
+	var = check_quote(current, &i, &quote);
+	if (!var)
+		return (NULL);
+	*current += i;
+
+	if ((ft_search(var,shell)) && (quote == '"' || !quote))
+	{
+		res = extract_var_from_quoted_str(var,shell);
+		free_arr(&var);
+		return (res);
+	}
+	else
+	{
+		return (var);
+	}
 }
 
 char	*extract_quoted_str(char **current, t_shell *shell)
@@ -60,12 +188,15 @@ char	*extract_quoted_str(char **current, t_shell *shell)
 		(*current)++;
 	if ((ft_search(var,shell)) && quote == '"')
 	{
+
 		res = extract_var_from_quoted_str(var,shell);
 		free_arr(&var);
 		return (res);
 	}
 	else
+	{
 		return (var);
+	}
 }
 static int is_valid_var(char **str,t_shell *shell, int i, int j)
 {
@@ -113,6 +244,7 @@ int	 ft_search(char	*str, t_shell *shell)
 		return (0);
 	if(ft_strchr(str, '$'))
 	{
+
 		val = is_valid_var(&str, shell, i, j);
 		if (val == 1)
 			return (1);
@@ -135,6 +267,7 @@ char	*extract_var_from_quoted_str(char *str, t_shell *shell)
 		return (NULL);
 	while (*str)
 	{
+		printf("str = [%s]\n",str);
 		if (str[i] != '$')
 		{
 			while (str[i] && str[i] != '$')
@@ -173,7 +306,7 @@ char	*var_without_quotes(t_shell *shell, char **str)
 	(*str)++;
 	while ((*str)[len] && (ft_isalnum((*str)[len]) || (*str)[len] == '_'))
 		len++;
-	//printf("len = %d\n",len);
+	printf("len = %d\n",len);
 	tmp = malloc(sizeof(char) * (len + 1));
 	if (!tmp)
 		return (NULL);

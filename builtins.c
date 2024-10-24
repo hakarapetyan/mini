@@ -74,7 +74,7 @@ void my_echo(int count, char **args)
 	int	i;
 
 	i = 0;
-	while (args[i] && (!ft_strcmp(args[i], " ") || !ft_strcmp(args[i], "echo")))
+	while (args[i] && (!ft_strcmp(args[i], "echo")))
 		i++;
 	if (args[i] && !ham_strcmp(args[i], "-n"))
 	{
