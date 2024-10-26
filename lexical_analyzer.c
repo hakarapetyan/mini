@@ -33,14 +33,6 @@ void add_space(t_shell *shell, char **current, int *flag)
 	printf("cr[%s]\n",*current);
 }
 
-
-// void	check_space(t_shell *shell)
-// {
-// 	t_token	*tkn;
-
-// 	tkn = get_last_token(shell);
-
-// }
 void	handle_special_chars(t_shell *shell, char *current)
 {
 	t_lexer_state	state;
