@@ -50,34 +50,27 @@ static int	handle_quote(char **current, char *quote, int *i)
 		(*i)++;
 		len++;
 	}
-	if ((*current)[(*i)] != *quote)
-		return (0);
-	(*i)++;
+	if ((*current)[(*i)] == *quote)
+		(*i)++;
 	return (len);
 }
 static	char *check_quote(char **current, int *i, char *quote)
 {
 	int	len;
 	char	*res;
-	char	*tmp;
 
 	len = 0;
 	res = NULL;
-	while ((*current)[*i] && !is_space((*current)[(*i)]))
+	if ((*current)[*i] && is_quote((*current)[(*i)]))
 	{
-		if (is_quote((*current)[*i]))
-		{
-			*quote = (*current)[(*i)];
-			len += handle_quote(current, quote, i);
-		}
-		else
-		{
-			while ((*current)[(*i)] && !is_space((*current)[*i]))
-			{
-				(*i)++;
-				len++;
-			}
-		}
+		*quote = (*current)[(*i)];
+		len += handle_quote(current, quote, i);
+		return (another_substr(*current, 0, len));
+	}
+	while ((*current)[(*i)] && !is_space((*current)[*i]) && !is_quote((*current)[(*i)]))
+	{
+		(*i)++;
+		len++;
 	}
 	return (another_substr(*current, 0, len));
 }
@@ -94,7 +87,6 @@ char	*extract_word(char **current, t_shell *shell)
 	if (!var)
 		return (NULL);
 	*current += i;
-
 	if ((ft_search(var,shell)) && (quote == '"' || !quote))
 	{
 		res = extract_var_from_quoted_str(var,shell);
