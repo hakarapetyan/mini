@@ -1,12 +1,13 @@
 #include "./include/minishell.h"
 
-
 static void	copy_str(char *s, char **str, size_t *i, size_t len)
 {
 	char	quote;
 	size_t	j;
 
 	j = 0;
+	if (s)
+	{
 	while (*i < ft_strlen(s) && j < len)
 	{
 		if (is_quote(s[*i]))
@@ -21,6 +22,7 @@ static void	copy_str(char *s, char **str, size_t *i, size_t len)
 			(*str)[j++] = s[(*i)++];
 	}
 	(*str)[j] = '\0';
+	}
 }
 
 
@@ -39,7 +41,7 @@ static char	*another_substr(char *s, unsigned int start, size_t len)
 	return (str);
 }
 
-static int	handle_quote(char **current, char *quote, int *i)
+static int	handle_quote(t_shell *shell, char **current, char *quote, int *i)
 {
 	int	len;
 
@@ -50,11 +52,13 @@ static int	handle_quote(char **current, char *quote, int *i)
 		(*i)++;
 		len++;
 	}
+	if ((*current)[(*i)] != *quote)
+		error(QUOTE_ERR, shell);
 	if ((*current)[(*i)] == *quote)
 		(*i)++;
 	return (len);
 }
-static	char *check_quote(char **current, int *i, char *quote)
+static	char *check_quote(t_shell *shell,char **current, int *i, char *quote)
 {
 	int	len;
 	char	*res;
@@ -64,7 +68,7 @@ static	char *check_quote(char **current, int *i, char *quote)
 	if ((*current)[*i] && is_quote((*current)[(*i)]))
 	{
 		*quote = (*current)[(*i)];
-		len += handle_quote(current, quote, i);
+		len += handle_quote(shell, current, quote, i);
 		return (another_substr(*current, 0, len));
 	}
 	while ((*current)[(*i)] && !is_space((*current)[*i]) && !is_quote((*current)[(*i)]))
@@ -83,9 +87,12 @@ char	*extract_word(char **current, t_shell *shell)
 
 	i = 0;
 	quote = '\0';
-	var = check_quote(current, &i, &quote);
-	if (!var)
+	var = check_quote(shell, current, &i, &quote);
+	if (!var )
+	{
+		//helppppppppppppp *var
 		return (NULL);
+	}
 	*current += i;
 	if ((ft_search(var,shell)) && (quote == '"' || !quote))
 	{
@@ -96,7 +103,19 @@ char	*extract_word(char **current, t_shell *shell)
 	else
 		return (var);
 }
-
+static int is_key_helper(t_shell *shell, char **tmp)
+{
+	if (is_key(shell -> env, *tmp))
+	{
+		free_arr(tmp);
+		return(1);
+	}
+	else
+	{
+		free_arr(tmp);
+		return (2);
+	}
+}
 static int is_valid_var(char **str,t_shell *shell, int i)
 {
 	char	*tmp;
@@ -114,16 +133,7 @@ static int is_valid_var(char **str,t_shell *shell, int i)
 		while ((*str)[i] && !is_space((*str)[i]) && (*str)[i] != '$' && !is_quote((*str)[i]))
 			i++;
 		tmp = ft_strdup_interval(str, &i);
-		if (is_key(shell -> env, tmp))
-		{
-			free_arr(&tmp);
-			return(1);
-		}
-		else
-		{
-			free_arr(&tmp);
-			return (2);
-		}
+		return(is_key_helper(shell, &tmp));
 	}
 	free_arr(&tmp);
 	return (0);
@@ -141,7 +151,6 @@ int	 ft_search(char	*str, t_shell *shell)
 		return (0);
 	if(ft_strchr(str, '$'))
 	{
-
 		val = is_valid_var(&str, shell, i);
 		if (val == 1)
 			return (1);
@@ -160,7 +169,7 @@ char	*extract_var_from_quoted_str(char *str, t_shell *shell)
 	i = 0;
 	res = NULL;
 	tmp = NULL;
-	if (!shell -> env)
+	if (!shell -> env || !str)
 		return (NULL);
 	while (*str)
 	{
@@ -170,63 +179,50 @@ char	*extract_var_from_quoted_str(char *str, t_shell *shell)
 				i++;
 			tmp = ft_strdup_interval(&str, &i);
 			res = ft_strjoin(res, tmp);
+			free(tmp);
+			tmp = NULL;
 		}
 		else if(str[i] == '$' && !is_quote(str[i + 1]))
 		{
 			tmp = var_in_quotes(shell, &str);
 			res = ft_strjoin(res, tmp);
+			free(tmp);
+			tmp = NULL;
 		}
-		free(tmp);
-		tmp = NULL;
 	}
 	return (res);
 }
 
 
-char	*var_without_quotes(t_shell *shell, char **str)
+static	char *var_in_quotes_helper(char **str, int *len)
 {
-	int i;
-	int len;
+	int	i;
 	char	*tmp;
-	char	*res;
 
 	i = 0;
-	len = 0;
 	tmp = NULL;
-	res = NULL;
-	if ((*str)[len] == '$' && !((*str)[len + 1]))
-	{
-		(*str)++;
-		return (ft_strdup("$"));
-	}
 	(*str)++;
-	while ((*str)[len] && (ft_isalnum((*str)[len]) || (*str)[len] == '_'))
-		len++;
-	tmp = malloc(sizeof(char) * (len + 1));
+	while ((*str)[(*len)] && (ft_isalnum((*str)[(*len)]) || (*str)[(*len)] == '_'))
+		(*len)++;
+	tmp = malloc(sizeof(char) * ((*len) + 1));
 	if (!tmp)
 		return (NULL);
-	while(i != len)
+	while(i != (*len))
 	{
 		tmp[i] = (*str)[i];
 		i++;
 	}
 	tmp[i] = '\0';
-	(*str) += len;
-	res = is_key(shell -> env, tmp);
-	free_arr(&tmp);
-	if (!res)
-		return (ft_strdup(""));
-	return (ft_strdup(getenv(res)));
+	(*str) += (*len);
+	return (tmp);
 }
 
 char	*var_in_quotes(t_shell *shell, char **str)
 {
-	int i;
 	int len;
 	char	*tmp;
 	char	*res;
 
-	i = 0;
 	len = 0;
 	tmp = NULL;
 	res = NULL;
@@ -235,19 +231,9 @@ char	*var_in_quotes(t_shell *shell, char **str)
 		(*str)++;
 		return (ft_strdup("$"));
 	}
-	(*str)++;
-	while ((*str)[len] && (ft_isalnum((*str)[len]) || (*str)[len] == '_'))
-		len++;
-	tmp = malloc(sizeof(char) * (len + 1));
+	tmp = var_in_quotes_helper(str, &len);
 	if (!tmp)
 		return (NULL);
-	while(i != len)
-	{
-		tmp[i] = (*str)[i];
-		i++;
-	}
-	tmp[i] = '\0';
-	(*str) += len;
 	res = is_key(shell -> env, tmp);
 	free_arr(&tmp);
 	if (!res)

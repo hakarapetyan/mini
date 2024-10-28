@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:32:14 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/10/23 20:47:07 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/10/28 20:04:52 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ void	check_redir_errors(t_shell *shell)
 			error("syntax error near unexpected token `|'", shell);
 	while (tkn)
 	{
-		if (is_redirection(tkn -> type) && !(tkn -> next))
-			error("syntax error near unexpected token `newline'", shell);
+		// if (is_redirection(tkn -> type) && !(tkn -> next))
+		// 	error("syntax error near unexpected token `newline'", shell);
 		if (is_redirection(tkn -> type) && (tkn -> next && tkn -> next -> type == PIPE))
 			error("syntax error near unexpected token `|'", shell);
 		if (is_redirection(tkn -> type) && (tkn -> next && is_redirection(tkn -> next -> type)))
@@ -155,7 +155,7 @@ int	main(int argc, char **argv, char **env)
 		execute_echo(&shell);
     //	execute_command((shell.command) -> name, (shell.command )-> args,&shell);
 		free_shell(&shell);
-		//system("leaks minishell");
+		system("leaks minishell");
 	}
 	//free_env(shell.env);
 	//shell.env = NULL;

@@ -40,9 +40,11 @@ int	are_quotes_even(char *str)
 	count_d = 0;
 	while (str[i])
 	{
+		if (str[i] == '\\' && str[i + 1] == '\'')
+			i++;
 		if (str[i] == '\'')
 			count_s++;
-		else if (str[i] == '\"')
+		else if (str[i] == '"')
 			count_d++;
 		i++;
 	}

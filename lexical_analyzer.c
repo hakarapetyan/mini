@@ -54,43 +54,19 @@ char *extract_whitespace(char **current)
 	}
 	return (space);
 }
+static void	tk_space_remove(t_shell *shell, t_token **tkn, t_token **tmp, t_token **prev)
+{
+	*tmp = (*tkn);
+	(*tkn) = (*tkn) -> next;
 
-// static void	token_list_without_spaces(t_shell *shell)
-// {
-// 	t_token	*tkn = shell -> token;
-// 	t_token	*previous = NULL;
-// 	t_token	*tmp;
+	if (*prev)
+		(*prev) -> next = (*tkn);
+	else
+		shell -> token = (*tkn);
 
-// 	while (tkn -> next)
-// 	{
-// 		if (tkn -> type == TK_SPACE)
-// 		{
-// 			tmp = tkn;
-// 			tkn = tkn -> next;
-// 			if (previous)
-// 				previous -> next = tkn;
-// 			free(tmp -> value);
-// 			free(tmp);
-// 		}
-// 		if (tkn -> type != TK_SPACE && tkn -> next && tkn -> next -> type != TK_SPACE)
-// 		{
-// 			tkn -> value = ft_strjoin(tkn -> value, tkn -> next -> value);
-// 			tmp = tkn -> next;
-
-// 			tkn -> next = tmp -> next;
-// 			free(tmp -> value);
-// 			free(tmp);
-// 		}
-// 		else
-// 		{
-// 			previous = tkn;
-// 			tkn = tkn -> next;
-// 		}
-// 	}
-
-// }
-
-
+	free((*tmp)->value);
+	free(*tmp);
+}
 static void token_list_without_spaces(t_shell *shell)
 {
     t_token *tkn = shell->token;
@@ -100,33 +76,22 @@ static void token_list_without_spaces(t_shell *shell)
 
     while (tkn)
     {
-        if (tkn->type == TK_SPACE)
+        if (tkn -> type == TK_SPACE)
+			tk_space_remove(shell, &tkn, &tmp, &prev);
+        else if (tkn -> next && tkn -> next -> type != TK_SPACE)
         {
-            tmp = tkn;
-            tkn = tkn->next;
-
-            if (prev)
-                prev->next = tkn;
-            else
-                shell->token = tkn;
-
-            free(tmp->value);
-            free(tmp);
-        }
-        else if (tkn->next && tkn->next->type != TK_SPACE)
-        {
-            new_value = ft_strjoin(tkn->value, tkn->next->value);
-            tkn->value = new_value;
-
-            tmp = tkn->next;
-            tkn->next = tmp->next;
-            free(tmp->value);
+            new_value = ft_strjoin(tkn -> value, tkn -> next -> value);
+            tkn -> value = new_value;
+            tmp = tkn -> next;
+            tkn -> next = tmp -> next;
+			//free(tmp -> var_value);
+            free(tmp -> value);
             free(tmp);
         }
         else
         {
             prev = tkn;
-            tkn = tkn->next;
+            tkn = tkn -> next;
         }
     }
 }
@@ -139,55 +104,11 @@ int	tokenization(t_shell *shell)
 	char			*current;
 
 	current = shell -> input;
-	if (!are_quotes_even(shell -> input))
-		return (-2);
 	handle_special_chars(shell, current);
 	token_list_without_spaces(shell);
 	//expand_heredoc(shell);
 	return (0);
 }
-
-
-char *extract_var(char *str, t_shell *shell)
-{
-	char	*tmp;
-	//int		i;
-
-	//i = 0;
-	tmp = NULL;
-	if (!shell -> env)
-		return (NULL);
-	tmp = var_without_quotes(shell, &str);
-	return (tmp);
-}
-
-static int	space_as_delim_strlen(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (str[i] == '$')
-		i++;
-	while(str[i] && (ft_isalnum(str[i])) )
-	{
-		i++;
-	}
-	return (i);
-}
-char	*extract_env_var(char **current, t_shell *shell)
-{
-	char	*var;
-	//char	*res;
-///	int	i;
-
-//	i = 0;
-	var = NULL;
-	//res = NULL;
-	var = extract_var(*current,shell);
-	(*current) += space_as_delim_strlen(*current);
-	return (var);
-}
-
 
 char	*extract_separator(char **current)
 {
