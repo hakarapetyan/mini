@@ -17,8 +17,11 @@ int	args_count(t_token **token)
 	tmp = *token;
 	while (tmp && (tmp -> type != PIPE))
 	{
-		if (is_redirection(tmp -> type))
+		if (is_redirection(tmp -> type) && tmp -> next && tmp -> next -> next){
+
 			tmp = tmp -> next -> next;
+	printf("iiiiiiii\n");
+		}
 		count++;
 		if (tmp)
 			tmp = tmp -> next;

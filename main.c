@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:32:14 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/11/02 15:19:25 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/11/02 19:19:31 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,14 +148,15 @@ int	main(int argc, char **argv, char **env)
 			add_history(shell.input);
 		get_environment(&shell, env);
 		lexical_analyzer(&shell);
-		//check_redir_errors(&shell);
+		check_redir_errors(&shell);
 		create_commands(&shell);
 		print_tokens(&shell);
 		print_commands(&shell);
-		execute_echo(&shell);
+		execute_command(shell.command);
+		//execute_echo(&shell);
     //	execute_command((shell.command) -> name, (shell.command )-> args,&shell);
 		free_shell(&shell);
-		system("leaks minishell");
+		//system("leaks minishell");
 	}
 	//free_env(shell.env);
 	//shell.env = NULL;

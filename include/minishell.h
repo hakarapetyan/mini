@@ -7,6 +7,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdarg.h>
+# include <fcntl.h>
 # include "tokenization.h"
 # include "env.h"
 # include "parse.h"
@@ -14,7 +15,7 @@
 # include "free.h"
 
 
-
+void execute_command(t_commands *cmd);
 
 char *extract_var(char *str, t_shell *shell);
 
