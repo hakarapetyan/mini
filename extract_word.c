@@ -32,7 +32,7 @@ static char	*another_substr(char *s, unsigned int start, size_t len)
 	size_t	i;
 
 	i = start;
-	if (!s)
+	if (!s || len == 0)
 		return (NULL);
 	str = (char *)malloc(sizeof(*s) * (len + 1));
 	if (!str)
@@ -88,9 +88,9 @@ char	*extract_word(char **current, t_shell *shell)
 	i = 0;
 	quote = '\0';
 	var = check_quote(shell, current, &i, &quote);
-	if (!var )
+	if (!var)
 	{
-		//helppppppppppppp *var
+		*current += i;
 		return (NULL);
 	}
 	*current += i;
