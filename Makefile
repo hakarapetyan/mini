@@ -2,7 +2,7 @@ NAME = minishell
 
 RM = rm -f
 
-CFLAGS = -Wall  -Wextra -fsanitize=address -g3
+CFLAGS = -Wall  -Wextra #-fsanitize=address -g3
 
 INCLUDE = ./include/minishell.h\
 			./include/env.h\
@@ -17,13 +17,13 @@ SRCS =  main.c\
 		extract_word.c\
 		create_commands.c\
 		builtins.c\
+		cd.c\
 		error.c\
 		free.c\
 		utils.c\
 		utils_1.c\
 		utils_2.c\
 		utils_3.c\
-		another_builtins.c\
 
 
 

@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:32:14 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/10/24 16:19:23 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/11/07 19:48:24 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ void	check_redir_errors(t_shell *shell)
 			error("syntax error near unexpected token `|'", shell);
 	while (tkn)
 	{
-		if (is_redirection(tkn -> type) && !(tkn -> next))
-			error("syntax error near unexpected token `newline'", shell);
+		// if (is_redirection(tkn -> type) && !(tkn -> next))
+		// 	error("syntax error near unexpected token `newline'", shell);
 		if (is_redirection(tkn -> type) && (tkn -> next && tkn -> next -> type == PIPE))
 			error("syntax error near unexpected token `|'", shell);
 		if (is_redirection(tkn -> type) && (tkn -> next && is_redirection(tkn -> next -> type)))
@@ -152,11 +152,12 @@ int	main(int argc, char **argv, char **env)
 		create_commands(&shell);
 		//print_tokens(&shell);
 		//print_commands(&shell);
-		execute_echo_pwd(&shell);
+		//execute_command(shell.command);
 		execute_cd(&shell);
-    //	execute_command((shell.command) -> name, (shell.command )-> args,&shell);
+		 execute_echo(&shell);
+	 //	execute_command((shell.command) -> name, (shell.command )-> args,&shell);
 		free_shell(&shell);
-		//system("leaks minishell");
+	// 	//system("leaks minishell");
 	}
 	//free_env(shell.env);
 	//shell.env = NULL;

@@ -5,8 +5,8 @@ void	create_commands(t_shell *shell)
 	t_token		*tkn;
 	t_commands	*tmp;
 
-	if (!shell -> token)
-		error(ALLOCATION_ERR, shell);
+	// if (!shell -> token)
+	// 	error(ALLOCATION_ERR, shell);
 	tmp = shell -> command;
 	tkn = shell -> token;
 	if (tkn)
@@ -26,13 +26,105 @@ void	create_commands(t_shell *shell)
 		}
 	}
 }
+
+// void	open_the_file(t_shell *shell, char *file)
+// {
+// //	t_commands	*cmnd;
+// 	int	fd;
+
+// 	fd = -1;
+// 	(void)shell;
+// 	//cmnd = shell -> command;
+// 	if (file)
+// 	{
+// 		fd = open(file, O_RDONLY);
+// 		if (fd < 0)
+// 		{
+// 			perror("Error opening file\n");
+// 			//error("Error opening file", shell);
+// 		}
+// 	}
+// 	if (fd >= 0)
+// 		close(fd);
+// }
+
+void execute_command(t_commands *cmd)
+{
+    pid_t pid = fork();
+
+	if (cmd->name == NULL || cmd->args == NULL) {
+    fprintf(stderr, "Command name or arguments are not set.\n");
+    exit(EXIT_FAILURE);
+}
+
+    if (pid == 0) { // Дочерний процесс
+        // Обработка перенаправления ввода
+        if (cmd->r_in) {
+            int fd_in = open(cmd->r_in, O_RDONLY);
+            if (fd_in < 0) {
+                perror(cmd->r_in);
+                exit(EXIT_FAILURE);
+            }
+            if (dup2(fd_in, STDIN_FILENO) < 0) {
+                perror("dup2");
+                close(fd_in);
+                exit(EXIT_FAILURE);
+            }
+            close(fd_in); // Закрываем дескриптор после перенаправления
+        }
+
+        // Обработка перенаправления вывода
+        if (cmd->r_out) {
+            int fd_out = open(cmd->r_out, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+            if (fd_out < 0) {
+                perror(cmd -> r_out);
+                exit(EXIT_FAILURE);
+            }
+            if (dup2(fd_out, STDOUT_FILENO) < 0) {
+                perror("dup2");
+                close(fd_out);
+                exit(EXIT_FAILURE);
+            }
+            close(fd_out);
+        }
+
+        // Обработка перенаправления append
+        // if (cmd->is_append) {
+        //     int fd_append = open(cmd->is_append, O_WRONLY | O_CREAT | O_APPEND, 0644);
+        //     if (fd_append < 0) {
+        //         perror("open");
+        //         exit(EXIT_FAILURE);
+        //     }
+        //     if (dup2(fd_append, STDOUT_FILENO) < 0) {
+        //         perror("dup2");
+        //         close(fd_append);
+        //         exit(EXIT_FAILURE);
+        //     }
+        //     close(fd_append);
+        // }
+
+        // Выполнение команды
+        if (execvp(cmd->name, cmd->args) == -1) {
+            perror("execvp");
+            exit(EXIT_FAILURE);
+        }
+    } else if (pid < 0) {
+        perror("fork");
+    } else {
+        wait(NULL); // Ожидание завершения дочернего процесса
+    }
+}
+
+
 static void	get_redir_helper(t_token **token,  t_shell *shell, char **type)
 {
 	if (*type)
 		free(*type);
-	*type = ft_strdup((*token) -> next -> value);
-	if (!(*type))
-		error(ALLOCATION_ERR, shell);
+	if (*token && (*token) -> next)
+		*type = ft_strdup((*token) -> next -> value);
+	// if (!(*type))
+	// 	error(ALLOCATION_ERR, shell);
+	//open_the_file(shell, (*type));
 }
 static void	get_redir(t_token **token,t_commands **tmp,  t_shell *shell)
 {
@@ -50,7 +142,7 @@ static void	get_redir(t_token **token,t_commands **tmp,  t_shell *shell)
 		get_redir_helper(token, shell, &((*tmp) -> r_in));
 		(*tmp) -> is_heredoc = 1;
 	}
-	(*token) = (*token) -> next -> next;
+	(*token) = (*token)->next ? (*token)->next->next : NULL;
 }
 
 
@@ -59,7 +151,6 @@ void	add_args(t_token **token,t_commands **tmp,  t_shell *shell)
 	int	i;
 
 	i = 0;
-
 	while ((*token) && (*token) -> type != PIPE)
 	{
 		if (is_redirection((*token) -> type))
