@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:32:14 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/11/07 19:48:24 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/11/09 15:35:21 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,7 @@ int	main(int argc, char **argv, char **env)
 		if (shell.input[0] != '\0')
 			add_history(shell.input);
 		get_environment(&shell, env);
+		//print_env(shell.env);
 		lexical_analyzer(&shell);
 		//check_redir_errors(&shell);
 		create_commands(&shell);

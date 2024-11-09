@@ -36,7 +36,7 @@ void	add_token(t_shell *shell, t_token_type type, t_lexer_state state,
 		if (!((shell)->token))
 			error(ALLOCATION_ERR, shell);
 		(shell)->token_count++;
-		expand_var(shell);
+	//	expand_var(shell);
 	}
 	else
 	{
@@ -47,6 +47,6 @@ void	add_token(t_shell *shell, t_token_type type, t_lexer_state state,
 		if (!(current->next))
 			error(ALLOCATION_ERR, shell);
 		(shell)->token_count++;
-		expand_var(shell);
+		//expand_var(shell);
 	}
 }

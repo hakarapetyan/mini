@@ -39,7 +39,7 @@ int	ham_strlen(char *str);
 int	ham_strcmp(char *s1, char *s2);
 void	my_cd_helper(char **argv, int i, t_shell *shell);
 void	my_cd(int argc, char **argv, t_shell *shell);
-void	chang_oldpwd(t_shell *shell, char *pwd, char *oldpwd);
+void	change_oldpwd(t_shell *shell, char *pwd, char *oldpwd);
 char	*get_oldpwd(t_shell *shell);
 char	*get_pwd(t_shell *shell);
 void	execute_cd(t_shell *shell);

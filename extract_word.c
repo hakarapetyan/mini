@@ -238,5 +238,5 @@ char	*var_in_quotes(t_shell *shell, char **str)
 	free_arr(&tmp);
 	if (!res)
 		return (ft_strdup(""));
-	return (ft_strdup(getenv(res)));
+	return (ft_strdup(res));
 }

@@ -9,7 +9,7 @@ char	*is_key(env_list	*node, char *need_to_be_find)
 	{
 		if (spec_strcmp(node -> key, need_to_be_find) == 0)
 		{
-			return (node -> key);
+			return (node -> value);
 		}
 		node = node -> next;
 	}
