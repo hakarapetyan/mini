@@ -17,9 +17,12 @@ SRCS =  main.c\
 		extract_word.c\
 		create_commands.c\
 		builtins.c\
+		find_path.c\
+		execute.c\
 		ft_split.c\
 		error.c\
 		free.c\
+		print.c\
 		utils.c\
 		utils_1.c\
 		utils_2.c\

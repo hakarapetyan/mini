@@ -15,6 +15,14 @@
 # include "free.h"
 
 
+//find_path
+char	*find_path(t_shell *shell, char	*command_name);
+
+//execute
+void execute_command(t_shell *shell);
+
+
+//ft_split
 char	**ft_split(char const *s, char c);
 
 //void execute_command(t_commands *cmd);
@@ -37,8 +45,8 @@ void	my_echo_helper_one(int argc, char **input, int i);
 void	my_echo_helper_two(int argc, char **input, int i);
 void	my_echo(int argc, char **input);
 void	execute_echo(t_shell *shell);
-int	ham_strlen(char *str);
-int	ham_strcmp(char *s1, char *s2);
+int		ham_strlen(char *str);
+int		ham_strcmp(char *s1, char *s2);
 
 void	init_shell(t_shell *shell);
 
@@ -94,6 +102,9 @@ int		is_word(char *str);
 
 t_token *get_last_token(t_shell *shell);
 t_commands *get_last_command(t_shell *shell);
+void	redir_check(t_token_type type,t_shell *shell);
+
+
 //extract_word
 char	*extract_word(char **current, t_shell *shell);
 char	*extract_quoted_str(char **current, t_shell *shell);
