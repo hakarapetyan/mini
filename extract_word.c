@@ -192,7 +192,6 @@ char	*extract_var_from_quoted_str(char *str, t_shell *shell)
 	return (res);
 }
 
-
 static	char *var_in_quotes_helper(char **str, int *len)
 {
 	int	i;
@@ -237,5 +236,5 @@ char	*var_in_quotes(t_shell *shell, char **str)
 	free_arr(&tmp);
 	if (!res)
 		return (ft_strdup(""));
-	return (ft_strdup(getenv(res)));
+	return (ft_strdup(res));
 }

@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:32:14 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/11/10 17:32:06 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/11/10 17:41:15 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ char	**find_path_from_env(t_shell *shell)
 	key = is_key(shell -> env, "PATH");
 	if (!key)
 		return (NULL);
-	path = ft_split(getenv(key), ':');
+	path = ft_split(key, ':');
 	return (path);
 }
 
@@ -224,17 +224,17 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		shell.input = readline("\033[1;37m.minishell \033[0m");
-	//	system("leaks minishell");
+		//	system("leaks minishell");
 		if (!shell.input)
 			break;
-			// error(READLINE_ERR, &shell);
+		// error(READLINE_ERR, &shell);
 		if (shell.input[0] != '\0')
 			add_history(shell.input);
 		get_environment(&shell, env);
 		lexical_analyzer(&shell);
 		//check_redir_errors(&shell);
 		create_commands(&shell);
-		execute_echo(&shell);
+		//execute_echo(&shell);
 		//print_tokens(&shell);
 		//print_commands(&shell);
 		//if (shell.command)
