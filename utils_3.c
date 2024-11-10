@@ -40,11 +40,11 @@ t_token *get_last_token(t_shell *shell)
 		}
 		return (tkn);
  	}
+	return (NULL);
 }
 
 t_commands *get_last_command(t_shell *shell)
 {
-
 	if (shell -> command)
 	{
 		t_commands	*cmd;
@@ -55,6 +55,7 @@ t_commands *get_last_command(t_shell *shell)
 		}
 		return (cmd);
 	}
+	return (NULL);
 }
 
 
