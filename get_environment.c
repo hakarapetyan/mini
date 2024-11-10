@@ -155,27 +155,30 @@ void	get_environment(t_shell *shell, char **env)
 	int	i;
 
 	i = 0;
-	if (ft_strcmp(shell -> input, "env") == 0)
+	if (!(shell -> env))
 	{
 		while (env[i])
 		{
 			get_env_list(&shell, env[i]);
 			i++;
 		}
-			 print_env(shell);
 	}
-	else if (ft_strcmp(shell -> input, "export") == 0)
+	if (!(shell -> exp))
 	{
+		i = 0;
 		envir = ascii_sort_env(env);
-		while (env[i])
+		while (envir[i])
 		{
 			get_exp_list(&shell, envir[i]);
 			i++;
 		}
-			print_exp(shell);
 	}
-	else if (ft_strcmp(shell -> input, "pwd") == 0)
-		my_pwd();
+	if (ft_strcmp(shell -> input, "env") == 0)
+			print_env(shell);
+	if (ft_strcmp(shell -> input, "export") == 0)
+			print_exp(shell);
+	// else if (ft_strcmp(shell -> input, "pwd") == 0)
+	// 	my_pwd();
 	// else if (ft_strcmp(shell -> input, "echo") == 0)
 	// 	my_echo(4, shell -> input)
 }

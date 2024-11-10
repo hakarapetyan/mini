@@ -53,7 +53,10 @@ static int	handle_quote(t_shell *shell, char **current, char *quote, int *i)
 		len++;
 	}
 	if ((*current)[(*i)] != *quote)
+	{
 		error(QUOTE_ERR, shell);
+		return (0);
+	}
 	if ((*current)[(*i)] == *quote)
 		(*i)++;
 	return (len);
@@ -61,10 +64,8 @@ static int	handle_quote(t_shell *shell, char **current, char *quote, int *i)
 static	char *check_quote(t_shell *shell,char **current, int *i, char *quote)
 {
 	int	len;
-	char	*res;
 
 	len = 0;
-	res = NULL;
 	if ((*current)[*i] && is_quote((*current)[(*i)]))
 	{
 		*quote = (*current)[(*i)];
@@ -141,11 +142,9 @@ static int is_valid_var(char **str,t_shell *shell, int i)
 int	 ft_search(char	*str, t_shell *shell)
 {
 	int	i;
-	int	j;
 	int val;
 
 	i = 0;
-	j = 0;
 	val = 0;
 	if (!(shell -> env) || !str)
 		return (0);

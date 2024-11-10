@@ -16,9 +16,6 @@ void my_pwd()
 
 void my_echo_helper_one(int count, char **input, int i)
 {
-	int flag;
-
-	flag = 0;
 	while (i < count)
 	{
 		if (input[i] && ham_strcmp(input[i], "-n") == 0)

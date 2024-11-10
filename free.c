@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 17:54:50 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/10/03 18:34:32 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/11/10 17:29:40 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,19 +104,19 @@ void	free_commands(t_commands *command)
 
 void	free_shell(t_shell *shell)
 {
-	free_tokens(shell -> token);
-	//free_env(shell -> env);
-	//free_env(shell -> exp);
-	free_commands(shell -> command);
 	free(shell -> input);
+	shell -> input = NULL;
+	free_tokens(shell -> token);
+	// free_env(shell -> env);
+	// free_env(shell -> exp);
+	free_commands(shell -> command);
 	free(shell -> pwd);
 	free(shell -> oldpwd);
 	shell -> token_count = 0;
 	shell -> token = NULL;
-	shell -> input = NULL;
 	shell -> command = NULL;
-	//shell -> env = NULL;
-	//shell -> exp = NULL;
+	// shell -> env = NULL;
+	// shell -> exp = NULL;
 	shell -> pwd = NULL;
 	shell -> oldpwd = NULL;
 }

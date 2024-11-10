@@ -32,9 +32,13 @@ size_t	ft_strlen(char *s)
 	i = 0;
 	if (!s)
 		return (0);
-	while (s[i])
-		i++;
-	return (i);
+	if (s[i])
+	{
+		while (s[i])
+			i++;
+		return (i);
+	}
+	return (0);
 }
 
 

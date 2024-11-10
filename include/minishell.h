@@ -15,7 +15,9 @@
 # include "free.h"
 
 
-void execute_command(t_commands *cmd);
+char	**ft_split(char const *s, char c);
+
+//void execute_command(t_commands *cmd);
 
 char *extract_var(char *str, t_shell *shell);
 
@@ -76,6 +78,7 @@ int		are_quotes_even(char *str);
 ///utils2
 char	*is_key(env_list	*node, char *need_to_be_find);
 char	*ft_strjoin(char *s1, char *s2);
+char	*another_strjoin(char *s1, char *s2);
 int		ft_strchr(char *str, char c);
 char	*ft_strdup_interval(char **str,int *len);
 int		set_state(char c, int state);
@@ -90,6 +93,7 @@ int		is_word(char *str);
 //utils3
 
 t_token *get_last_token(t_shell *shell);
+t_commands *get_last_command(t_shell *shell);
 //extract_word
 char	*extract_word(char **current, t_shell *shell);
 char	*extract_quoted_str(char **current, t_shell *shell);

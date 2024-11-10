@@ -1,6 +1,6 @@
 #include "./include/minishell.h"
 
-void lexical_analyzer(t_shell *shell)
+void  lexical_analyzer(t_shell *shell)
 {
 	int	status;
 
@@ -13,9 +13,7 @@ void lexical_analyzer(t_shell *shell)
 void	handle_special_chars(t_shell *shell, char *current)
 {
 	t_lexer_state	state;
-	int				flag;
 
-	flag = 0;
 	while (*current)
 	{
 		//printf("[%s]\n", current);
