@@ -20,7 +20,7 @@ char	*find_path(t_shell *shell, char	*command_name);
 
 //execute
 void execute_command(t_shell *shell);
-
+int	is_builtin(char *name);
 
 //ft_split
 char	**ft_split(char const *s, char c);
