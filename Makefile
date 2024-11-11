@@ -18,6 +18,7 @@ SRCS =  main.c\
 		create_commands.c\
 		builtins.c\
 		cd.c\
+		exit.c\
 		error.c\
 		free.c\
 		utils.c\

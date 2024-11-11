@@ -43,6 +43,9 @@ void	change_oldpwd(t_shell *shell, char *pwd, char *oldpwd);
 char	*get_oldpwd(t_shell *shell);
 char	*get_pwd(t_shell *shell);
 void	execute_cd(t_shell *shell);
+int		is_digit(char *arg);
+int		my_exit(int args, char **argv, t_shell *shell);
+void		execute_exit(t_shell *shell);
 
 void	init_shell(t_shell *shell);
 
