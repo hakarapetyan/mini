@@ -98,7 +98,17 @@ static void token_list_without_spaces(t_shell *shell)
 }
 
 
+static void token_count(t_shell *shell)
+{
+	t_token	*tkn;
 
+	tkn = shell -> token;
+	while (tkn)
+	{
+		tkn = tkn -> next;
+		(shell -> token_count)++;		
+	}
+}
 
 int	tokenization(t_shell *shell)
 {
@@ -107,6 +117,7 @@ int	tokenization(t_shell *shell)
 	current = shell -> input;
 	handle_special_chars(shell, current);
 	token_list_without_spaces(shell);
+	token_count(shell);
 	//expand_heredoc(shell);
 	return (0);
 }

@@ -1,5 +1,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
+# define INT_MAX_8 "9223372036854775807"
+# define INT_MIN_8 "-9223372036854775808"
 
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -13,7 +15,6 @@
 # include "parse.h"
 # include "errors.h"
 # include "free.h"
-
 
 void execute_command(t_commands *cmd);
 
@@ -35,8 +36,8 @@ void	my_echo_helper_one(int argc, char **input, int i);
 void	my_echo_helper_two(int argc, char **input, int i);
 void	my_echo(int argc, char **input);
 void	execute_echo(t_shell *shell);
-int	ham_strlen(char *str);
-int	ham_strcmp(char *s1, char *s2);
+int		ham_strlen(char *str);
+int		ham_strcmp(char *s1, char *s2);
 void	my_cd_helper(char **argv, int i, t_shell *shell);
 void	my_cd(int argc, char **argv, t_shell *shell);
 void	change_oldpwd(t_shell *shell, char *pwd, char *oldpwd);
@@ -45,7 +46,8 @@ char	*get_pwd(t_shell *shell);
 void	execute_cd(t_shell *shell);
 int		is_digit(char *arg);
 int		my_exit(int args, char **argv, t_shell *shell);
-void		execute_exit(t_shell *shell);
+int		check_int(char *arg);
+void	execute_exit(t_shell *shell);
 
 void	init_shell(t_shell *shell);
 

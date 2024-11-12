@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:48:42 by hakarape          #+#    #+#             */
-/*   Updated: 2024/11/09 15:39:02 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/11/12 12:40:08 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	my_cd(int argc, char **argv, t_shell *shell)
 
 	if (argc > 1)
 	{
-		while (argv[i] && (!ft_strcmp(argv[i], "cd")))
+		if (argv[i] && (!ft_strcmp(argv[i], "cd")))
 			i++;
 		my_cd_helper(argv, i, shell);
 	}
