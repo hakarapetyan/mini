@@ -21,6 +21,7 @@ SRCS =  main.c\
 		exit.c\
 		error.c\
 		free.c\
+		unset.c\
 		utils.c\
 		utils_1.c\
 		utils_2.c\

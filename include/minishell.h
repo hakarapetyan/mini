@@ -44,10 +44,17 @@ void	change_oldpwd(t_shell *shell, char *pwd, char *oldpwd);
 char	*get_oldpwd(t_shell *shell);
 char	*get_pwd(t_shell *shell);
 void	execute_cd(t_shell *shell);
-int		is_digit(char *arg);
+int		is_digit_unset(char *arg);
 int		my_exit(int args, char **argv, t_shell *shell);
 int		check_int(char *arg);
 void	execute_exit(t_shell *shell);
+void	ft_putendl_fd(char *s, int fd);
+int		is_alpha(char *arg);
+int		is_digit_unset(char *arg);
+int		my_strchr(const char *s, int c);
+void	my_unset(int size, char **arg, t_shell *shell);
+int		del_from_lst(env_list *env, env_list nv);
+void	execute_unset(t_shell *shell);
 
 void	init_shell(t_shell *shell);
 

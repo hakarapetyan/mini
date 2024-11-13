@@ -6,13 +6,13 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 17:24:31 by hakarape          #+#    #+#             */
-/*   Updated: 2024/11/12 19:28:52 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/11/13 19:31:24 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./include/minishell.h"
 
-int is_digit(char *arg)
+static int is_digit(char *arg)
 {
     int i;
     
@@ -30,7 +30,6 @@ int is_digit(char *arg)
         }
     }
     return (0);
-    
 }
 // int	check_int(char *arg)
 // {
