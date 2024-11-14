@@ -9,7 +9,12 @@ void	print_commands(t_shell *shell)
 	current = shell->command;
 	while (current)
 	{
-		printf("Command: %s, R_in: %s , R_out: %s\n", current->name, current -> r_in, current -> r_out);
+
+		printf("Command: %s\n", current->name);
+		if (current -> r_in)
+			printf("r_in: %s\n", current->r_in);
+		if (current -> r_out)
+			printf("r_out: %s\n", current->r_out);
 		if (current -> args)
 		{
 			i = 0;

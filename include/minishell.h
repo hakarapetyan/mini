@@ -102,7 +102,7 @@ int		is_word(char *str);
 
 t_token *get_last_token(t_shell *shell);
 t_commands *get_last_command(t_shell *shell);
-void	redir_check(t_token_type type,t_shell *shell);
+int	redir_check(t_token_type type,t_shell *shell);
 
 
 //extract_word

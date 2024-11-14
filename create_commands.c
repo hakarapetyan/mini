@@ -1,5 +1,51 @@
 #include "./include/minishell.h"
 
+static t_commands	*create_command_for_first(char *value, t_token **tkn)
+{
+	t_commands	*command;
+
+	if (!value)
+		return (NULL);
+	command = malloc(sizeof(t_commands));
+	if (!command)//allocation failed;
+		return (NULL);
+	command -> name = ft_strdup(value);
+	command -> args = NULL;
+	command -> r_in = NULL;
+	command -> r_out = NULL;
+	command -> is_append = 0;
+	command -> is_heredoc = 0;
+	command -> next = NULL;
+	command -> prev = NULL;
+	if (!command)
+	{
+		free_commands(command);
+		return (NULL);//alocation failed
+	}
+	command -> next = NULL;
+	return (command);
+}
+
+static void	create_first_command(t_token **tkn, t_commands **tmp, t_shell *shell)
+ {
+	if (is_redirection((*tkn) -> type))
+	{
+		*tmp = create_command((*tkn) -> value, tkn);
+		shell -> command = *tmp;
+		if (!(shell -> command))
+			error(ALLOCATION_ERR, shell);
+		shell -> command_count++;
+	}
+	else
+	{
+		*tmp = create_command_for_first((*tkn) -> value, NULL);
+		shell -> command = *tmp;
+		if (!(shell -> command))
+			error(ALLOCATION_ERR, shell);
+		shell -> command_count++;
+	}
+}
+
 void	create_commands(t_shell *shell)
 {
 	t_token		*tkn;
@@ -15,11 +61,7 @@ void	create_commands(t_shell *shell)
 		{
 			if (!(tmp))
 			{
-				tmp = create_command(shell -> token -> value, shell -> token -> var_value);
-				shell -> command = tmp;
-				if (!(shell -> command))
-					error(ALLOCATION_ERR, shell);
-				shell -> command_count++;
+				create_first_command(&tkn, &tmp, shell);
 			}
 			else
 				add_command(&tkn, &tmp, shell);
@@ -28,90 +70,7 @@ void	create_commands(t_shell *shell)
 	}
 }
 
-// void	open_the_file(t_shell *shell, char *file)
-// {
-// //	t_commands	*cmnd;
-// 	int	fd;
 
-// 	fd = -1;
-// 	(void)shell;
-// 	//cmnd = shell -> command;
-// 	if (file)
-// 	{
-// 		fd = open(file, O_RDONLY);
-// 		if (fd < 0)
-// 		{
-// 			perror("Error opening file\n");
-// 			//error("Error opening file", shell);
-// 		}
-// 	}
-// 	if (fd >= 0)
-// 		close(fd);
-// }
-
-// void execute_command(t_commands *cmd)
-// {
-//    // pid_t pid = fork();
-
-// 	if (cmd->name == NULL || cmd->args == NULL) {
-//     fprintf(stderr, "Command name or arguments are not set.\n");
-//     exit(EXIT_FAILURE);
-// 	}
-
-//     //if (pid == 0) {
-//         // if (cmd->r_in) {
-//         //     int fd_in = open(cmd->r_in, O_RDONLY);
-//         //     if (fd_in < 0) {
-//         //         perror(cmd->r_in);
-//         //         exit(EXIT_FAILURE);
-//         //     }
-//         //     if (dup2(fd_in, STDIN_FILENO) < 0) {
-//         //         perror("dup2");
-//         //         close(fd_in);
-//         //         exit(EXIT_FAILURE);
-//         //     }
-//         //     close(fd_in);
-//         // }
-
-//         // if (cmd->r_out) {
-//         //     int fd_out = open(cmd->r_out, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-//         //     if (fd_out < 0) {
-//         //         perror(cmd -> r_out);
-//         //         exit(EXIT_FAILURE);
-//         //     }
-//         //     if (dup2(fd_out, STDOUT_FILENO) < 0) {
-//         //         perror("dup2");
-//         //         close(fd_out);
-//         //         exit(EXIT_FAILURE);
-//         //     }
-//         //     close(fd_out);
-//         // }
-
-
-        // if (cmd->is_append) {
-        //     int fd_append = open(cmd->is_append, O_WRONLY | O_CREAT | O_APPEND, 0644);
-        //     if (fd_append < 0) {
-        //         perror("open");
-        //         exit(EXIT_FAILURE);
-        //     }
-        //     if (dup2(fd_append, STDOUT_FILENO) < 0) {
-        //         perror("dup2");
-        //         close(fd_append);
-        //         exit(EXIT_FAILURE);
-        //     }
-        //     close(fd_append);
-        // }
-
-//         if (execvp(cmd->name, cmd->args) == -1) {
-//             perror("execvp");
-//             exit(EXIT_FAILURE);
-// 		   }
-//     // } else if (pid < 0) {
-//     //     perror("fork");
-//     // } else {
-//     //     wait(NULL);
-//     // }
-// }
 
 
 static void	get_redir_helper(t_token **token,  t_shell *shell, char **type)
@@ -120,10 +79,9 @@ static void	get_redir_helper(t_token **token,  t_shell *shell, char **type)
 		free(*type);
 	if (*token && (*token) -> next)
 		*type = ft_strdup((*token) -> next -> value);
-		printf("type = %s\n",*type);
 	if (!(*type))
 		error(ALLOCATION_ERR, shell);
-	
+
 //	open_the_file(shell, (*type));
 }
 
@@ -203,33 +161,94 @@ void	add_command(t_token **tkn, t_commands **tmp, t_shell *shell)
 
 	if (!ft_strcmp((*tkn) -> value, "|"))
 	{
-		while ((*tmp) -> next)
+			//printf("%s\n",(*tkn)  -> next -> value);
+		// if (((*tkn) -> next))
+		// {
+			printf("hello\n");
+			printf("%s\n",(*tkn) -> value);
+			while ((*tmp) -> next)
+				(*tmp) = (*tmp) -> next;
+			(*tmp) -> next = create_command((*tkn) -> next -> value, NULL);
+			if (!((*tmp) -> next))
+				free_shell(shell);
+			(*tmp) -> next -> prev = *tmp;
+			(*tkn) = (*tkn) -> next;
 			(*tmp) = (*tmp) -> next;
-		(*tmp) -> next = create_command((*tkn) -> next -> value, (*tkn) -> next -> var_value);
-		if (!((*tmp) -> next))
-			free_shell(shell);
-		(*tmp) -> next -> prev = *tmp;
-		(*tkn) = (*tkn) -> next;
-		(*tmp) = (*tmp) -> next;
-		shell -> command_count++;
+			shell -> command_count++;
+		//}
+		//}
 	}
 }
 
-t_commands	*create_command(char *value, char *var_value)
+static void	create_command_helper(t_token **tkn, t_commands **command)
+{
+	if (tkn)
+	{
+		if ((*tkn) -> type == R_IN)
+		{
+			if ((*tkn) -> next)
+				(*command) -> r_in = ft_strdup((*tkn) -> next -> value);
+			else
+				(*command) -> r_in = NULL;
+			(*command) -> r_out = NULL;
+			(*command) -> is_append = 0;
+		}
+		else if ((*tkn) -> type == R_OUT)
+		{
+			if ((*tkn) -> next)
+			{
+				(*command) -> r_out = ft_strdup((*tkn) -> next -> value);
+
+			}
+			else
+				(*command) -> r_out = NULL;
+			(*command) -> r_in = NULL;
+			(*command) -> is_append = 0;
+		}
+		else if ((*tkn) -> type == R_APPEND)
+		{
+			if ((*tkn) -> next)
+			(*command) -> is_append = 1;
+				//(*command) -> r_in = ft_strdup((*tkn) -> next -> value);
+			else
+			(*command) -> is_append = 0;
+			(*command) -> r_in = NULL;
+			(*command) -> r_out = NULL;
+				//(*command) -> r_in = NULL;
+		}
+		if ((*tkn) -> next -> next)
+			(*tkn) = (*tkn) -> next -> next;
+		else if ((*tkn) -> next && !((*tkn) -> next -> next))
+		{
+			(*tkn) = NULL;
+
+		}
+	}
+	else{
+	(*command) -> r_in = NULL;
+	(*command) -> r_out = NULL;
+	(*command) -> is_append = 0;
+	}
+}
+
+t_commands	*create_command(char *value, t_token **tkn)
 {
 	t_commands	*command;
 
 	if (!value)
 		return (NULL);
-	(void)var_value;
 	command = malloc(sizeof(t_commands));
 	if (!command)//allocation failed;
 		return (NULL);
-	command -> name = ft_strdup(value);
+	create_command_helper(tkn, &command);
+	 if (*tkn)
+	command -> name = ft_strdup((*tkn) -> value);
+	else
+	command -> name = NULL;
 	command -> args = NULL;
-	command -> r_in = NULL;
-	command -> r_out = NULL;
-	command -> is_append = 0;
+	// command -> r_in = NULL;
+	// command -> r_out = NULL;
+	// command -> is_append = 0;
 	command -> is_heredoc = 0;
 	command -> next = NULL;
 	command -> prev = NULL;
@@ -241,3 +260,4 @@ t_commands	*create_command(char *value, char *var_value)
 	command -> next = NULL;
 	return (command);
 }
+

@@ -4,7 +4,7 @@
 void		create_commands(t_shell *shell);
 void	add_command(t_token **tkn, t_commands **tmp, t_shell *shell);
 void	get_args(t_token **token, t_shell *shell);
-t_commands	*create_command(char *value, char *var_value);
+t_commands	*create_command(char *value, t_token **tkn);
 void	add_args(t_token **token, t_commands **tmp, t_shell *shell);
 
 int	is_redirection(t_token_type type);

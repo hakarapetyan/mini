@@ -6,33 +6,55 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:32:14 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/11/10 18:07:25 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/11/14 20:20:13 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./include/minishell.h"
 
-void	check_redir_errors(t_shell *shell)
+static void syntax_error(char *message)
+{
+	char	*str;
+
+	str = "syntax error near unexpected token `";
+	write(2, str, ft_strlen(str));
+	write(2, message, ft_strlen(message));
+	write(2, "'\n", 2);
+	return ;
+}
+static int	check_redir_errors(t_shell *shell)
 {
 	t_token	*tkn;
 
 	tkn = shell -> token;
+	if (!tkn)
+		return (-1);
 	if (tkn -> type == PIPE)
-			error("syntax error near unexpected token `|'", shell);
-	while (tkn)
 	{
-		// if (is_redirection(tkn -> type) && !(tkn -> next))
-		// 	error("syntax error near unexpected token `newline'", shell);
-		if (is_redirection(tkn -> type) && (tkn -> next && tkn -> next -> type == PIPE))
-			error("syntax error near unexpected token `|'", shell);
-		if (is_redirection(tkn -> type) && (tkn -> next && is_redirection(tkn -> next -> type)))
-			redir_check(tkn -> next -> type ,shell);
-		if (tkn -> type == PIPE && !(tkn -> next))
-			error("syntax error near unexpected token `|'", shell);
-		if (tkn -> type == PIPE && tkn -> next -> type == PIPE)
-			error("syntax error near unexpected token `||'", shell);
-
-		tkn = tkn -> next;
+		syntax_error(tkn -> value);
+			return (-1);
+	}
+	while (tkn)
+	 {
+		if (is_redirection(tkn -> type) && ((tkn -> next && is_redirection(tkn -> next -> type)) ||
+			 !(tkn -> next) || (tkn -> next && tkn -> next -> type == PIPE)))
+		{
+			if (tkn -> next)
+			syntax_error(tkn -> next -> value);
+			else if (!(tkn -> next))
+				syntax_error("newline");
+			return (-1);
+		}
+		if (tkn -> type == PIPE && ((tkn -> next && tkn -> next -> type == PIPE) ||
+			 !(tkn -> next) || (tkn -> next && tkn -> next -> type == PIPE)))
+		{
+			if (tkn -> next)
+			syntax_error(tkn -> next -> value);
+			else if (!(tkn -> next))
+				syntax_error("newline");
+			return (-1);
+		}
+		 tkn = tkn -> next;
 	}
 }
 
@@ -54,11 +76,15 @@ int	main(int argc, char **argv, char **env)
 			add_history(shell.input);
 		get_environment(&shell, env);
 		lexical_analyzer(&shell);
-		//check_redir_errors(&shell);
-		create_commands(&shell);
-		//print_tokens(&shell);
-		//print_commands(&shell);
-		execute_command(&shell);
+		if (check_redir_errors(&shell) != -1)
+		{
+			create_commands(&shell);
+			//print_tokens(&shell);
+			print_commands(&shell);
+			//execute_echo (&shell)
+			if (shell.command)
+			execute_command(&shell);
+		}
 		free_shell(&shell);
 		//system("leaks minishell");
 	}

@@ -72,6 +72,7 @@ static	char *check_quote(t_shell *shell,char **current, int *i, char *quote)
 		len += handle_quote(shell, current, quote, i);
 		return (another_substr(*current, 0, len));
 	}
+	//while ((*current)[(*i)] && (ft_isalnum((*current)[(*i)]) || (*current)[(*i)] == '_'))
 	while ((*current)[(*i)] && !is_space((*current)[*i]) && !is_quote((*current)[(*i)]))
 	{
 		(*i)++;

@@ -16,7 +16,7 @@ void	handle_special_chars(t_shell *shell, char *current)
 
 	while (*current)
 	{
-		//printf("[%s]\n", current);
+		printf("[%s]\n", current);
 		state = DEFAULT;
 		state = set_state(*current, state);
 		if (*current == '|')
@@ -77,8 +77,9 @@ static void token_list_without_spaces(t_shell *shell)
     {
         if (tkn -> type == TK_SPACE)
 			tk_space_remove(shell, &tkn, &tmp, &prev);
+        //else if (tkn -> next && tkn -> next -> type != TK_SPACE )
         else if ((tkn -> type == WORD || tkn -> type == ENV_VAR) && tkn -> next && (tkn -> next -> type == WORD || tkn -> next -> type == ENV_VAR))
-        {
+		{
             new_value = ft_strjoin(tkn -> value, tkn -> next -> value);
             tkn -> value = new_value;
             tmp = tkn -> next;

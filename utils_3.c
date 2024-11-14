@@ -8,16 +8,29 @@ int	is_redirection(t_token_type type)
 	return (0);
 }
 
-void	redir_check(t_token_type type,t_shell *shell)
+int	redir_check(t_token_type type,t_shell *shell)
 {
 	if (type == R_IN)
+	{
 		error("syntax error near unexpected token `<'", shell);
+		return (-1);
+	}
 	else if (type == R_OUT)
+	{
 		error("syntax error near unexpected token `>'", shell);
+		return (-1);
+	}
 	else if (type == R_APPEND)
+	{
 		error("syntax error near unexpected token `>>'", shell);
+		return (-1);
+	}
 	else if (type == R_HEREDOC)
+	{
 		error("syntax error near unexpected token `<<'", shell);
+		return (-1);
+	}
+	return (0);
 }
 
 int	args_count(t_token **token)
