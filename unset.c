@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 20:18:16 by hakarape          #+#    #+#             */
-/*   Updated: 2024/11/13 21:26:11 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/11/14 18:26:07 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	ft_putendl_fd(char *s, int fd)
 		write(fd, &s[i], 1);
 		i++;
 	}
-	write(fd, "\n", 1);
 }
 int is_alpha(char *arg)
 {
@@ -74,47 +73,65 @@ int is_digit_unset(char *arg)
     return (0);
 }
 
-void my_unset(int size, char **arg, t_shell *shell)
+int	del_one(env_list *env)
 {
-	int	i;
-
-	i = 0;
-	if (is_alpha(arg[i]) && ft_strchr(arg[i], '?') && ft_strchr(arg[i], '_'))
-		ft_putendl_fd("minishell: unset: `': not a valid identifier", 2);
-		
-	
-}
-int	del_one(env_list env)
-{
-	if (!(*env))
+	if (!(env))
 		return (1);
-	free(env.value);
-	free(env.key);
-	//free(env);
+	free(env->value);
+	free(env->key);
+	free(env);
 	return (0);	
 }
-int del_from_lst(env_list *env, env_list nv)
+int del_from_lst(env_list *env, char *nv)
 {
+	env_list *temp;
 	if (!env)
 		return (1);
-	if (!env ->next)
+	if (env->next)
 	{
-		del_one(*env);
-		free(env);
-	}
-	while (env -> next)
-	{
-		if (env->next->key == nv.key)
+		while (env -> next)
 		{
-			env->next = env->next->next;
-			del_one(env->next);
-			free(env);
+			if (spec_strcmp(env->next->key, nv) == 0)
+			{
+				temp = env->next;
+				env->next = env->next->next;
+				del_one(temp);
+				return (1);
+			}
+			env = env ->next;
 		}
-		env = env ->next;
 	}
-	
+	if (!env ->next && spec_strcmp(env->key, nv) == 0)
+	{
+		del_one(env);
+		free(env);
+		return (1);
+	}
+	return (0);
 }
+int my_unset(int size, char **arg, t_shell *shell)
+{
+	int	i;
+	env_list	*env;
 
+	i = 0;
+	env = shell ->env;
+	if (arg[i] && ft_strcmp(arg[i], "unset") == 0)
+		i++;
+	if (is_alpha(arg[i]) && my_strchr(arg[i], '?') && my_strchr(arg[i], '_'))
+	{
+		write_print(arg[i], "minishell: unset:", 2);
+		ft_putendl_fd(" not a valid identifier", 2);
+		write(2, "\n", 1);
+	}
+	while (arg[i])
+	{
+		if (del_from_lst(env, arg[i]))
+			return (1);
+		i++;
+	}
+	return (0);
+}
 void	execute_unset(t_shell *shell)
 {
 	t_commands *cmd;
@@ -123,4 +140,11 @@ void	execute_unset(t_shell *shell)
 
 	if (cmd && ft_strcmp(cmd -> name, "unset") == 0)
 		my_unset(shell -> token_count, cmd -> args, shell);
+}
+void write_print(char *arg, char * msg, int fd)
+{
+	ft_putendl_fd(msg, 2);
+	write(2, "`", 1);
+	ft_putendl_fd(arg, 2);
+	write(2, "'", 1);
 }

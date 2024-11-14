@@ -21,6 +21,7 @@
 		"type_traits": "c",
 		"vector": "c",
 		"locale": "c",
-		"string": "c"
+		"string": "c",
+		"ostream": "c"
 	}
 }

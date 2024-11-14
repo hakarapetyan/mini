@@ -52,8 +52,10 @@ void	ft_putendl_fd(char *s, int fd);
 int		is_alpha(char *arg);
 int		is_digit_unset(char *arg);
 int		my_strchr(const char *s, int c);
-void	my_unset(int size, char **arg, t_shell *shell);
-int		del_from_lst(env_list *env, env_list nv);
+int		my_unset(int size, char **arg, t_shell *shell);
+int		del_from_lst(env_list *env, char *nv);
+int		del_one(env_list *env);
+void	write_print(char *arg, char * msg, int fd);
 void	execute_unset(t_shell *shell);
 
 void	init_shell(t_shell *shell);

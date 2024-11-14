@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:48:42 by hakarape          #+#    #+#             */
-/*   Updated: 2024/11/12 12:40:08 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/11/14 19:39:58 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	my_cd_helper(char **argv, int i, t_shell *shell)//cd -
 	tmp = cmd;
 	if (argv[i])
 	{
-		printf("argv%s\n", argv[i]);
+		printf("cmd=%s\n", cmd);
 		if (cmd != NULL)
 		{
 			if (ft_strcmp(argv[i], "-") == 0)
@@ -55,6 +55,8 @@ void	my_cd(int argc, char **argv, t_shell *shell)
 	oldpwd = get_pwd(shell);
 	pwd = getenv("HOME");
 
+	if (!oldpwd)
+		ft_putendl_fd("bash: cd: OLDPWD not set", 2);
 	if (argc > 1)
 	{
 		if (argv[i] && (!ft_strcmp(argv[i], "cd")))
