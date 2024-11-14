@@ -6,13 +6,13 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:48:42 by hakarape          #+#    #+#             */
-/*   Updated: 2024/11/14 19:39:58 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/11/14 21:36:09 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./include/minishell.h"
 
-void	my_cd_helper(char **argv, int i, t_shell *shell)//cd -
+int	my_cd_helper(char **argv, int i, t_shell *shell)//cd -
 {
 	char	*cmd;
 	char	*tmp;
@@ -21,12 +21,16 @@ void	my_cd_helper(char **argv, int i, t_shell *shell)//cd -
 	tmp = cmd;
 	if (argv[i])
 	{
-		printf("cmd=%s\n", cmd);
 		if (cmd != NULL)
 		{
 			if (ft_strcmp(argv[i], "-") == 0)
 			{
 				tmp = get_oldpwd(shell);
+				if (!tmp)
+				{
+					ft_putendl_fd("bash: cd: OLDPWD not set\n", 2);
+					return(1);
+				}
 				change_oldpwd(shell, tmp, cmd);
 				chdir(tmp);
 				cmd = getcwd(NULL, 0);
@@ -37,31 +41,47 @@ void	my_cd_helper(char **argv, int i, t_shell *shell)//cd -
 				cmd = getcwd(NULL, 0);
 				change_oldpwd(shell, cmd, tmp);
 			}
-			else 
+			else
+			{ 
 				printf("cd: %s: No suuuuch file or directory\n", argv[i]);
+				return(1);
+			}
 			free(cmd);
 		}
 		else
+		{
 			printf("%s\n", "path not found");
+			return(1);
+		}
 	}
+	return (0);
 }
 
-void	my_cd(int argc, char **argv, t_shell *shell)
+int	my_cd(int argc, char **argv, t_shell *shell)
 {
 	int	i;
 	char	*oldpwd;
 	char	*pwd;
 	i = 0;
 	oldpwd = get_pwd(shell);
-	pwd = getenv("HOME");
+	pwd = get_home(shell);
 
 	if (!oldpwd)
-		ft_putendl_fd("bash: cd: OLDPWD not set", 2);
+	{
+		ft_putendl_fd("bash: cd: OLDPWD not set\n", 2);
+		return(1);
+	}
+	if (!pwd)
+	{
+		ft_putendl_fd("bash: cd: HOME not set\n", 2);
+		return(1);
+	}
 	if (argc > 1)
 	{
 		if (argv[i] && (!ft_strcmp(argv[i], "cd")))
 			i++;
-		my_cd_helper(argv, i, shell);
+		if (my_cd_helper(argv, i, shell))
+			return (1);
 	}
 	else
 	{
@@ -69,6 +89,7 @@ void	my_cd(int argc, char **argv, t_shell *shell)
 		change_oldpwd(shell, pwd, oldpwd);
 		// must be changed ENV
 	}
+	return (0);
 }
 void change_oldpwd(t_shell *shell, char *pwd,char *oldpwd)
 {
@@ -110,6 +131,19 @@ char *get_pwd(t_shell *shell)
 	while (env)
 	{
 		if (ft_strcmp(env ->key, "PWD=") == 0)
+			return (env ->value);
+		env = env->next;
+	}
+	return (NULL);
+}
+char *get_home(t_shell *shell)
+{
+	env_list *env;
+	
+	env = shell -> env;
+	while (env)
+	{
+		if (ft_strcmp(env ->key, "HOME=") == 0)
 			return (env ->value);
 		env = env->next;
 	}
