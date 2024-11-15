@@ -6,22 +6,13 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:32:14 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/11/14 20:20:13 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/11/15 19:00:48 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./include/minishell.h"
 
-static void syntax_error(char *message)
-{
-	char	*str;
 
-	str = "syntax error near unexpected token `";
-	write(2, str, ft_strlen(str));
-	write(2, message, ft_strlen(message));
-	write(2, "'\n", 2);
-	return ;
-}
 static int	check_redir_errors(t_shell *shell)
 {
 	t_token	*tkn;
@@ -82,6 +73,7 @@ int	main(int argc, char **argv, char **env)
 			//print_tokens(&shell);
 			print_commands(&shell);
 			//execute_echo (&shell)
+			//execute_echo(&shell);
 			if (shell.command)
 			execute_command(&shell);
 		}

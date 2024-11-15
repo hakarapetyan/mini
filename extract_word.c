@@ -72,8 +72,7 @@ static	char *check_quote(t_shell *shell,char **current, int *i, char *quote)
 		len += handle_quote(shell, current, quote, i);
 		return (another_substr(*current, 0, len));
 	}
-	//while ((*current)[(*i)] && (ft_isalnum((*current)[(*i)]) || (*current)[(*i)] == '_'))
-	while ((*current)[(*i)] && !is_space((*current)[*i]) && !is_quote((*current)[(*i)]))
+	while ((*current)[(*i)] && !is_space((*current)[*i]) && !is_quote((*current)[(*i)]) && !is_sep((*current)[*i]))
 	{
 		(*i)++;
 		len++;
@@ -132,8 +131,10 @@ static int is_valid_var(char **str,t_shell *shell, int i)
 		(*str)++;
 		if (!(*str) || !(**str))
 			break;
-		while ((*str)[i] && !is_space((*str)[i]) && (*str)[i] != '$' && !is_quote((*str)[i]))
+		while ((*str)[i] && !is_space((*str)[i]) && (*str)[i] != '$' && !is_quote((*str)[i]) && !is_separator((*str)[i]))
+		{
 			i++;
+		}
 		tmp = ft_strdup_interval(str, &i);
 		return(is_key_helper(shell, &tmp));
 	}

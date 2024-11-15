@@ -15,6 +15,13 @@
 # include "free.h"
 
 
+
+
+
+
+
+
+//void execute_execve(t_shell *shell);
 //find_path
 char	*find_path(t_shell *shell, char	*command_name);
 
@@ -81,6 +88,7 @@ int		ft_isalnum(int c);
 int		is_separator(char c);
 int		is_quote(char c);
 int		are_quotes_even(char *str);
+int	is_sep(char c);
 
 
 ///utils2

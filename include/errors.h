@@ -7,4 +7,7 @@
 # define READLINE_ERR "Readline failed!"
 
 void	error(char	*err, t_shell *shell);
+void	permission_error(char *name);
+void	syntax_error(char *message);
+void	no_such_file_error(char *name);
 #endif

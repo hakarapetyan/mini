@@ -16,7 +16,6 @@ void	handle_special_chars(t_shell *shell, char *current)
 
 	while (*current)
 	{
-		printf("[%s]\n", current);
 		state = DEFAULT;
 		state = set_state(*current, state);
 		if (*current == '|')
@@ -105,6 +104,8 @@ int	tokenization(t_shell *shell)
 
 	current = shell -> input;
 	handle_special_chars(shell, current);
+	// print_tokens(shell);
+	// printf("\n");
 	token_list_without_spaces(shell);
 	//expand_heredoc(shell);
 	return (0);

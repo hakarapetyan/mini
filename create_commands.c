@@ -1,49 +1,13 @@
 #include "./include/minishell.h"
 
-static t_commands	*create_command_for_first(char *value, t_token **tkn)
-{
-	t_commands	*command;
-
-	if (!value)
-		return (NULL);
-	command = malloc(sizeof(t_commands));
-	if (!command)//allocation failed;
-		return (NULL);
-	command -> name = ft_strdup(value);
-	command -> args = NULL;
-	command -> r_in = NULL;
-	command -> r_out = NULL;
-	command -> is_append = 0;
-	command -> is_heredoc = 0;
-	command -> next = NULL;
-	command -> prev = NULL;
-	if (!command)
-	{
-		free_commands(command);
-		return (NULL);//alocation failed
-	}
-	command -> next = NULL;
-	return (command);
-}
 
 static void	create_first_command(t_token **tkn, t_commands **tmp, t_shell *shell)
  {
-	if (is_redirection((*tkn) -> type))
-	{
-		*tmp = create_command((*tkn) -> value, tkn);
-		shell -> command = *tmp;
-		if (!(shell -> command))
-			error(ALLOCATION_ERR, shell);
-		shell -> command_count++;
-	}
-	else
-	{
-		*tmp = create_command_for_first((*tkn) -> value, NULL);
-		shell -> command = *tmp;
-		if (!(shell -> command))
-			error(ALLOCATION_ERR, shell);
-		shell -> command_count++;
-	}
+	*tmp = create_command((*tkn) -> value, tkn);
+	shell -> command = *tmp;
+	if (!(shell -> command))
+		error(ALLOCATION_ERR, shell);
+	shell -> command_count++;
 }
 
 void	create_commands(t_shell *shell)
@@ -59,10 +23,8 @@ void	create_commands(t_shell *shell)
 	{
 		while (tkn)
 		{
-			if (!(tmp))
-			{
+			if (!tmp)
 				create_first_command(&tkn, &tmp, shell);
-			}
 			else
 				add_command(&tkn, &tmp, shell);
 			get_args(&tkn, shell);
@@ -116,9 +78,7 @@ void	add_args(t_token **token,t_commands **tmp,  t_shell *shell)
 	while ((*token) && (*token) -> type != PIPE)
 	{
 		if (is_redirection((*token) -> type))
-		{
 			get_redir(token, tmp, shell);
-		}
 		if ((*token) && (!is_redirection((*token) -> type) && (*token) -> type != PIPE))
 		{
 			if ((*token) -> var_value)
@@ -131,9 +91,11 @@ void	add_args(t_token **token,t_commands **tmp,  t_shell *shell)
 			i++;
 		}
 	}
+	(*tmp) -> name = ft_strdup((*tmp) -> args[0]);
 	if ((*tmp) -> args)
 		(*tmp) -> args[i] = NULL;
 	(*tmp) = (*tmp) -> next;
+
 }
 
 
@@ -158,14 +120,8 @@ void get_args(t_token **token, t_shell *shell)
 
 void	add_command(t_token **tkn, t_commands **tmp, t_shell *shell)
 {
-
 	if (!ft_strcmp((*tkn) -> value, "|"))
 	{
-			//printf("%s\n",(*tkn)  -> next -> value);
-		// if (((*tkn) -> next))
-		// {
-			printf("hello\n");
-			printf("%s\n",(*tkn) -> value);
 			while ((*tmp) -> next)
 				(*tmp) = (*tmp) -> next;
 			(*tmp) -> next = create_command((*tkn) -> next -> value, NULL);
@@ -175,15 +131,15 @@ void	add_command(t_token **tkn, t_commands **tmp, t_shell *shell)
 			(*tkn) = (*tkn) -> next;
 			(*tmp) = (*tmp) -> next;
 			shell -> command_count++;
-		//}
-		//}
 	}
 }
 
 static void	create_command_helper(t_token **tkn, t_commands **command)
 {
-	if (tkn)
+	if (tkn && is_redirection((*tkn) -> type))
 	{
+		if (is_redirection((*tkn) -> type))
+		{
 		if ((*tkn) -> type == R_IN)
 		{
 			if ((*tkn) -> next)
@@ -196,10 +152,7 @@ static void	create_command_helper(t_token **tkn, t_commands **command)
 		else if ((*tkn) -> type == R_OUT)
 		{
 			if ((*tkn) -> next)
-			{
 				(*command) -> r_out = ft_strdup((*tkn) -> next -> value);
-
-			}
 			else
 				(*command) -> r_out = NULL;
 			(*command) -> r_in = NULL;
@@ -208,20 +161,21 @@ static void	create_command_helper(t_token **tkn, t_commands **command)
 		else if ((*tkn) -> type == R_APPEND)
 		{
 			if ((*tkn) -> next)
-			(*command) -> is_append = 1;
-				//(*command) -> r_in = ft_strdup((*tkn) -> next -> value);
+			{
+				(*command) -> is_append = 1;
+				(*command) -> r_out = ft_strdup((*tkn) -> next -> value);
+			}
 			else
-			(*command) -> is_append = 0;
+			{
+				(*command) -> is_append = 0;
+				(*command) -> r_out = NULL;
+			}
 			(*command) -> r_in = NULL;
-			(*command) -> r_out = NULL;
-				//(*command) -> r_in = NULL;
 		}
 		if ((*tkn) -> next -> next)
 			(*tkn) = (*tkn) -> next -> next;
 		else if ((*tkn) -> next && !((*tkn) -> next -> next))
-		{
 			(*tkn) = NULL;
-
 		}
 	}
 	else{
@@ -241,14 +195,8 @@ t_commands	*create_command(char *value, t_token **tkn)
 	if (!command)//allocation failed;
 		return (NULL);
 	create_command_helper(tkn, &command);
-	 if (*tkn)
-	command -> name = ft_strdup((*tkn) -> value);
-	else
 	command -> name = NULL;
 	command -> args = NULL;
-	// command -> r_in = NULL;
-	// command -> r_out = NULL;
-	// command -> is_append = 0;
 	command -> is_heredoc = 0;
 	command -> next = NULL;
 	command -> prev = NULL;
