@@ -61,6 +61,7 @@ void	write_print(char *arg, char * msg, int fd);
 void	execute_unset(t_shell *shell);
 int		my_env(int argc,t_shell *shell, char **arg);
 int		my_env_helper(t_shell *shell, char **argv, int i);
+int		execute_env(t_shell *shell);
 
 void	init_shell(t_shell *shell);
 
