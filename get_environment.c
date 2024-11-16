@@ -66,6 +66,8 @@ char	*get_the_value(char *str)
 		return (NULL);
 	while (*str)
 		str++;
+	// if (*str == '=')
+	// 	return (NULL);
 	while (*str != '=')
 	{
 		str--;
@@ -172,8 +174,8 @@ void	get_environment(t_shell *shell, char **env)
 			i++;
 		}
 	}
-	if (ft_strcmp(shell -> input, "env") == 0)
-			 print_env(shell);
+	// if (ft_strcmp(shell -> input, "env") == 0)
+	// 		 print_env(shell);
 	if (ft_strcmp(shell -> input, "export") == 0)
 			print_exp(shell);
 	// else if (ft_strcmp(shell -> input, "pwd") == 0)

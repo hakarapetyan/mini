@@ -19,6 +19,7 @@ SRCS =  main.c\
 		builtins.c\
 		cd.c\
 		exit.c\
+		env.c\
 		error.c\
 		free.c\
 		unset.c\

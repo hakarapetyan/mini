@@ -41,9 +41,10 @@ int		ham_strcmp(char *s1, char *s2);
 int		my_cd_helper(char **argv, int i, t_shell *shell);
 int		my_cd(int argc, char **argv, t_shell *shell);
 void	change_oldpwd(t_shell *shell, char *pwd, char *oldpwd);
-char	*get_oldpwd(t_shell *shell);
-char	*get_pwd(t_shell *shell);
-char	*get_home(t_shell *shell);
+// char	*get_oldpwd(t_shell *shell);
+// char	*get_pwd(t_shell *shell);
+// char	*get_home(t_shell *shell);
+char	*get_value(t_shell *shell, char *key);
 void	execute_cd(t_shell *shell);
 int		is_digit_unset(char *arg);
 int		my_exit(int args, char **argv, t_shell *shell);
@@ -58,6 +59,8 @@ int		del_from_lst(env_list *env, char *nv);
 int		del_one(env_list *env);
 void	write_print(char *arg, char * msg, int fd);
 void	execute_unset(t_shell *shell);
+int		my_env(int argc,t_shell *shell, char **arg);
+int		my_env_helper(t_shell *shell, char **argv, int i);
 
 void	init_shell(t_shell *shell);
 

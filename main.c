@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:32:14 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/11/14 16:58:28 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/11/16 15:19:38 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ void	print_env(t_shell *shell)
 	env_list	*current;
 
 	current = shell->env;
+	if (!current)
+		return ;
 	while (current)
 	{
 		printf("%s%s\n", current->key, current->value);
@@ -147,7 +149,7 @@ int	main(int argc, char **argv, char **env)
 		if (shell.input[0] != '\0')
 			add_history(shell.input);
 		get_environment(&shell, env);
-		//print_env(shell.env);
+		//print_env(&shell);
 		lexical_analyzer(&shell);
 		//check_redir_errors(&shell);
 		create_commands(&shell);
@@ -158,6 +160,7 @@ int	main(int argc, char **argv, char **env)
 		execute_echo(&shell);
 		execute_exit(&shell);
 		execute_unset(&shell);
+		execute_env(&shell);
 	 //	execute_command((shell.command) -> name, (shell.command )-> args,&shell);
 		free_shell(&shell);
 	// 	//system("leaks minishell");

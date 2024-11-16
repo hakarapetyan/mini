@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:48:42 by hakarape          #+#    #+#             */
-/*   Updated: 2024/11/14 21:36:09 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/11/16 17:04:21 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	my_cd_helper(char **argv, int i, t_shell *shell)//cd -
 		{
 			if (ft_strcmp(argv[i], "-") == 0)
 			{
-				tmp = get_oldpwd(shell);
+				tmp = get_value(shell, "OLDPWD=");
 				if (!tmp)
 				{
 					ft_putendl_fd("bash: cd: OLDPWD not set\n", 2);
@@ -63,8 +63,8 @@ int	my_cd(int argc, char **argv, t_shell *shell)
 	char	*oldpwd;
 	char	*pwd;
 	i = 0;
-	oldpwd = get_pwd(shell);
-	pwd = get_home(shell);
+	oldpwd = get_value(shell, "PWD=");
+	pwd = get_value(shell, "HOME=");
 
 	if (!oldpwd)
 	{
@@ -96,7 +96,7 @@ void change_oldpwd(t_shell *shell, char *pwd,char *oldpwd)
 	env_list *env;
 	
 	env = shell -> env;
-	(void)pwd;
+	//(void)pwd;
 	while (env)
 	{
 		if (ft_strcmp(env ->key, "OLDPWD=") == 0)
@@ -110,40 +110,40 @@ void change_oldpwd(t_shell *shell, char *pwd,char *oldpwd)
 		env = env -> next;	
 	}
 }
-char *get_oldpwd(t_shell *shell)
+// char *get_oldpwd(t_shell *shell)
+// {
+// 	env_list *env;
+	
+// 	env = shell -> env;
+// 	while (env)
+// 	{
+// 		if (ft_strcmp(env ->key, "OLDPWD=") == 0)
+// 			return (env ->value);
+// 		env = env->next;
+// 	}
+// 	return (NULL);
+// }
+// char *get_pwd(t_shell *shell)
+// {
+// 	env_list *env;
+	
+// 	env = shell -> env;
+// 	while (env)
+// 	{
+// 		if (ft_strcmp(env ->key, "PWD=") == 0)
+// 			return (env ->value);
+// 		env = env->next;
+// 	}
+// 	return (NULL);
+// }
+char *get_value(t_shell *shell, char *key)
 {
 	env_list *env;
 	
 	env = shell -> env;
 	while (env)
 	{
-		if (ft_strcmp(env ->key, "OLDPWD=") == 0)
-			return (env ->value);
-		env = env->next;
-	}
-	return (NULL);
-}
-char *get_pwd(t_shell *shell)
-{
-	env_list *env;
-	
-	env = shell -> env;
-	while (env)
-	{
-		if (ft_strcmp(env ->key, "PWD=") == 0)
-			return (env ->value);
-		env = env->next;
-	}
-	return (NULL);
-}
-char *get_home(t_shell *shell)
-{
-	env_list *env;
-	
-	env = shell -> env;
-	while (env)
-	{
-		if (ft_strcmp(env ->key, "HOME=") == 0)
+		if (ft_strcmp(env ->key, key) == 0)
 			return (env ->value);
 		env = env->next;
 	}
@@ -154,7 +154,6 @@ void	execute_cd(t_shell *shell)
 	t_commands *cmd;
 
 	cmd = shell -> command;
-
 	if (cmd && ft_strcmp(cmd -> name, "cd") == 0)
 		my_cd(shell -> token_count, cmd -> args, shell);
 }
