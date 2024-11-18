@@ -31,4 +31,6 @@ void		get_exp_list(t_shell **shell, char *str);
 char		**ascii_sort_env(char **env);
 void		get_environment(t_shell *shell, char **env);
 env_list	*add_node(char *str);
+int			ft_lstsize(env_list *lst);
+char		**list_to_arr(t_shell *shell);
 #endif

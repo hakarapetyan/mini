@@ -20,6 +20,7 @@ SRCS =  main.c\
 		cd.c\
 		exit.c\
 		env.c\
+		export.c\
 		error.c\
 		free.c\
 		unset.c\
@@ -27,6 +28,7 @@ SRCS =  main.c\
 		utils_1.c\
 		utils_2.c\
 		utils_3.c\
+		utils_buil.c\
 
 
 

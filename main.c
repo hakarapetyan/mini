@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:32:14 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/11/16 15:19:38 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/11/18 14:47:11 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	print_exp(t_shell *shell)
 	env_list	*current;
 
 	current = shell->exp;
+
 	while (current)
 	{
 		printf("declare -x %s\"%s\"\n", current->key, current->value);
@@ -161,6 +162,7 @@ int	main(int argc, char **argv, char **env)
 		execute_exit(&shell);
 		execute_unset(&shell);
 		execute_env(&shell);
+		execute_export(&shell);
 	 //	execute_command((shell.command) -> name, (shell.command )-> args,&shell);
 		free_shell(&shell);
 	// 	//system("leaks minishell");

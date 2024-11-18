@@ -37,8 +37,8 @@ char	*ft_strjoin(char *s1, char *s2)
 	while (i < ft_strlen(s2))
 		str[j++] = s2[i++];
 	str[j] = '\0';
-	if (s1)
-		free(s1);
+	// if (s1)
+	// 	free(s1);
 	return (str);
 }
 

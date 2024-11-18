@@ -154,6 +154,7 @@ void	get_exp_list(t_shell **shell, char *str)
 void	get_environment(t_shell *shell, char **env)
 {
 	char **envir;
+	char **exp;
 	int	i;
 
 	i = 0;
@@ -167,19 +168,62 @@ void	get_environment(t_shell *shell, char **env)
 	}
 	if (!(shell -> exp))
 	{
-		envir = ascii_sort_env(env);
-		while (env[i])
+		i = 0;
+		exp = list_to_arr(shell);
+		envir = ascii_sort_env(exp);
+		while (envir[i])
+		{
+		 printf("envir%s\n",envir[i]);
+		 i++;
+		}
+		while (envir[i])
 		{
 			get_exp_list(&shell, envir[i]);
 			i++;
 		}
 	}
+	//free_args(exp);
 	// if (ft_strcmp(shell -> input, "env") == 0)
 	// 		 print_env(shell);
-	if (ft_strcmp(shell -> input, "export") == 0)
-			print_exp(shell);
+	// if (ft_strcmp(shell -> input, "export") == 0)
+	// 		print_exp(shell);
 	// else if (ft_strcmp(shell -> input, "pwd") == 0)
 	// 	my_pwd();
 	// else if (ft_strcmp(shell -> input, "echo") == 0)
 	// 	my_echo(4, shell -> input)
+}
+char **list_to_arr(t_shell *shell)
+{
+	int size;
+	env_list *env;
+	char **arr;
+	char *tmp;
+	char *cmp;
+
+	size =0 ;
+	env = shell->env;
+	if(!env)
+		return (NULL);
+	size = ft_lstsize(env);
+	arr = (char **)malloc(sizeof(char*) * (size + 1));
+	if(!arr)
+		return (NULL);
+		size = 0;
+	while (env)
+	{
+		tmp = ft_strjoin(env ->key, "=");
+		cmp = ft_strjoin(tmp, env -> value);
+		arr[size] = cmp;
+		size++;
+		//free(cmp);
+		env = env ->next;
+	}
+	// size=0;
+	// while (arr[size])
+	// {
+	// 	printf("arr=%s\n", arr[size]);
+	// 	size++;
+	// }
+	arr[size] = NULL;
+	return (arr);
 }

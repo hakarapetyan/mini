@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:14:20 by hakarape          #+#    #+#             */
-/*   Updated: 2024/11/16 17:26:59 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/11/18 16:51:07 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int my_env(int argc,t_shell *shell, char **argv)
 		if (argv[i] && (!ft_strcmp(argv[i], "env")))
 			i++;
 		ft_putendl_fd("env: setenv ", 2);
-		//write(2, argv[i], ft_strlen(argv[i]));
 		ft_putendl_fd(argv[i], 2);
 		ft_putendl_fd(": Invalid argument\n", 2);
 		return (1);
