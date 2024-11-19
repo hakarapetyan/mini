@@ -6,11 +6,11 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 20:18:16 by hakarape          #+#    #+#             */
-/*   Updated: 2024/11/14 18:26:07 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/11/19 16:22:24 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./include/minishell.h"
+#include "../include/minishell.h"
 
 int	my_strchr(const char *s, int c)
 {
@@ -113,9 +113,11 @@ int my_unset(int size, char **arg, t_shell *shell)
 {
 	int	i;
 	env_list	*env;
+	env_list	*exp;
 
 	i = 0;
 	env = shell ->env;
+	exp = shell ->exp;
 	if (arg[i] && ft_strcmp(arg[i], "unset") == 0)
 		i++;
 	if (is_alpha(arg[i]) && my_strchr(arg[i], '?') && my_strchr(arg[i], '_'))
@@ -127,7 +129,10 @@ int my_unset(int size, char **arg, t_shell *shell)
 	while (arg[i])
 	{
 		if (del_from_lst(env, arg[i]))
+		{
+			del_from_lst(exp, arg[i]);
 			return (1);
+		}
 		i++;
 	}
 	return (0);

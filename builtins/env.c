@@ -6,11 +6,11 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:14:20 by hakarape          #+#    #+#             */
-/*   Updated: 2024/11/18 16:51:07 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/11/19 15:11:33 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./include/minishell.h"
+#include "../include/minishell.h"
 
 // int	my_env_helper(t_shell *shell, char **argv, int i)
 // {

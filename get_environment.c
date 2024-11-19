@@ -1,34 +1,5 @@
 #include "./include/minishell.h"
 
-char	**ascii_sort_env(char **env)
-{
-	int	i;
-	int	j;
-	char *tmp;
-
-	i = 0;
-	j = 0;
-	tmp = NULL;
-	if (!env)
-		return (NULL);
-	while (env[i])
-	{
-		j = 0;
-		while (env[j])
-		{
-			if (spec_strcmp(env[i], env[j]) < 0)
-			{
-				tmp = env[i];
-				env[i] = env[j];
-				env[j] = tmp;
-			}
-			j++;
-		}
-		i++;
-	}
-	return (env);
-}
-
 char	*get_the_key(char *str)
 {
 	char *key;
@@ -49,8 +20,9 @@ char	*get_the_key(char *str)
 		key[i] = str[i];
 		i++;
 	}
-	key[i] = '=';
-	i++;
+	if (str[i])
+		key[i++] = '=';
+	//i++;
 	key[i] = '\0';
 	return (key);
 }
@@ -62,12 +34,10 @@ char	*get_the_value(char *str)
 
 	value = NULL;
 	i = 0;
-	if (!str)
+	if (!str || !ft_strchr(str, '='))
 		return (NULL);
 	while (*str)
 		str++;
-	// if (*str == '=')
-	// 	return (NULL);
 	while (*str != '=')
 	{
 		str--;
@@ -84,32 +54,6 @@ char	*get_the_value(char *str)
 	}
 	value[i] = '\0';
 	return (value);
-}
-
-env_list	*add_node(char *str)
-{
-	env_list	*node;
-
-	node = malloc(sizeof(env_list));
-    if (!node)
-	{
-        free(node);
-        node = NULL;
-		return (NULL);
-    }
-	node -> key = get_the_key(str);
-	node -> value = get_the_value(str);
-	if (!node -> key || !node -> value)
-		{
-			free (node -> key);
-			free (node -> value);
-			free (node);
-			node = NULL;
-			system("leaks minishell");
-			return (NULL);
- 		}
-	node -> next = NULL;
-	return (node);
 }
 
 void	get_env_list(t_shell **shell, char *str)
@@ -130,8 +74,6 @@ void	get_env_list(t_shell **shell, char *str)
         current -> next = add_node(str);
 	}
 }
-
-
 void	get_exp_list(t_shell **shell, char *str)
 {
 	env_list *current;
@@ -154,7 +96,6 @@ void	get_exp_list(t_shell **shell, char *str)
 void	get_environment(t_shell *shell, char **env)
 {
 	char **envir;
-	char **exp;
 	int	i;
 
 	i = 0;
@@ -169,18 +110,21 @@ void	get_environment(t_shell *shell, char **env)
 	if (!(shell -> exp))
 	{
 		i = 0;
-		exp = list_to_arr(shell);
-		envir = ascii_sort_env(exp);
-		while (envir[i])
-		{
-		 printf("envir%s\n",envir[i]);
-		 i++;
-		}
+		envir = sorting_for_export(shell ->env);
+		// export = list_to_arr(shell ->env);
+		// envir = ascii_sort_env(export);
+		// while (envir[i])
+		// {
+		//  printf("envir%s\n",envir[i]);
+		//  i++;
+		// }
 		while (envir[i])
 		{
 			get_exp_list(&shell, envir[i]);
 			i++;
 		}
+		free_args(envir);
+
 	}
 	//free_args(exp);
 	// if (ft_strcmp(shell -> input, "env") == 0)
@@ -192,38 +136,4 @@ void	get_environment(t_shell *shell, char **env)
 	// else if (ft_strcmp(shell -> input, "echo") == 0)
 	// 	my_echo(4, shell -> input)
 }
-char **list_to_arr(t_shell *shell)
-{
-	int size;
-	env_list *env;
-	char **arr;
-	char *tmp;
-	char *cmp;
 
-	size =0 ;
-	env = shell->env;
-	if(!env)
-		return (NULL);
-	size = ft_lstsize(env);
-	arr = (char **)malloc(sizeof(char*) * (size + 1));
-	if(!arr)
-		return (NULL);
-		size = 0;
-	while (env)
-	{
-		tmp = ft_strjoin(env ->key, "=");
-		cmp = ft_strjoin(tmp, env -> value);
-		arr[size] = cmp;
-		size++;
-		//free(cmp);
-		env = env ->next;
-	}
-	// size=0;
-	// while (arr[size])
-	// {
-	// 	printf("arr=%s\n", arr[size]);
-	// 	size++;
-	// }
-	arr[size] = NULL;
-	return (arr);
-}

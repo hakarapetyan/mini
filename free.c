@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 17:54:50 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/10/03 18:34:32 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/11/19 18:45:30 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,8 @@ void	free_tokens(t_token *token)
 void	free_args(char **args)
 {
 	int	i;
-	int	j;
 
 	i = 0;
-	j = 0;
 	while (args[i])
 	{
 		free(args[i]);
@@ -73,6 +71,7 @@ void	free_args(char **args)
 		i++;
 	}
 	free(args);
+	args = NULL;
 }
 
 void	free_commands(t_commands *command)

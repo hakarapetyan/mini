@@ -6,11 +6,11 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:48:42 by hakarape          #+#    #+#             */
-/*   Updated: 2024/11/16 17:04:21 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/11/19 15:11:28 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./include/minishell.h"
+#include "../include/minishell.h"
 
 int	my_cd_helper(char **argv, int i, t_shell *shell)//cd -
 {
@@ -31,7 +31,8 @@ int	my_cd_helper(char **argv, int i, t_shell *shell)//cd -
 					ft_putendl_fd("bash: cd: OLDPWD not set\n", 2);
 					return(1);
 				}
-				change_oldpwd(shell, tmp, cmd);
+				changes_in_env(shell, tmp, cmd);
+				changes_in_exp(shell, tmp, cmd);
 				chdir(tmp);
 				cmd = getcwd(NULL, 0);
 				printf("%s\n", cmd);
@@ -39,7 +40,8 @@ int	my_cd_helper(char **argv, int i, t_shell *shell)//cd -
 			else if (!chdir(argv[i]))
 			{
 				cmd = getcwd(NULL, 0);
-				change_oldpwd(shell, cmd, tmp);
+				changes_in_env(shell, cmd, tmp);
+				changes_in_exp(shell, cmd, tmp);
 			}
 			else
 			{ 
@@ -61,17 +63,17 @@ int	my_cd(int argc, char **argv, t_shell *shell)
 {
 	int	i;
 	char	*oldpwd;
-	char	*pwd;
+	char	*home;
 	i = 0;
 	oldpwd = get_value(shell, "PWD=");
-	pwd = get_value(shell, "HOME=");
+	home = get_value(shell, "HOME=");
 
 	if (!oldpwd)
 	{
 		ft_putendl_fd("bash: cd: OLDPWD not set\n", 2);
 		return(1);
 	}
-	if (!pwd)
+	if (!home)
 	{
 		ft_putendl_fd("bash: cd: HOME not set\n", 2);
 		return(1);
@@ -85,18 +87,17 @@ int	my_cd(int argc, char **argv, t_shell *shell)
 	}
 	else
 	{
-		chdir(pwd);
-		change_oldpwd(shell, pwd, oldpwd);
-		// must be changed ENV
+		chdir(home);
+		changes_in_env(shell, home, oldpwd);
+		changes_in_exp(shell, home, oldpwd);
 	}
 	return (0);
 }
-void change_oldpwd(t_shell *shell, char *pwd,char *oldpwd)
+void changes_in_env(t_shell *shell, char *pwd,char *oldpwd)
 {
 	env_list *env;
 	
 	env = shell -> env;
-	//(void)pwd;
 	while (env)
 	{
 		if (ft_strcmp(env ->key, "OLDPWD=") == 0)
@@ -108,6 +109,24 @@ void change_oldpwd(t_shell *shell, char *pwd,char *oldpwd)
 			env -> value = ft_strdup(pwd);
 		}
 		env = env -> next;	
+	}
+}
+void changes_in_exp(t_shell *shell, char *pwd,char *oldpwd)
+{
+	env_list *exp;
+	
+	exp = shell -> exp;
+	while (exp)
+	{
+		if (ft_strcmp(exp ->key, "OLDPWD=") == 0)
+		{
+			exp -> value = ft_strdup(oldpwd);
+		}
+		else if (ft_strcmp(exp ->key, "PWD=") == 0)
+		{	
+			exp -> value = ft_strdup(pwd);
+		}
+		exp = exp -> next;	
 	}
 }
 // char *get_oldpwd(t_shell *shell)

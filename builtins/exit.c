@@ -6,11 +6,11 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 17:24:31 by hakarape          #+#    #+#             */
-/*   Updated: 2024/11/13 19:31:24 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/11/19 15:11:35 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./include/minishell.h"
+#include "../include/minishell.h"
 
 static int is_digit(char *arg)
 {

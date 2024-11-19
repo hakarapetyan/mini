@@ -1,4 +1,5 @@
-#include "./include/minishell.h"
+// #include "./include/minishell.h"
+#include "../include/minishell.h"
 
 void my_pwd(t_shell *shell)
 {

@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:32:14 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/11/18 14:47:11 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/11/19 20:03:56 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	print_exp(t_shell *shell)
 	while (current)
 	{
 		printf("declare -x %s\"%s\"\n", current->key, current->value);
+		printf("value=%s\n", current->value);
 		current = current->next;
 	}
 }

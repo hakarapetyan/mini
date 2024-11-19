@@ -6,26 +6,27 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:38:26 by hakarape          #+#    #+#             */
-/*   Updated: 2024/11/18 14:46:27 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/11/19 19:26:02 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./include/minishell.h"
+#include "../include/minishell.h"
 
 int	my_export_helper(t_shell *shell, char **argv, int i)
 {
-	env_list	*env;
+	env_list	*exp;
 
-	env = shell ->env;
-	if (!env)
+	exp = shell ->exp;
+	if (!exp)
 	{
-		env = add_node(argv[i]);
+		exp = add_node(argv[i]);
 		return (1);
 	}
-	if (env->next)
-		while (env->next)
-			env = env->next;
-	env ->next = add_node(argv[i]);
+	if (exp->next)
+		while (exp->next)
+			exp = exp->next;
+	exp ->next = add_node(argv[i]);
+	printf("exp=%s\n", exp->next->key);
 	return(0);
 }
 int my_export(int argc, char **arg, t_shell *shell)
@@ -39,15 +40,16 @@ int my_export(int argc, char **arg, t_shell *shell)
 	{
 	if (arg[i] && ft_strcmp(arg[i], "export") == 0)
 		i++;
-	if (is_alpha(arg[i]) && my_strchr(arg[i], '?') && my_strchr(arg[i], '_'))
-	{
-		write_print(arg[i], "minishell: export:", 2);
-		ft_putendl_fd(" not a valid identifier", 2);
-		write(2, "\n", 1);
-		return (1);
-	}
-	else
+	// if (is_alpha(arg[i]) /*&& my_strchr(arg[i], '?') && my_strchr(arg[i], '_')*/)
+	// {
+	// 	write_print(arg[i], "minishell: export:", 2);
+	// 	ft_putendl_fd(" not a valid identifier", 2);
+	// 	write(2, "\n", 1);
+	// 	return (1);
+	// }
+	// else
 		my_export_helper(shell, arg, i);
+		print_exp(shell);
 	return (0);
 	}
 }
