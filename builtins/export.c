@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:38:26 by hakarape          #+#    #+#             */
-/*   Updated: 2024/11/19 19:26:02 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/11/21 20:20:46 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,37 +19,32 @@ int	my_export_helper(t_shell *shell, char **argv, int i)
 	exp = shell ->exp;
 	if (!exp)
 	{
+		printf("am i here? \n");
 		exp = add_node(argv[i]);
-		return (1);
+		//return (1);
 	}
-	if (exp->next)
-		while (exp->next)
+	if (exp)
+	{
+		while (exp && exp->next)
 			exp = exp->next;
-	exp ->next = add_node(argv[i]);
-	printf("exp=%s\n", exp->next->key);
+		exp ->next = add_node(argv[i]);
+	}
 	return(0);
 }
 int my_export(int argc, char **arg, t_shell *shell)
 {
 	int	i;
+	env_list *exp;
 
 	i = 0;
+	exp = shell -> exp;
 	if (argc == 1)
 		print_exp(shell);
 	if (argc > 1)
 	{
 	if (arg[i] && ft_strcmp(arg[i], "export") == 0)
 		i++;
-	// if (is_alpha(arg[i]) /*&& my_strchr(arg[i], '?') && my_strchr(arg[i], '_')*/)
-	// {
-	// 	write_print(arg[i], "minishell: export:", 2);
-	// 	ft_putendl_fd(" not a valid identifier", 2);
-	// 	write(2, "\n", 1);
-	// 	return (1);
-	// }
-	// else
-		my_export_helper(shell, arg, i);
-		print_exp(shell);
+	my_export_helper(shell, arg, i);
 	return (0);
 	}
 }

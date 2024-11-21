@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:32:14 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/11/19 20:03:56 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/11/21 20:44:21 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,15 +65,23 @@ void	print_env(t_shell *shell)
 void	print_exp(t_shell *shell)
 {
 	env_list	*current;
+	int	i;
+	char	**envir;
 
+	i = 0;
 	current = shell->exp;
-
 	while (current)
 	{
-		printf("declare -x %s\"%s\"\n", current->key, current->value);
-		printf("value=%s\n", current->value);
+		printf("cur=%s\n", current->key);
 		current = current->next;
 	}
+	envir = sorting_for_export(shell ->exp);
+	while (envir[i])
+	{
+		printf("am i cooked -x %s\n", envir[i]);
+		i++; 
+	}
+	free_args(envir);
 }
 
 
