@@ -90,7 +90,7 @@ void	expand_heredoc(t_shell *shell)
 			current = current -> next;
 			if (current -> next)
 			{
-				error(SYNTAX_ERR, shell);
+				error(SYNTAX_ERR_MSG, shell);
 				free_tokens(shell -> token);
 			}
 		}

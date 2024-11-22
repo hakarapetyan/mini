@@ -21,6 +21,7 @@
 		"unordered_map": "c",
 		"locale": "c",
 		"string": "c",
-		"sstream": "c"
+		"sstream": "c",
+		"ostream": "c"
 	}
 }

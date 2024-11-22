@@ -6,7 +6,7 @@ void  lexical_analyzer(t_shell *shell)
 
 	status = tokenization(shell);
 	if (status == -2)
-		error(QUOTE_ERR, shell);
+		error("quote error", shell);
 }
 
 

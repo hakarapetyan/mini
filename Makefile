@@ -20,6 +20,7 @@ SRCS =  main.c\
 		find_path.c\
 		execute.c\
 		ft_split.c\
+		g_status.c\
 		error.c\
 		free.c\
 		print.c\

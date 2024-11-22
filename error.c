@@ -8,36 +8,55 @@ void	error(char	*err, t_shell *shell)
 	//exit(1);
 }
 
-void	permission_error(char *name)
-{
-	char	*message;
 
-	message = ": Permission denied";
-	write(2, "bash: ", 7);
-	write(2, name, ft_strlen(name));
-	write(2, message, ft_strlen(message));
-	write(2, "\n", 1);
+static void which_errno(void)
+{
+	if (errno == ENOENT)
+		write(STDERR_FILENO, NO_SUCH_FILE_MSG, ft_strlen(NO_SUCH_FILE_MSG));
+	else if (errno == EACCES)
+		write(STDERR_FILENO, PERMISSION_DENIED_MSG, ft_strlen(PERMISSION_DENIED_MSG));
+	else if (errno == EISDIR)
+		write(STDERR_FILENO, IS_DIRECTORY_MSG, ft_strlen(IS_DIRECTORY_MSG));
+	else if (errno == ENOTDIR)
+		write(STDERR_FILENO, NOT_DIRECTORY_MSG, ft_strlen(NOT_DIRECTORY_MSG));
+}
+
+
+void	error_message(int status, char *command_name)
+{
+	set_status(status);
+	if (command_name)
+	{
+		write(STDERR_FILENO, "minishell: ", 11);
+		write(STDERR_FILENO, command_name, ft_strlen(command_name));
+		write(STDERR_FILENO, ": ", 2);
+		which_errno();
+	}
+	write(STDERR_FILENO, "\n", 1);
 	return ;
 }
 
-void	no_such_file_error(char *name)
+void	simple_error(int status, char *command_name, char *message)
 {
-	char	*message;
-
-	message = ": No such file or directory";
-	write(2, "bash: ", 7);
-	write(2, name, ft_strlen(name));
-	write(2, message, ft_strlen(message));
-	write(2, "\n", 1);
+	set_status(status);
+	if (command_name)
+	{
+		write(STDERR_FILENO, "minishell: ", 11);
+		write(STDERR_FILENO, command_name, ft_strlen(command_name));
+		write(STDERR_FILENO, ": ", 2);
+		write(STDERR_FILENO, message, ft_strlen(message));
+	}
+	write(STDERR_FILENO, "\n", 1);
 	return ;
 }
-void syntax_error(char *message)
+
+void	syntax_error(char *message)
 {
 	char	*str;
 
 	str = "syntax error near unexpected token `";
-	write(2, str, ft_strlen(str));
-	write(2, message, ft_strlen(message));
-	write(2, "'\n", 2);
+	write(STDERR_FILENO, str, ft_strlen(str));
+	write(STDERR_FILENO, message, ft_strlen(message));
+	write(STDERR_FILENO, "'\n", 2);
 	return ;
 }

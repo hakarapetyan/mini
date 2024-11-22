@@ -6,11 +6,12 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:32:14 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/11/15 19:00:48 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/11/22 13:32:00 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./include/minishell.h"
+
 
 
 static int	check_redir_errors(t_shell *shell)
@@ -56,8 +57,11 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	init_shell(&shell);
+	//rl_catch_signals = 0;
 	while (1)
 	{
+		// rl_replace_line("", 0);
+		// rl_on_new_line();
 		shell.input = readline("\033[1;37m.minishell \033[0m");
 		//	system("leaks minishell");
 		if (!shell.input)
@@ -71,10 +75,10 @@ int	main(int argc, char **argv, char **env)
 		{
 			create_commands(&shell);
 			//print_tokens(&shell);
-			print_commands(&shell);
+			//print_commands(&shell);
 			//execute_echo (&shell)
 			//execute_echo(&shell);
-			if (shell.command)
+			//if (shell.command)
 			execute_command(&shell);
 		}
 		free_shell(&shell);

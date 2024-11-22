@@ -1,13 +1,29 @@
 #ifndef ERRORS_H
 # define ERRORS_H
 
-# define SYNTAX_ERR "Syntax error!"
 # define ALLOCATION_ERR "Allocation failed!"
-# define QUOTE_ERR "syntax error near unexpected token `newline'"
 # define READLINE_ERR "Readline failed!"
+# define SYNTAX_ERR_MSG "syntax error near unexpected token `"
+# define CMD_NOT_FND_MSG "command not found"
+# define NO_SUCH_FILE_MSG "No such file or directory"
+# define PERMISSION_DENIED_MSG "Permission denied"
+# define IS_DIRECTORY_MSG "Is a directory"
+# define NOT_DIRECTORY_MSG "Not a directory"
+
+# define SYNTAX_ERR 3
+# define CMD_NOT_FND 4
+# define NO_SUCH_FILE 5
+# define PERMISSION_DENIED 6
+
+
 
 void	error(char	*err, t_shell *shell);
 void	permission_error(char *name);
 void	syntax_error(char *message);
 void	no_such_file_error(char *name);
+
+void	error_message(int status, char *command_name);
+void	simple_error(int status, char *command_name, char *message);
+
+void set_status(int status);
 #endif

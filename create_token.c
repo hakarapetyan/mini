@@ -28,7 +28,7 @@ void	add_token(t_shell *shell, t_token_type type, t_lexer_state state,
 {
 	t_token	*current;
 
-	if (!value || !*value)
+	if (!value)
 		return ;
 	if (!((shell)->token))
 	{

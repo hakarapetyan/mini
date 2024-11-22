@@ -8,16 +8,19 @@
 # include <stdlib.h>
 # include <stdarg.h>
 # include <fcntl.h>
+# include <errno.h>
 # include "tokenization.h"
 # include "env.h"
 # include "parse.h"
 # include "errors.h"
 # include "free.h"
 
-
-
-
-
+# define SUCCESS 0
+# define FAILURE 1
+# define BUILTIN_ERROR 2
+# define CMD_NOT_EXEC 126
+# define CMD_NOT_FOUND 127
+# define EXIT_OUT_OF_RANGE 255
 
 
 

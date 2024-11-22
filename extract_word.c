@@ -8,20 +8,20 @@ static void	copy_str(char *s, char **str, size_t *i, size_t len)
 	j = 0;
 	if (s)
 	{
-	while (*i < ft_strlen(s) && j < len)
-	{
-		if (is_quote(s[*i]))
+		while (*i < ft_strlen(s) && j < len)
 		{
-			quote = s[*i];
-			(*i)++;
-			while (s[*i] && s[*i] != quote)
-				(*str)[(j)++] = s[(*i)++];
-			(*i)++;
+			if (is_quote(s[*i]))
+			{
+				quote = s[*i];
+				(*i)++;
+				while (s[*i] && s[*i] != quote)
+					(*str)[(j)++] = s[(*i)++];
+				(*i)++;
+			}
+			else
+				(*str)[j++] = s[(*i)++];
 		}
-		else
-			(*str)[j++] = s[(*i)++];
-	}
-	(*str)[j] = '\0';
+		(*str)[j] = '\0';
 	}
 }
 
@@ -32,7 +32,7 @@ static char	*another_substr(char *s, unsigned int start, size_t len)
 	size_t	i;
 
 	i = start;
-	if (!s || len == 0)
+	if (!s)
 		return (NULL);
 	str = (char *)malloc(sizeof(*s) * (len + 1));
 	if (!str)
@@ -54,7 +54,7 @@ static int	handle_quote(t_shell *shell, char **current, char *quote, int *i)
 	}
 	if ((*current)[(*i)] != *quote)
 	{
-		error(QUOTE_ERR, shell);
+		error("quote error", shell);
 		return (0);
 	}
 	if ((*current)[(*i)] == *quote)
