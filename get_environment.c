@@ -109,15 +109,13 @@ void	get_environment(t_shell *shell, char **env)
 	}
 	if (!(shell -> exp))
 	{
-		printf("-------------------------\n");
 		i = 0;
-		envir = sorting_for_export(shell ->env);
-		while (envir[i])
+		while (env[i])
 		{
-			get_exp_list(&shell, envir[i]);
+			get_exp_list(&shell, env[i]);
 			i++;
 		}
-		free_args(envir);
+		//free_args(envir);
 	}
 	//free_args(exp);
 	// if (ft_strcmp(shell -> input, "env") == 0)

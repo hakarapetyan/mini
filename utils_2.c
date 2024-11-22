@@ -42,6 +42,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (str);
 }
 
+
 int	ft_strchr(char *str, char c)
 {
 	int	i;

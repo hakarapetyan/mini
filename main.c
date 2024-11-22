@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:32:14 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/11/21 20:44:21 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/11/22 17:16:21 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,23 +70,14 @@ void	print_exp(t_shell *shell)
 
 	i = 0;
 	current = shell->exp;
-	while (current)
-	{
-		printf("cur=%s\n", current->key);
-		current = current->next;
-	}
 	envir = sorting_for_export(shell ->exp);
 	while (envir[i])
 	{
-		printf("am i cooked -x %s\n", envir[i]);
+		printf("declare -x %s\n", envir[i]);
 		i++; 
 	}
 	free_args(envir);
 }
-
-
-
-
 void	redir_check(t_token_type type,t_shell *shell)
 {
 	if (type == R_IN)
@@ -150,6 +141,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	init_shell(&shell);
+	get_environment(&shell, env);
 	while (1)
 	{
 		shell.input = readline("\033[1;37m.minishell \033[0m");
@@ -158,7 +150,6 @@ int	main(int argc, char **argv, char **env)
 			error(READLINE_ERR, &shell);
 		if (shell.input[0] != '\0')
 			add_history(shell.input);
-		get_environment(&shell, env);
 		//print_env(&shell);
 		lexical_analyzer(&shell);
 		//check_redir_errors(&shell);

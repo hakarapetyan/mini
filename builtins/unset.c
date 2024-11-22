@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 20:18:16 by hakarape          #+#    #+#             */
-/*   Updated: 2024/11/19 16:22:24 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/11/22 21:12:05 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int is_alpha(char *arg)
         if ((arg[i] >= 65 && arg[i] <= 90) || (arg[i] >= 97 && arg[i] <= 122))
             i++;
         else
-        return (1);
+        	return (1);
     }
     return (0);
 }
