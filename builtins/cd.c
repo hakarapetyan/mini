@@ -6,12 +6,26 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:48:42 by hakarape          #+#    #+#             */
-/*   Updated: 2024/11/23 16:28:58 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/11/23 16:46:46 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+static int	cd_errors_checking(char *oldpwd, char *home)
+{
+	if (!oldpwd)
+	{
+		ft_putendl_fd("bash: cd: OLDPWD not set\n", 2);
+		return(1);
+	}
+	if (!home)
+	{
+		ft_putendl_fd("bash: cd: HOME not set\n", 2);
+		return(1);
+	}
+	return (0);
+}
 int	my_cd_helper(char **argv, int i, t_shell *shell)//cd -
 {
 	char	*cmd;
@@ -31,8 +45,8 @@ int	my_cd_helper(char **argv, int i, t_shell *shell)//cd -
 					ft_putendl_fd("bash: cd: OLDPWD not set\n", 2);
 					return(1);
 				}
-				changes_in_env(shell, tmp, cmd);
-				changes_in_exp(shell, tmp, cmd);
+				changes_in_list(shell->env, tmp, cmd);
+				changes_in_list(shell->exp, tmp, cmd);
 				chdir(tmp);
 				cmd = getcwd(NULL, 0);
 				printf("%s\n", cmd);
@@ -40,8 +54,8 @@ int	my_cd_helper(char **argv, int i, t_shell *shell)//cd -
 			else if (!chdir(argv[i]))
 			{
 				cmd = getcwd(NULL, 0);
-				changes_in_env(shell, cmd, tmp);
-				changes_in_exp(shell, cmd, tmp);
+				changes_in_list(shell->env, cmd, tmp);
+				changes_in_list(shell->exp, cmd, tmp);
 			}
 			else
 			{ 
@@ -64,20 +78,13 @@ int	my_cd(int argc, char **argv, t_shell *shell)
 	int	i;
 	char	*oldpwd;
 	char	*home;
+	
 	i = 0;
 	oldpwd = get_value(shell, "PWD=");
 	home = get_value(shell, "HOME=");
 
-	if (!oldpwd)
-	{
-		ft_putendl_fd("bash: cd: OLDPWD not set\n", 2);
-		return(1);
-	}
-	if (!home)
-	{
-		ft_putendl_fd("bash: cd: HOME not set\n", 2);
-		return(1);
-	}
+	if (cd_errors_checking(oldpwd, home))
+		return (1);
 	if (argc > 1)
 	{
 		if (argv[i] && (!ft_strcmp(argv[i], "cd")))
@@ -88,45 +95,24 @@ int	my_cd(int argc, char **argv, t_shell *shell)
 	else
 	{
 		chdir(home);
-		changes_in_env(shell, home, oldpwd);
-		changes_in_exp(shell, home, oldpwd);
+		changes_in_list(shell->env, home, oldpwd);
+		changes_in_list(shell->exp, home, oldpwd);
 	}
 	return (0);
 }
-void changes_in_env(t_shell *shell, char *pwd,char *oldpwd)
+void changes_in_list(env_list *list, char *pwd,char *oldpwd)
 {
-	env_list *env;
-	
-	env = shell -> env;
-	while (env)
+	while (list)
 	{
-		if (ft_strcmp(env ->key, "OLDPWD=") == 0)
+		if (ft_strcmp(list ->key, "OLDPWD=") == 0)
 		{
-			env -> value = ft_strdup(oldpwd);
+			list -> value = ft_strdup(oldpwd);
 		}
-		else if (ft_strcmp(env ->key, "PWD=") == 0)
+		else if (ft_strcmp(list ->key, "PWD=") == 0)
 		{	
-			env -> value = ft_strdup(pwd);
+			list -> value = ft_strdup(pwd);
 		}
-		env = env -> next;	
-	}
-}
-void changes_in_exp(t_shell *shell, char *pwd,char *oldpwd)
-{
-	env_list *exp;
-	
-	exp = shell -> exp;
-	while (exp)
-	{
-		if (ft_strcmp(exp ->key, "OLDPWD=") == 0)
-		{
-			exp -> value = ft_strdup(oldpwd);
-		}
-		else if (ft_strcmp(exp ->key, "PWD=") == 0)
-		{	
-			exp -> value = ft_strdup(pwd);
-		}
-		exp = exp -> next;	
+		list = list -> next;	
 	}
 }
 char *get_value(t_shell *shell, char *key)
@@ -152,6 +138,24 @@ int	execute_cd(t_shell *shell)
 			return (1);
 		return (0);
 }
+// void changes_in_exp(t_shell *shell, char *pwd,char *oldpwd)
+// {
+// 	env_list *exp;
+	
+// 	exp = shell -> exp;
+// 	while (exp)
+// 	{
+// 		if (ft_strcmp(exp ->key, "OLDPWD=") == 0)
+// 		{
+// 			exp -> value = ft_strdup(oldpwd);
+// 		}
+// 		else if (ft_strcmp(exp ->key, "PWD=") == 0)
+// 		{	
+// 			exp -> value = ft_strdup(pwd);
+// 		}
+// 		exp = exp -> next;	
+// 	}
+// }
 // char *get_oldpwd(t_shell *shell)
 // {
 // 	env_list *env;

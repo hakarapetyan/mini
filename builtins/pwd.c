@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 15:51:03 by hakarape          #+#    #+#             */
-/*   Updated: 2024/11/23 15:53:05 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/11/23 16:58:39 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,8 @@ int	execute_pwd(t_shell *shell)
 
 	cmd = shell -> command;
 	if (cmd && ft_strcmp(cmd -> name, "pwd") == 0)
-		{
-			if(my_pwd(shell))
-				return (1);
-			return(0);
-		}
+		if(my_pwd(shell))
+			return (1);
+		return(0);
 		
 }
