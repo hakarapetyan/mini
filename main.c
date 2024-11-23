@@ -6,13 +6,13 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:32:14 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/11/22 13:32:00 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/11/23 20:11:33 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./include/minishell.h"
 
-
+int status = 0;
 
 static int	check_redir_errors(t_shell *shell)
 {
@@ -74,11 +74,13 @@ int	main(int argc, char **argv, char **env)
 		if (check_redir_errors(&shell) != -1)
 		{
 			create_commands(&shell);
+			heredoc_handle(&shell);
 			//print_tokens(&shell);
-			//print_commands(&shell);
+			print_commands(&shell);
 			//execute_echo (&shell)
 			//execute_echo(&shell);
 			//if (shell.command)
+
 			execute_command(&shell);
 		}
 		free_shell(&shell);

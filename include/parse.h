@@ -1,6 +1,10 @@
 #ifndef PARSE_H
 # define PARSE_H
 
+
+int heredoc_handle(t_shell *shell);
+
+
 void		create_commands(t_shell *shell);
 void	add_command(t_token **tkn, t_commands **tmp, t_shell *shell);
 void	get_args(t_token **token, t_shell *shell);

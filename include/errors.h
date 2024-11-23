@@ -1,8 +1,8 @@
 #ifndef ERRORS_H
 # define ERRORS_H
 
-# define ALLOCATION_ERR "Allocation failed!"
-# define READLINE_ERR "Readline failed!"
+# define ALLOCATION_ERR "Allocation failed"
+# define READLINE_ERR "Readline failed"
 # define SYNTAX_ERR_MSG "syntax error near unexpected token `"
 # define CMD_NOT_FND_MSG "command not found"
 # define NO_SUCH_FILE_MSG "No such file or directory"

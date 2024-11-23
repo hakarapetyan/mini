@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 17:54:50 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/11/10 18:39:26 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/11/23 18:02:25 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ void	free_commands(t_commands *command)
 				free(command -> r_in);
 			if (command -> r_out)
 				free(command -> r_out);
+			if (command -> r_heredoc)
+				free(command -> r_heredoc);
 			command -> args = NULL;
 			free(command);
 			command = tmp;

@@ -2,7 +2,7 @@
 
 
 static void	create_first_command(t_token **tkn, t_commands **tmp, t_shell *shell)
- {
+{
 	*tmp = create_command((*tkn) -> value, tkn);
 	shell -> command = *tmp;
 	if (!(shell -> command))
@@ -63,8 +63,7 @@ static void	get_redir(t_token **token,t_commands **tmp,  t_shell *shell)
 	}
 	else if ((*token) -> type == R_HEREDOC)
 	{
-		get_redir_helper(token, shell, &((*tmp) -> r_in));
-		(*tmp) -> is_heredoc = 1;
+		get_redir_helper(token, shell, &((*tmp) -> r_heredoc));
 	}
 	(*token) = (*token)->next ? (*token)->next->next : NULL;
 }
@@ -138,49 +137,63 @@ static void	create_command_helper(t_token **tkn, t_commands **command)
 {
 	if (tkn && is_redirection((*tkn) -> type))
 	{
-		if (is_redirection((*tkn) -> type))
+		if (is_redirection((*tkn) -> type) )
 		{
-		if ((*tkn) -> type == R_IN)
-		{
-			if ((*tkn) -> next)
-				(*command) -> r_in = ft_strdup((*tkn) -> next -> value);
-			else
-				(*command) -> r_in = NULL;
-			(*command) -> r_out = NULL;
-			(*command) -> is_append = 0;
-		}
-		else if ((*tkn) -> type == R_OUT)
-		{
-			if ((*tkn) -> next)
-				(*command) -> r_out = ft_strdup((*tkn) -> next -> value);
-			else
+			if ((*tkn) -> type == R_IN)
+			{
+				if ((*tkn) -> next)
+					(*command) -> r_in = ft_strdup((*tkn) -> next -> value);
+				else
+					(*command) -> r_in = NULL;
 				(*command) -> r_out = NULL;
-			(*command) -> r_in = NULL;
-			(*command) -> is_append = 0;
-		}
-		else if ((*tkn) -> type == R_APPEND)
-		{
-			if ((*tkn) -> next)
-			{
-				(*command) -> is_append = 1;
-				(*command) -> r_out = ft_strdup((*tkn) -> next -> value);
-			}
-			else
-			{
+				(*command) -> r_heredoc = NULL;
 				(*command) -> is_append = 0;
-				(*command) -> r_out = NULL;
 			}
-			(*command) -> r_in = NULL;
-		}
-		if ((*tkn) -> next -> next)
-			(*tkn) = (*tkn) -> next -> next;
-		else if ((*tkn) -> next && !((*tkn) -> next -> next))
-			(*tkn) = NULL;
+			else if ((*tkn) -> type == R_OUT)
+			{
+				if ((*tkn) -> next)
+					(*command) -> r_out = ft_strdup((*tkn) -> next -> value);
+				else
+					(*command) -> r_out = NULL;
+				(*command) -> r_in = NULL;
+				(*command) -> r_heredoc = NULL;
+				(*command) -> is_append = 0;
+			}
+			else if ((*tkn) -> type == R_APPEND)
+			{
+				if ((*tkn) -> next)
+				{
+					(*command) -> is_append = 1;
+					(*command) -> r_out = ft_strdup((*tkn) -> next -> value);
+				}
+				else
+				{
+					(*command) -> is_append = 0;
+					(*command) -> r_out = NULL;
+				}
+				(*command) -> r_in = NULL;
+				(*command) -> r_heredoc = NULL;
+			}
+			// else if ((*tkn) -> type == R_HEREDOC)
+			// {
+			// 	if ((*tkn) -> next)
+			// 		(*command) -> r_heredoc = ft_strdup((*tkn) -> next -> value);
+			// 	else
+			// 		(*command) -> r_heredoc = NULL;
+			// 	(*command) -> r_in = NULL;
+			// 	(*command) -> r_out = NULL;
+			// 	(*command) -> is_append = 0;
+			// }
+			if ((*tkn) -> next -> next)
+				(*tkn) = (*tkn) -> next -> next;
+			else if ((*tkn) -> next && !((*tkn) -> next -> next))
+				(*tkn) = NULL;
 		}
 	}
 	else{
 	(*command) -> r_in = NULL;
 	(*command) -> r_out = NULL;
+	(*command) -> r_heredoc = NULL;
 	(*command) -> is_append = 0;
 	}
 }
@@ -197,7 +210,6 @@ t_commands	*create_command(char *value, t_token **tkn)
 	create_command_helper(tkn, &command);
 	command -> name = NULL;
 	command -> args = NULL;
-	command -> is_heredoc = 0;
 	command -> next = NULL;
 	command -> prev = NULL;
 	if (!command)

@@ -15,6 +15,8 @@ void	print_commands(t_shell *shell)
 			printf("r_in: %s\n", current->r_in);
 		if (current -> r_out)
 			printf("r_out: %s\n", current->r_out);
+		if (current -> r_heredoc)
+			printf("r_heredoc: %s\n", current->r_heredoc);
 		if (current -> args)
 		{
 			i = 0;

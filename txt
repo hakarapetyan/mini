@@ -1,0 +1,7 @@
+no command, no files  => no dup
+
+no command, yes files =>
+
+yes command, no files => dup
+
+yes command, yes files => 

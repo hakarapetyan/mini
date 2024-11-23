@@ -33,13 +33,13 @@ static void	prepare_redirections(t_shell *shell, char *pathname)
 	{
 		shell->command->fd_in = open(shell->command->r_in, O_RDONLY);
 		if (shell->command->fd_in < 0) {
-			error_message(errno, shell -> command -> r_in);
+			error_message(1 , shell -> command -> r_in);
 			// if (pathname)
 			// free(pathname);
 			exit(EXIT_FAILURE);
 		}
 		if (dup2(shell->command->fd_in, STDIN_FILENO) < 0) {
-			error_message(errno ,shell -> command -> r_in);
+			error_message( 1,shell -> command -> r_in);
 			close(shell->command->fd_in);
 			// if (pathname)
 			// free(pathname);
@@ -52,10 +52,10 @@ static void	prepare_redirections(t_shell *shell, char *pathname)
 		shell->command->fd_out = open(shell->command->r_out, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else if (shell->command->r_out)
 	{
-		shell->command->fd_out = ft_open(shell->command->r_out, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		shell->command->fd_out = open(shell->command->r_out, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (shell->command->fd_out < 0)
 		{
-			error_message(errno, shell -> command -> r_out);
+			error_message(1, shell -> command -> r_out);
 			// if (pathname)
 			// free(pathname);
 			exit(EXIT_FAILURE);
@@ -78,6 +78,7 @@ static void run_execve(t_shell *shell, char *pathname)
 {
 	if (execve(pathname, shell->command->args, NULL) == -1)
 	{
+		printf("am i cooked\n");
 		perror("execve failed");
 		//if (pathname)
 		//	free(pathname);
@@ -93,7 +94,9 @@ static void execute_execve(t_shell *shell, char *pathname)
     if (pid == 0)
     {
         prepare_redirections(shell, pathname);
+
 		run_execve(shell, pathname);
+
     }
     else if (pid > 0)
         wait(NULL);
@@ -150,7 +153,8 @@ void execute_command(t_shell *shell)
 		execute_execve(shell, pathname);
 		// if (execute_execve(shell, pathname) == -1)
 		// {
-		// 	error_message(errno, NULL, "Execution failed");
+		// 	simple_error(1 , pathname , "Execve failed");
+		// 	//freeeee_shell
 		// 	return ;
 		// }
 	}
@@ -159,10 +163,16 @@ void execute_command(t_shell *shell)
 		pathname = find_path(shell, get_last_command(shell)->name);
 		if (!pathname)
 		{
-			simple_error(1, get_last_command(shell)->name, "command not found");
+			simple_error(CMD_NOT_FOUND, get_last_command(shell)->name, "command not found");
 			return;
 		}
 		execute_execve(shell, pathname);
+
+		//if (execute_execve(shell, pathname) == -1)
+		// {
+		// 	simple_error(1 , pathname , "Execve failed");
+		// 	return ;
+		// }
 		if (pathname)
 			free(pathname);
 	}

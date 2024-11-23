@@ -21,6 +21,7 @@ SRCS =  main.c\
 		execute.c\
 		ft_split.c\
 		g_status.c\
+		heredoc.c\
 		error.c\
 		free.c\
 		print.c\

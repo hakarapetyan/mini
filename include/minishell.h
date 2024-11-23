@@ -21,6 +21,7 @@
 # define CMD_NOT_EXEC 126
 # define CMD_NOT_FOUND 127
 # define EXIT_OUT_OF_RANGE 255
+# define SYNTAX_ERROR 258
 
 
 

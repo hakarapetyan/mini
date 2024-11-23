@@ -37,8 +37,8 @@ typedef struct s_commands
 	char				**args;
 	char				*r_in;
 	char				*r_out;
+	char				*r_heredoc;
 	int 				is_append;
-	int					is_heredoc;
 	int					fd_in;
 	int					fd_out;
 	struct s_commands	*next;
