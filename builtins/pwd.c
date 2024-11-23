@@ -1,42 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_buil.c                                       :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/18 15:43:28 by hakarape          #+#    #+#             */
-/*   Updated: 2024/11/23 16:13:01 by hakarape         ###   ########.fr       */
+/*   Created: 2024/11/23 15:51:03 by hakarape          #+#    #+#             */
+/*   Updated: 2024/11/23 15:53:05 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./include/minishell.h"
+#include "../include/minishell.h"
 
-int	ft_lstsize(env_list *lst)
+int my_pwd(t_shell *shell)
 {
-	int	count;
+	char *cmd;
 
-	count = 0;
-	if (!lst)
+	cmd = getcwd(NULL, 0);
+	if(cmd != NULL)
+	{
+		printf("%s\n", cmd);
+		free(cmd);
 		return (0);
-	while (lst)
-	{
-		count++;
-		lst = lst -> next;
 	}
-	return (count);
+	else
+	{
+		printf("error with memory allocation\n");
+		return (1);
+	}
 }
-
-void	ft_putendl_fd(char *s, int fd)
+int	execute_pwd(t_shell *shell)
 {
-	int	i;
+	t_commands *cmd;
 
-	i = 0;
-	if (!s)
-		return ;
-	while (s[i])
-	{
-		write(fd, &s[i], 1);
-		i++;
-	}
+	cmd = shell -> command;
+	if (cmd && ft_strcmp(cmd -> name, "pwd") == 0)
+		{
+			if(my_pwd(shell))
+				return (1);
+			return(0);
+		}
+		
 }

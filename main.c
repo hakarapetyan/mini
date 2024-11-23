@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:32:14 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/11/22 17:16:21 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/11/23 12:49:31 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,37 +46,6 @@ void	print_tokens(t_shell *shell)
 			current->value, current->type, current->state, current->var_value);
 		current = current->next;
 	}
-}
-
-void	print_env(t_shell *shell)
-{
-	env_list	*current;
-
-	current = shell->env;
-	if (!current)
-		return ;
-	while (current)
-	{
-		printf("%s%s\n", current->key, current->value);
-		current = current->next;
-	}
-}
-
-void	print_exp(t_shell *shell)
-{
-	env_list	*current;
-	int	i;
-	char	**envir;
-
-	i = 0;
-	current = shell->exp;
-	envir = sorting_for_export(shell ->exp);
-	while (envir[i])
-	{
-		printf("declare -x %s\n", envir[i]);
-		i++; 
-	}
-	free_args(envir);
 }
 void	redir_check(t_token_type type,t_shell *shell)
 {

@@ -1,28 +1,16 @@
-// #include "./include/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   echo.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/23 14:12:18 by hakarape          #+#    #+#             */
+/*   Updated: 2024/11/23 15:57:48 by hakarape         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
-
-void my_pwd(t_shell *shell)
-{
-	char *cmd;
-
-	cmd = getcwd(NULL, 0);
-	if(cmd != NULL)
-	{
-		printf("pwd=%s\n", cmd);
-		free(cmd);
-	}
-	else
-		printf("error with memory allocation\n");
-	// env_list *env = shell -> env;
-	// while (env)
-	// {
-	// 	if (ft_strcmp(env -> key, "PWD=") == 0)
-	// 	{
-	// 		env -> value = cmd;
-	// 	}
-	// 	env = env -> next;
-	// }
-}
 
 void my_echo_helper_one(int count, char **input, int i)
 {
@@ -118,14 +106,7 @@ void	execute_echo(t_shell *shell)
 	t_commands *cmd;
 
 	cmd = shell -> command;
-	while (cmd)
-	{
 		if (cmd && ham_strcmp(cmd -> name, "echo") == 0)
-		{
 			my_echo(shell -> token_count, cmd -> args);
-		}
-		else if (ft_strcmp(cmd -> name, "pwd") == 0)
-			my_pwd(shell);
-		cmd = cmd -> next;
-	}
 }
+

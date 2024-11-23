@@ -117,14 +117,5 @@ void	get_environment(t_shell *shell, char **env)
 		}
 		//free_args(envir);
 	}
-	//free_args(exp);
-	// if (ft_strcmp(shell -> input, "env") == 0)
-	// 		 print_env(shell);
-	// if (ft_strcmp(shell -> input, "export") == 0)
-	// 		print_exp(shell);
-	// else if (ft_strcmp(shell -> input, "pwd") == 0)
-	// 	my_pwd();
-	// else if (ft_strcmp(shell -> input, "echo") == 0)
-	// 	my_echo(4, shell -> input)
 }
 

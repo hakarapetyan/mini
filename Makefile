@@ -17,11 +17,13 @@ SRCS =  main.c\
 		expand_var.c\
 		extract_word.c\
 		create_commands.c\
-		./builtins/echo_pwd.c\
+		./builtins/pwd.c\
+		./builtins/echo.c\
 		./builtins/cd.c\
 		./builtins/exit.c\
 		./builtins/env.c\
 		./builtins/export.c\
+		./builtins/export_helper.c\
 		./builtins/unset.c\
 		error.c\
 		free.c\

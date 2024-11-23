@@ -31,7 +31,8 @@ char	*add_space_to_env_var(char *str, char *tmp);
 
 
 //builtins
-void	my_pwd(t_shell *shell);
+int		my_pwd(t_shell *shell);
+int		execute_pwd(t_shell *shell);
 void	my_echo_helper_one(int argc, char **input, int i);
 void	my_echo_helper_two(int argc, char **input, int i);
 void	my_echo(int argc, char **input);
@@ -40,13 +41,10 @@ int		ham_strlen(char *str);
 int		ham_strcmp(char *s1, char *s2);
 int		my_cd_helper(char **argv, int i, t_shell *shell);
 int		my_cd(int argc, char **argv, t_shell *shell);
-void changes_in_env(t_shell *shell, char *pwd,char *oldpwd);
-void changes_in_exp(t_shell *shell, char *pwd,char *oldpwd);
-// char	*get_oldpwd(t_shell *shell);
-// char	*get_pwd(t_shell *shell);
-// char	*get_home(t_shell *shell);
+void	changes_in_env(t_shell *shell, char *pwd,char *oldpwd);
+void	changes_in_exp(t_shell *shell, char *pwd,char *oldpwd);
 char	*get_value(t_shell *shell, char *key);
-void	execute_cd(t_shell *shell);
+int		execute_cd(t_shell *shell);
 int		is_digit_unset(char *arg);
 int		my_exit(int args, char **argv, t_shell *shell);
 int		check_int(char *arg);
@@ -59,14 +57,16 @@ int		my_unset(int size, char **arg, t_shell *shell);
 int		del_from_lst(env_list *env, char *nv);
 int		del_one(env_list *env);
 void	write_print(char *arg, char * msg, int fd);
-void	execute_unset(t_shell *shell);
+int		execute_unset(t_shell *shell);
 int		my_env(int argc,t_shell *shell, char **arg);
 int		my_env_helper(t_shell *shell, char **argv, int i);
 int		execute_env(t_shell *shell);
-int		add_node_to_export(t_shell *shell, char **argv, int i);
+int		add_node_to_list(env_list *env, char **argv, int i);
 int		my_export(int size, char **arg, t_shell *shell);
 int		execute_export(t_shell *shell);
-int		check_key(t_shell *shell, env_list *new);
+int		check_key(env_list *list, env_list *new);
+void	print_exp_helper(char *exp);
+int		my_export_helper(char **arg, env_list *env, env_list *exp);
 
 void	init_shell(t_shell *shell);
 

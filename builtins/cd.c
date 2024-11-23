@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:48:42 by hakarape          #+#    #+#             */
-/*   Updated: 2024/11/19 15:11:28 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/11/23 16:28:58 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	my_cd_helper(char **argv, int i, t_shell *shell)//cd -
 			}
 			else
 			{ 
-				printf("cd: %s: No suuuuch file or directory\n", argv[i]);
+				printf("cd: %s: No such file or directory\n", argv[i]);
 				return(1);
 			}
 			free(cmd);
@@ -129,6 +129,29 @@ void changes_in_exp(t_shell *shell, char *pwd,char *oldpwd)
 		exp = exp -> next;	
 	}
 }
+char *get_value(t_shell *shell, char *key)
+{
+	env_list *env;
+	
+	env = shell -> env;
+	while (env)
+	{
+		if (ft_strcmp(env ->key, key) == 0)
+			return (env ->value);
+		env = env->next;
+	}
+	return (NULL);
+}
+int	execute_cd(t_shell *shell)
+{
+	t_commands *cmd;
+
+	cmd = shell -> command;
+	if (cmd && ft_strcmp(cmd -> name, "cd") == 0)
+		if (my_cd(shell -> token_count, cmd -> args, shell))
+			return (1);
+		return (0);
+}
 // char *get_oldpwd(t_shell *shell)
 // {
 // 	env_list *env;
@@ -155,24 +178,3 @@ void changes_in_exp(t_shell *shell, char *pwd,char *oldpwd)
 // 	}
 // 	return (NULL);
 // }
-char *get_value(t_shell *shell, char *key)
-{
-	env_list *env;
-	
-	env = shell -> env;
-	while (env)
-	{
-		if (ft_strcmp(env ->key, key) == 0)
-			return (env ->value);
-		env = env->next;
-	}
-	return (NULL);
-}
-void	execute_cd(t_shell *shell)
-{
-	t_commands *cmd;
-
-	cmd = shell -> command;
-	if (cmd && ft_strcmp(cmd -> name, "cd") == 0)
-		my_cd(shell -> token_count, cmd -> args, shell);
-}
