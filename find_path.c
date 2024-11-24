@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   find_path.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/24 15:51:46 by ashahbaz          #+#    #+#             */
+/*   Updated: 2024/11/24 15:51:54 by ashahbaz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "./include/minishell.h"
 
 static void free_path(char ***arr)
@@ -18,7 +30,7 @@ static void free_path(char ***arr)
     *arr = NULL;
 }
 
-char	**find_path_from_env(t_shell *shell)
+static char	**find_path_from_env(t_shell *shell)
 {
 	char		**path;
 	char	*key;

@@ -9,6 +9,7 @@
 # include <stdarg.h>
 # include <fcntl.h>
 # include <errno.h>
+# include <sys/wait.h>
 # include "tokenization.h"
 # include "env.h"
 # include "parse.h"
@@ -25,24 +26,25 @@
 
 
 
+void	print_commands(t_shell *shell);
 //void execute_execve(t_shell *shell);
 //find_path
 char	*find_path(t_shell *shell, char	*command_name);
 
 //execute
-void execute_command(t_shell *shell);
-int	is_builtin(char *name);
+void	execute_command(t_shell *shell);
+int		is_builtin(char *name);
 
 //ft_split
 char	**ft_split(char const *s, char c);
 
 //void execute_command(t_commands *cmd);
 
-char *extract_var(char *str, t_shell *shell);
+//char *extract_var(char *str, t_shell *shell);
 
-char *extract_whitespace(char **current);
+char	*extract_whitespace(char **current);
 
-char	*var_without_quotes(t_shell *shell, char **str);
+//char	*var_without_quotes(t_shell *shell, char **str);
 
 
 char	*generate_spaces(int count);
@@ -68,7 +70,7 @@ char	*extract_env_var(char **current,t_shell *shell);
 char	*extract_separator(char **current);
 int		tokenization(t_shell *shell);
 void	expand_var(t_shell *shell);
-void	add_space(t_shell *shell, char **current, int *flag);
+//void	add_space(t_shell *shell, char **current, int *flag);
 
 //create_token
 t_token	*create_token(t_token_type type, t_lexer_state state, char *value);
@@ -92,7 +94,7 @@ int		ft_isalnum(int c);
 int		is_separator(char c);
 int		is_quote(char c);
 int		are_quotes_even(char *str);
-int	is_sep(char c);
+int		is_sep(char c);
 
 
 ///utils2
@@ -114,15 +116,15 @@ int		is_word(char *str);
 
 t_token *get_last_token(t_shell *shell);
 t_commands *get_last_command(t_shell *shell);
-int	redir_check(t_token_type type,t_shell *shell);
+t_token *get_the_token_i_want(t_shell *shell);
+//int	redir_check(t_token_type type,t_shell *shell);
 
 
 //extract_word
 char	*extract_word(char **current, t_shell *shell);
-char	*extract_quoted_str(char **current, t_shell *shell);
 char	*extract_var_from_quoted_str(char *str, t_shell *shell);
-char	*var_in_quotes(t_shell *shell, char **str);
+//char	*var_in_quotes(t_shell *shell, char **str);
 
-int	ft_search(char	*str, t_shell *shell);
+int		var_search(char	*str, t_shell *shell);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:32:14 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/11/23 20:11:33 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/11/24 19:58:36 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ static int	check_redir_errors(t_shell *shell)
 		}
 		 tkn = tkn -> next;
 	}
+	return (0);
 }
 
 int	main(int argc, char **argv, char **env)
@@ -75,19 +76,16 @@ int	main(int argc, char **argv, char **env)
 		{
 			create_commands(&shell);
 			heredoc_handle(&shell);
-			//print_tokens(&shell);
+			// print_tokens(&shell);
 			print_commands(&shell);
-			//execute_echo (&shell)
-			//execute_echo(&shell);
 			//if (shell.command)
-
 			execute_command(&shell);
 		}
 		free_shell(&shell);
 		//system("leaks minishell");
 	}
-	// free_env(shell.env);
-	// shell.env = NULL;
+	free_env(shell.env);
+	shell.env = NULL;
 	free_shell(&shell);
 	//system("leaks minishell");
 	return (0);

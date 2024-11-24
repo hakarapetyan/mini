@@ -1,3 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   create_commands.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/24 16:43:58 by ashahbaz          #+#    #+#             */
+/*   Updated: 2024/11/24 16:43:59 by ashahbaz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 #include "./include/minishell.h"
 
 
@@ -80,8 +93,8 @@ void	add_args(t_token **token,t_commands **tmp,  t_shell *shell)
 			get_redir(token, tmp, shell);
 		if ((*token) && (!is_redirection((*token) -> type) && (*token) -> type != PIPE))
 		{
-			if ((*token) -> var_value)
-				(*tmp) -> args[i] = ft_strdup(((*token)) -> var_value);
+			if (*((*token) -> value) == '\0' && (*token) -> state == 2)
+				(*tmp) -> args[i] = ft_strdup(" ");
 			else
 				(*tmp) -> args[i] = ft_strdup(((*token)) -> value);
 			if (!(*tmp) -> args[i])
@@ -174,16 +187,16 @@ static void	create_command_helper(t_token **tkn, t_commands **command)
 				(*command) -> r_in = NULL;
 				(*command) -> r_heredoc = NULL;
 			}
-			// else if ((*tkn) -> type == R_HEREDOC)
-			// {
-			// 	if ((*tkn) -> next)
-			// 		(*command) -> r_heredoc = ft_strdup((*tkn) -> next -> value);
-			// 	else
-			// 		(*command) -> r_heredoc = NULL;
-			// 	(*command) -> r_in = NULL;
-			// 	(*command) -> r_out = NULL;
-			// 	(*command) -> is_append = 0;
-			// }
+			else if ((*tkn) -> type == R_HEREDOC)
+			{
+				if ((*tkn) -> next)
+					(*command) -> r_heredoc = ft_strdup((*tkn) -> next -> value);
+				else
+					(*command) -> r_heredoc = NULL;
+				(*command) -> r_in = NULL;
+				(*command) -> r_out = NULL;
+				(*command) -> is_append = 0;
+			}
 			if ((*tkn) -> next -> next)
 				(*tkn) = (*tkn) -> next -> next;
 			else if ((*tkn) -> next && !((*tkn) -> next -> next))

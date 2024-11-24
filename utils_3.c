@@ -1,3 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_3.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/24 16:42:31 by ashahbaz          #+#    #+#             */
+/*   Updated: 2024/11/24 16:42:36 by ashahbaz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 #include "./include/minishell.h"
 
 int	is_redirection(t_token_type type)
@@ -8,30 +21,6 @@ int	is_redirection(t_token_type type)
 	return (0);
 }
 
-int	redir_check(t_token_type type,t_shell *shell)
-{
-	if (type == R_IN)
-	{
-		error("syntax error near unexpected token `<'", shell);
-		return (-1);
-	}
-	else if (type == R_OUT)
-	{
-		error("syntax error near unexpected token `>'", shell);
-		return (-1);
-	}
-	else if (type == R_APPEND)
-	{
-		error("syntax error near unexpected token `>>'", shell);
-		return (-1);
-	}
-	else if (type == R_HEREDOC)
-	{
-		error("syntax error near unexpected token `<<'", shell);
-		return (-1);
-	}
-	return (0);
-}
 
 int	args_count(t_token **token)
 {
@@ -80,6 +69,22 @@ t_commands *get_last_command(t_shell *shell)
 		}
 		return (cmd);
 	}
+	return (NULL);
+}
+
+t_token *get_the_token_i_want(t_shell *shell)
+{
+	if (shell -> token)
+	{
+		t_token	*tkn;
+
+		tkn = shell -> token;
+		while (tkn -> next -> next)
+		{
+			tkn = tkn -> next;
+		}
+		return (tkn);
+ 	}
 	return (NULL);
 }
 

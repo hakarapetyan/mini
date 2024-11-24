@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexical_analyzer.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/24 15:53:12 by ashahbaz          #+#    #+#             */
+/*   Updated: 2024/11/24 16:16:00 by ashahbaz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "./include/minishell.h"
 
 void  lexical_analyzer(t_shell *shell)
@@ -28,9 +40,9 @@ void	handle_special_chars(t_shell *shell, char *current)
 			add_token(shell, R_IN, state, extract_separator(&(current)));
 		else if (*current == '>')
 			add_token(shell, R_OUT, state, extract_separator(&(current)));
-		else if (*current == '$')
-			add_token(shell, ENV_VAR, state, extract_word(&(current),shell));
-		else if (!(is_separator(*current)) && !(is_space(*current)))
+		// else if (*current == '$')
+		// 	add_token(shell, ENV_VAR, state, extract_word(&(current),shell));
+		else if (!(is_sep(*current)) && !(is_space(*current)))
 			add_token(shell, WORD, state, extract_word(&(current),shell));
 		else if (is_space(*current))
 			add_token(shell, TK_SPACE, state, extract_whitespace(&current));

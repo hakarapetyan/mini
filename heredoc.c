@@ -1,16 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/24 15:52:37 by ashahbaz          #+#    #+#             */
+/*   Updated: 2024/11/24 19:58:55 by ashahbaz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 #include "./include/minishell.h"
 
-// static int heredoc_arguments(t_commands *command)
-// {
-// 	while
-// }
 int heredoc_handle(t_shell *shell)
 {
 	t_commands *cmd = shell -> command;
 	char	*delimiter;
-	char	**files;
 	int fd = 0;
-
 
 	delimiter = NULL;
 	if (cmd -> r_heredoc)
@@ -20,17 +27,23 @@ int heredoc_handle(t_shell *shell)
 		{
 			delimiter = readline("< ");
 			if (ft_strcmp(delimiter, cmd -> r_heredoc) == 0)
+			{
+				free(delimiter);
+				delimiter = NULL;
 				break;
+			}
 			write(fd, delimiter, ft_strlen(delimiter));
 			write(fd, "\n", 1);
+			free(delimiter);
+			delimiter = NULL;
 		}
-		fd = open("tmp_file", O_RDONLY);
-		if (fd < 0)
-		{
-			perror("");
-		}
-		cmd -> fd_in = fd;
-		//heredoc_arguments(cmd);
+		close(fd);
+		// fd = open("tmp_file", O_RDONLY);
+		// if (fd < 0)
+		// {
+		// 	perror("");
+		// }
+		// cmd -> fd_in = fd;
 	}
-
+	return (0);
 }

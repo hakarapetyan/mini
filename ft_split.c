@@ -1,3 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/24 15:52:27 by ashahbaz          #+#    #+#             */
+/*   Updated: 2024/11/24 16:10:27 by ashahbaz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 #include "./include/minishell.h"
 
 static size_t	count_words(char const *s, char c)
@@ -27,10 +40,8 @@ static char	*word_mall(char const *s, size_t f_occ, size_t l_occ)
 {
 	char	*word;
 	size_t	i;
-	size_t	j;
 
 	i = 0;
-	j = 0;
 	word = malloc(sizeof(char) * (l_occ - f_occ + 1));
 	if (!word)
 		return (NULL);
