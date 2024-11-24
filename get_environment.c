@@ -93,6 +93,14 @@ void	get_exp_list(t_shell **shell, char *str)
 	}
 }
 
+static void norm_get_env(char *env, t_shell *shell, int *i)
+{
+	if (spec_strcmp(env, "OLDPWD=") == 0)
+	{
+		get_exp_list(&shell, "OLDPWD");
+		i++;
+	}
+}
 void	get_environment(t_shell *shell, char **env)
 {
 	char **envir;
@@ -103,6 +111,8 @@ void	get_environment(t_shell *shell, char **env)
 	{
 		while (env[i])
 		{
+			if (spec_strcmp(env[i], "OLDPWD=") == 0)
+				i++;
 			get_env_list(&shell, env[i]);
 			i++;
 		}
@@ -112,10 +122,9 @@ void	get_environment(t_shell *shell, char **env)
 		i = 0;
 		while (env[i])
 		{
+			norm_get_env(env[i], shell, &i);
 			get_exp_list(&shell, env[i]);
 			i++;
 		}
-		//free_args(envir);
 	}
 }
-

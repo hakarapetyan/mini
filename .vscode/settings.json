@@ -23,6 +23,7 @@
 		"locale": "c",
 		"string": "c",
 		"ostream": "c",
-		"minishell.h": "c"
+		"minishell.h": "c",
+		"unordered_map": "c"
 	}
 }

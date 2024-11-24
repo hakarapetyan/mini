@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:48:42 by hakarape          #+#    #+#             */
-/*   Updated: 2024/11/23 16:46:46 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/11/24 18:26:27 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,18 +72,17 @@ int	my_cd_helper(char **argv, int i, t_shell *shell)//cd -
 	}
 	return (0);
 }
-
 int	my_cd(int argc, char **argv, t_shell *shell)
 {
 	int	i;
-	char	*oldpwd;
+	char	*pwd;
 	char	*home;
 	
 	i = 0;
-	oldpwd = get_value(shell, "PWD=");
+	pwd = get_value(shell, "PWD=");
 	home = get_value(shell, "HOME=");
 
-	if (cd_errors_checking(oldpwd, home))
+	if (cd_errors_checking(pwd, home))
 		return (1);
 	if (argc > 1)
 	{
@@ -95,8 +94,8 @@ int	my_cd(int argc, char **argv, t_shell *shell)
 	else
 	{
 		chdir(home);
-		changes_in_list(shell->env, home, oldpwd);
-		changes_in_list(shell->exp, home, oldpwd);
+		changes_in_list(shell->env, home, pwd);
+		changes_in_list(shell->exp, home, pwd);
 	}
 	return (0);
 }
@@ -128,16 +127,16 @@ char *get_value(t_shell *shell, char *key)
 	}
 	return (NULL);
 }
-int	execute_cd(t_shell *shell)
-{
-	t_commands *cmd;
+// int	execute_cd(t_shell *shell)
+// {
+// 	t_commands *cmd;
 
-	cmd = shell -> command;
-	if (cmd && ft_strcmp(cmd -> name, "cd") == 0)
-		if (my_cd(shell -> token_count, cmd -> args, shell))
-			return (1);
-		return (0);
-}
+// 	cmd = shell -> command;
+// 	if (cmd && ft_strcmp(cmd -> name, "cd") == 0)
+// 		if (my_cd(shell -> token_count, cmd -> args, shell))
+// 			return (1);
+// 		return (0);
+// }
 // void changes_in_exp(t_shell *shell, char *pwd,char *oldpwd)
 // {
 // 	env_list *exp;

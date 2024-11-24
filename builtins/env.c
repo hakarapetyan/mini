@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:14:20 by hakarape          #+#    #+#             */
-/*   Updated: 2024/11/23 16:02:30 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/11/24 16:12:51 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ int my_env(int argc,t_shell *shell, char **argv)
 	}
 	return (0);
 }
-int	execute_env(t_shell *shell)
-{
-	t_commands *cmd;
+// int	execute_env(t_shell *shell)
+// {
+// 	t_commands *cmd;
 
-	cmd = shell -> command;
-	if (cmd && ft_strcmp(cmd -> name, "env") == 0)
-		if(my_env(shell -> token_count, shell, cmd->args))
-		return (1);
-	return (0);
-}
+// 	cmd = shell -> command;
+// 	if (cmd && ft_strcmp(cmd -> name, "env") == 0)
+// 		if(my_env(shell -> token_count, shell, cmd->args))
+// 		return (1);
+// 	return (0);
+// }

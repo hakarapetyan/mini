@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 20:18:16 by hakarape          #+#    #+#             */
-/*   Updated: 2024/11/23 16:13:26 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/11/24 16:07:09 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,14 +85,14 @@ int my_unset(int size, char **arg, t_shell *shell)
 		return (1);
 	return (0);
 }
-int	execute_unset(t_shell *shell)
-{
-	t_commands *cmd;
+// int	execute_unset(t_shell *shell)
+// {
+// 	t_commands *cmd;
 
-	cmd = shell -> command;
+// 	cmd = shell -> command;
 
-	if (cmd && ft_strcmp(cmd -> name, "unset") == 0)
-		if(my_unset(shell -> token_count, cmd -> args, shell))
-			return(1);
-		return(0);
-}
+// 	if (cmd && ft_strcmp(cmd -> name, "unset") == 0)
+// 		if(my_unset(shell -> token_count, cmd -> args, shell))
+// 			return(1);
+// 		return(0);
+// }

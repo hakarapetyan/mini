@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 14:12:18 by hakarape          #+#    #+#             */
-/*   Updated: 2024/11/23 15:57:48 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/11/24 16:25:10 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,8 @@ void	my_echo_helper_two(int count, char **input, int i)
 		}
 		while (i < count && input[i])
 		{
-			if (input[i] && ham_strcmp(input[i], " ") == 0)
-                        	i++;
-			if (input[i])
-			{
 				printf("%s ",input[i]);
 				i++;
-			}
 		}
 	}
 	else
@@ -79,34 +74,12 @@ void my_echo(int count, char **args)
 		my_echo_helper_two(count, args, i);
 	}
 }
+// void	execute_echo(t_shell *shell)
+// {
+// 	t_commands *cmd;
 
-int	ham_strlen(char *str)
-{
-	int	i;
-
-	i = 0;
-	while(str[i])
-		i++;
-	return (i);
-}
-
-int	ham_strcmp(char *s1, char *s2)
-{
-	int	i;
-	i = 0;
-	while ((s1[i] == s2[i]) && (s1[i] && s2[i]) && !is_space(s1[i]) && !is_space(s2[i]))
-	{
-		i++;
-	}
-	return (s1[i] - s2[i]);
-}
-
-void	execute_echo(t_shell *shell)
-{
-	t_commands *cmd;
-
-	cmd = shell -> command;
-		if (cmd && ham_strcmp(cmd -> name, "echo") == 0)
-			my_echo(shell -> token_count, cmd -> args);
-}
+// 	cmd = shell -> command;
+// 		if (cmd && ham_strcmp(cmd -> name, "echo") == 0)
+// 			my_echo(shell -> token_count, cmd -> args);
+// }
 

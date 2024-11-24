@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:38:26 by hakarape          #+#    #+#             */
-/*   Updated: 2024/11/23 12:44:09 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/11/24 16:07:15 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,14 +86,14 @@ int my_export(int argc, char **arg, t_shell *shell)
 			return(1);
 	return(0);
 }
-int	execute_export(t_shell *shell)
-{
-	t_commands *cmd;
+// int	execute_export(t_shell *shell)
+// {
+// 	t_commands *cmd;
 
-	cmd = shell -> command;
+// 	cmd = shell -> command;
 
-	if (cmd && ft_strcmp(cmd -> name, "export") == 0)
-		if(my_export(shell -> token_count, cmd ->args, shell))
-			return (1);
-	return (0);
-}
+// 	if (cmd && ft_strcmp(cmd -> name, "export") == 0)
+// 		if(my_export(shell -> token_count, cmd ->args, shell))
+// 			return (1);
+// 	return (0);
+// }

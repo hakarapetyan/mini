@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 18:52:10 by hakarape          #+#    #+#             */
-/*   Updated: 2024/11/22 16:49:07 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/11/24 17:39:58 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,10 @@ char **list_to_arr(env_list *list)
 		cmp = ft_strjoin(list ->key, list-> value);
 		arr[size] = cmp;
 		size++;
-		//free(cmp);
 		list = list ->next;
 	}
+	// if(cmp)
+	// 	free(cmp);
 	arr[size] = NULL;
 	return (arr);
 }

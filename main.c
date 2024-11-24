@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:32:14 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/11/23 12:49:31 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/11/24 16:14:12 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,12 +126,13 @@ int	main(int argc, char **argv, char **env)
 		//print_tokens(&shell);
 		//print_commands(&shell);
 		//execute_command(shell.command);
-		execute_cd(&shell);
-		execute_echo(&shell);
-		execute_exit(&shell);
-		execute_unset(&shell);
-		execute_env(&shell);
-		execute_export(&shell);
+		// execute_cd(&shell);
+		// execute_echo(&shell);
+		// execute_exit(&shell);
+		// execute_unset(&shell);
+		// execute_env(&shell);
+		// execute_export(&shell);
+		builtins(&shell);
 	 //	execute_command((shell.command) -> name, (shell.command )-> args,&shell);
 		free_shell(&shell);
 	// 	//system("leaks minishell");

@@ -26,6 +26,7 @@ SRCS =  main.c\
 		./builtins/export_helper.c\
 		./builtins/unset.c\
 		./builtins/unset_helper.c\
+		./builtins/builtins.c\
 		error.c\
 		free.c\
 		utils.c\

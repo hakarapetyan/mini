@@ -48,7 +48,7 @@ int		execute_cd(t_shell *shell);
 int		is_digit_unset(char *arg);
 int		my_exit(int args, char **argv, t_shell *shell);
 int		check_int(char *arg);
-void	execute_exit(t_shell *shell);
+int		execute_exit(t_shell *shell);
 void	ft_putendl_fd(char *s, int fd);
 int		is_alpha(char *arg);
 int		is_digit_unset(char *arg);
@@ -67,6 +67,7 @@ int		execute_export(t_shell *shell);
 int		check_key(env_list *list, env_list *new);
 void	print_exp_helper(char *exp);
 int		my_export_helper(char **arg, env_list *env, env_list *exp);
+int		builtins(t_shell *shell);
 
 void	init_shell(t_shell *shell);
 

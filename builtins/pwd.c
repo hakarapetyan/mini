@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 15:51:03 by hakarape          #+#    #+#             */
-/*   Updated: 2024/11/23 16:58:39 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/11/24 16:13:02 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ int my_pwd(t_shell *shell)
 		return (1);
 	}
 }
-int	execute_pwd(t_shell *shell)
-{
-	t_commands *cmd;
+// int	execute_pwd(t_shell *shell)
+// {
+// 	t_commands *cmd;
 
-	cmd = shell -> command;
-	if (cmd && ft_strcmp(cmd -> name, "pwd") == 0)
-		if(my_pwd(shell))
-			return (1);
-		return(0);
+// 	cmd = shell -> command;
+// 	if (cmd && ft_strcmp(cmd -> name, "pwd") == 0)
+// 		if(my_pwd(shell))
+// 			return (1);
+// 		return(0);
 		
-}
+// }
