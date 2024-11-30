@@ -53,6 +53,7 @@ char	*get_the_value(char *str)
 		i++;
 	}
 	value[i] = '\0';
+	//printf("vaue=\n", value);
 	return (value);
 }
 
@@ -63,9 +64,7 @@ void	get_env_list(t_shell **shell, char *str)
 	if (!str)
 		return ;
 	if (!(*shell) -> env)
-	{
 		(*shell) -> env = add_node(str);
-	}
 	else
 	{
 		 current = (*shell)->env;
@@ -98,7 +97,7 @@ static void norm_get_env(char *env, t_shell *shell, int *i)
 	if (spec_strcmp(env, "OLDPWD=") == 0)
 	{
 		get_exp_list(&shell, "OLDPWD");
-		i++;
+		(*i)++;
 	}
 }
 void	get_environment(t_shell *shell, char **env)

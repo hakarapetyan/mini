@@ -113,7 +113,7 @@ int	main(int argc, char **argv, char **env)
 	get_environment(&shell, env);
 	while (1)
 	{
-		shell.input = readline("\033[1;37m.minishell \033[0m");
+		shell.input = readline("\033[1;35m.minishell \033[0m");
 	//	system("leaks minishell");
 		if (!shell.input)
 			error(READLINE_ERR, &shell);

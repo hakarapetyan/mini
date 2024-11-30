@@ -61,7 +61,7 @@ int		execute_unset(t_shell *shell);
 int		my_env(int argc,t_shell *shell, char **arg);
 int		my_env_helper(t_shell *shell, char **argv, int i);
 int		execute_env(t_shell *shell);
-int		add_node_to_list(env_list *env, char **argv, int i);
+int		add_node_to_list(env_list *env, char *argv);
 int		my_export(int size, char **arg, t_shell *shell);
 int		execute_export(t_shell *shell);
 int		check_key(env_list *list, env_list *new);

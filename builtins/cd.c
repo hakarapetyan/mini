@@ -11,6 +11,45 @@
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+static int check_oldpwd(env_list *env, char *key)
+{
+	while (env)
+	{
+		if (ft_strcmp(env->key, key) == 0)
+			return (1);
+		env = env->next;
+	}
+	return (0);
+}
+static void add_oldpwd_to_env(env_list *list, char *pwd)
+{
+	// if (!list || (*pwd))
+	// 	return ;
+	env_list *tmp = list;
+	if (!check_oldpwd(tmp, "OLDPWD="))
+	{
+		add_node_to_list(list, "OLDPWD=");
+		while (list -> next)
+			list = list->next;
+		if (ft_strcmp(list->value, "\0") == 0)
+			list->value = ft_strdup(pwd);
+	}
+}
+
+static void add_oldpwd_to_exp(env_list *list, char *pwd)
+{
+	// if (!list || *pwd)
+	// 	return ;
+		while (list -> next)
+		{
+			if (ft_strcmp(list->key, "OLDPWD") == 0 && ft_strcmp(list->value, "\0") == 0)
+				{
+					list->key = ft_strdup("OLDPWD=");
+					list->value = ft_strdup(pwd);
+				}
+			list = list->next;
+		}
+}
 
 static int	cd_errors_checking(char *oldpwd, char *home)
 {
@@ -79,9 +118,12 @@ int	my_cd(int argc, char **argv, t_shell *shell)
 	char	*home;
 	
 	i = 0;
+	env_list *env=shell->env;
+	env_list *exp = shell->exp;
 	pwd = get_value(shell, "PWD=");
+	add_oldpwd_to_env(env, pwd);//shell taluc segv
+	add_oldpwd_to_exp(exp, pwd);
 	home = get_value(shell, "HOME=");
-
 	if (cd_errors_checking(pwd, home))
 		return (1);
 	if (argc > 1)
@@ -117,12 +159,19 @@ void changes_in_list(env_list *list, char *pwd,char *oldpwd)
 char *get_value(t_shell *shell, char *key)
 {
 	env_list *env;
+	env_list *tmp;
 	
 	env = shell -> env;
+	if (!(*key) || !key)
+		return (NULL);
 	while (env)
 	{
 		if (ft_strcmp(env ->key, key) == 0)
+		{
+			if (!env->value)
+				return(NULL);
 			return (env ->value);
+		}
 		env = env->next;
 	}
 	return (NULL);

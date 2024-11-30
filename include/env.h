@@ -34,4 +34,5 @@ env_list	*add_node(char *str);
 int			ft_lstsize(env_list *lst);
 char		**list_to_arr(env_list *env);
 char		**sorting_for_export(env_list *list);
+//void		add_oldpwd(env_list *list, char *pwd);
 #endif

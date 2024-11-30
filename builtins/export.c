@@ -12,7 +12,7 @@
 
 #include "../include/minishell.h"
 
-int	add_node_to_list(env_list *list, char **argv, int i)
+int	add_node_to_list(env_list *list, char *argv)
 {
 	env_list	*tmp;
 	env_list	*cmp;
@@ -20,16 +20,16 @@ int	add_node_to_list(env_list *list, char **argv, int i)
 	cmp = list;
 	if (!list)
 	{
-		list = add_node(argv[i]);
+		list = add_node(argv);
 		return (1);
 	}
 	if (list)
 	{
-		tmp = add_node(argv[i]);
+		tmp = add_node(argv);
 		while (list && list->next)
 			list = list->next;
 		if (!check_key(cmp, tmp))
-			list ->next = add_node(argv[i]);
+			list ->next = add_node(argv);
 		free_env(tmp);
 	}
 	return(0);
@@ -65,9 +65,9 @@ int	my_export_helper(char **arg, env_list *env, env_list *exp)
 				write(2, "\n", 1);
 				return (1);
 			}
-			add_node_to_list(exp, arg, i);
+			add_node_to_list(exp, arg[i]);
 			if (ft_strchr(arg[i], '='))
-				add_node_to_list(env, arg, i);
+				add_node_to_list(env, arg[i]);
 			i++;
 		}
 		return (0);
