@@ -1,18 +1,18 @@
 #include "./include/minishell.h"
 
-void my_pwd()
-{
-	char *cmd;
+// void my_pwd()
+// {
+// 	char *cmd;
 
-	cmd = getcwd(NULL, 0);
-	if(cmd != NULL)
-	{
-		printf("%s\n", cmd);
-		free(cmd);
-	}
-	else
-		printf("error with memory allocation\n");
-}
+// 	cmd = getcwd(NULL, 0);
+// 	if(cmd != NULL)
+// 	{
+// 		printf("%s\n", cmd);
+// 		free(cmd);
+// 	}
+// 	else
+// 		printf("error with memory allocation\n");
+// }
 
 void my_echo_helper_one(int count, char **input, int i)
 {

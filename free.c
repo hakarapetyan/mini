@@ -62,10 +62,8 @@ void	free_tokens(t_token *token)
 void	free_args(char **args)
 {
 	int	i;
-	int	j;
 
 	i = 0;
-	j = 0;
 	while (args[i])
 	{
 		free(args[i]);

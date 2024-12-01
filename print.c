@@ -23,7 +23,7 @@ void	print_commands(t_shell *shell)
 	while (current)
 	{
 
-		printf("Command: %s\n", current->name);
+		printf("Command: %s]\n", current->name);
 		if (current -> r_in)
 			printf("r_in: %s\n", current->r_in);
 		if (current -> r_out)
@@ -56,26 +56,26 @@ void	print_tokens(t_shell *shell)
 	}
 }
 
-void	print_env(t_shell *shell)
-{
-	env_list	*current;
+// void	print_env(t_shell *shell)
+// {
+// 	env_list	*current;
 
-	current = shell->env;
-	while (current)
-	{
-		printf("%s%s\n", current->key, current->value);
-		current = current->next;
-	}
-}
+// 	current = shell->env;
+// 	while (current)
+// 	{
+// 		printf("%s%s\n", current->key, current->value);
+// 		current = current->next;
+// 	}
+// }
 
-void	print_exp(t_shell *shell)
-{
-	env_list	*current;
+// void	print_exp(t_shell *shell)
+// {
+// 	env_list	*current;
 
-	current = shell->exp;
-	while (current)
-	{
-		printf("declare -x %s\"%s\"\n", current->key, current->value);
-		current = current->next;
-	}
-}
+// 	current = shell->exp;
+// 	while (current)
+// 	{
+// 		printf("declare -x %s\"%s\"\n", current->key, current->value);
+// 		current = current->next;
+// 	}
+// }

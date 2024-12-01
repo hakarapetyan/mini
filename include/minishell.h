@@ -12,6 +12,7 @@
 # include <sys/wait.h>
 # include "tokenization.h"
 # include "env.h"
+# include "builtins.h"
 # include "parse.h"
 # include "errors.h"
 # include "free.h"
@@ -26,6 +27,11 @@
 
 
 
+int prepare_redirections(t_shell *shell, char **pathname);
+
+void	get_redir(t_token **token,t_commands **tmp,  t_shell *shell);
+
+char	*ft_itoa(int n);
 void	print_commands(t_shell *shell);
 //void execute_execve(t_shell *shell);
 //find_path
@@ -48,12 +54,11 @@ char	*extract_whitespace(char **current);
 
 
 char	*generate_spaces(int count);
-char	*add_space_to_env_var(char *str, char *tmp);
 
 
 
 //builtins
-void	my_pwd(void);
+//void	my_pwd(void);
 void	my_echo_helper_one(int argc, char **input, int i);
 void	my_echo_helper_two(int argc, char **input, int i);
 void	my_echo(int argc, char **input);
@@ -66,14 +71,13 @@ void	init_shell(t_shell *shell);
 //lexical_analyzer
 void	lexical_analyzer(t_shell *shell);
 void	handle_special_chars(t_shell *shell, char *current);
-char	*extract_env_var(char **current,t_shell *shell);
 char	*extract_separator(char **current);
 int		tokenization(t_shell *shell);
 void	expand_var(t_shell *shell);
 //void	add_space(t_shell *shell, char **current, int *flag);
 
 //create_token
-t_token	*create_token(t_token_type type, t_lexer_state state, char *value);
+//t_token	*create_token(t_shell *shell, t_token_type type, t_lexer_state state, char *value);
 void	add_token(t_shell *shell,t_token_type type, t_lexer_state state, char *value);
 void	print_tokens(t_shell *shell);
 
@@ -107,8 +111,7 @@ int		set_state(char c, int state);
 
 //
 void	expand_var(t_shell *shell);
-void	expand_heredoc(t_shell *shell);
-int		is_word(char *str);
+
 
 
 

@@ -2,7 +2,7 @@ NAME = minishell
 
 RM = rm -f
 
-CFLAGS = -Wall  -Wextra #-fsanitize=address -g3
+CFLAGS = -Wall  -Wextra -fsanitize=address -g3
 
 INCLUDE = ./include/minishell.h\
 			./include/env.h\
@@ -18,12 +18,16 @@ SRCS =  main.c\
 		extract_var.c\
 		var_search.c\
 		create_commands.c\
-		builtins.c\
+		a_builtins.c\
 		find_path.c\
 		execute.c\
 		ft_split.c\
+		ft_itoa.c\
 		g_status.c\
 		heredoc.c\
+		prepare_redirections.c\
+		get_redir.c\
+		get_args.c\
 		error.c\
 		free.c\
 		print.c\
@@ -31,6 +35,17 @@ SRCS =  main.c\
 		utils_1.c\
 		utils_2.c\
 		utils_3.c\
+		./builtins/builtins.c\
+		./builtins/utils_builtins.c\
+		./builtins/cd.c\
+		./builtins/echo.c\
+		./builtins/env.c\
+		./builtins/exit.c\
+		./builtins/export_helper.c\
+		./builtins/export.c\
+		./builtins/pwd.c\
+		./builtins/unset_helper.c\
+		./builtins/unset.c\
 
 
 

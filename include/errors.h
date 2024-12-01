@@ -18,12 +18,11 @@
 
 
 void	error(char	*err, t_shell *shell);
-void	permission_error(char *name);
 void	syntax_error(char *message);
-void	no_such_file_error(char *name);
 
 void	error_message(int status, char *command_name);
 void	simple_error(int status, char *command_name, char *message);
 
 void set_status(int status);
+int get_status(void);
 #endif

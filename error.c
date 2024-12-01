@@ -16,7 +16,7 @@
 void	error(char	*err, t_shell *shell)
 {
 	printf("%s\n", err);
-	//free_shell(shell);
+	free_shell(shell);
 	// system("leaks minishell");
 	//exit(1);
 }
@@ -41,7 +41,7 @@ static void which_errno(void)
 
 void	error_message(int status, char *command_name)
 {
-	// set_status(status);
+	set_status(status);
 	if (command_name)
 	{
 		write(STDERR_FILENO, "minishell: ", 11);

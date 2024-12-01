@@ -31,16 +31,28 @@ int	args_count(t_token **token)
 	tmp = *token;
 	while (tmp && (tmp -> type != PIPE))
 	{
-		if (is_redirection(tmp -> type) && tmp -> next && tmp -> next -> next)
+		if (is_redirection(tmp -> type))
 		{
-			tmp = tmp -> next -> next;
+			if (tmp -> next)
+				tmp = tmp -> next;
+			else
+				break;
+			if (tmp -> next)
+				tmp = tmp -> next;
+			else
+				break;
 		}
-		count++;
-		if (tmp)
+		else
+		{
+			count++;
 			tmp = tmp -> next;
+		}
 	}
 	return (count);
 }
+
+
+
 t_token *get_last_token(t_shell *shell)
 {
 	if (shell -> token)

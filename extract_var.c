@@ -49,6 +49,11 @@ static char	*var_in_quotes(t_shell *shell, char **str)
 		(*str)++;
 		return (ft_strdup("$"));
 	}
+	if ((*str)[len] == '$' && ((*str)[len + 1]) && ((*str)[len + 1]) == '?')
+	{
+		(*str) += 2;
+		return (ft_itoa(get_status()));
+	}
 	tmp = var_in_quotes_helper(str, &len);
 	if (!tmp)
 		return (NULL);

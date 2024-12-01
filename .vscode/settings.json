@@ -22,6 +22,7 @@
 		"locale": "c",
 		"string": "c",
 		"sstream": "c",
-		"ostream": "c"
+		"ostream": "c",
+		"minishell.h": "c"
 	}
 }

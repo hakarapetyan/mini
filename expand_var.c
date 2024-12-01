@@ -19,7 +19,7 @@ void	expand_var(t_shell *shell)
 	//char	*tmp;
     char	*key;
 
-	if (!shell -> env)
+	if (!(shell -> env))
 		return ;
     current = shell->token;
     key = NULL;

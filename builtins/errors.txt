@@ -1,0 +1,5 @@
+cd.c /funkcia ka krchatelu
+exit.c /exit 999999999999999
+cd.c /cd /bin/ls
+/export _=trdthyyt
+metsatar-poqratar

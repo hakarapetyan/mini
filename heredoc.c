@@ -13,6 +13,7 @@
 
 #include "./include/minishell.h"
 
+
 int heredoc_handle(t_shell *shell)
 {
 	t_commands *cmd = shell -> command;
@@ -32,6 +33,7 @@ int heredoc_handle(t_shell *shell)
 				delimiter = NULL;
 				break;
 			}
+			delimiter = extract_var_from_quoted_str(delimiter, shell);
 			write(fd, delimiter, ft_strlen(delimiter));
 			write(fd, "\n", 1);
 			free(delimiter);
