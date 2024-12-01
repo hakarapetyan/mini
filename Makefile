@@ -20,6 +20,8 @@ SRCS =  main.c\
 		./builtins/pwd.c\
 		./builtins/echo.c\
 		./builtins/cd.c\
+		./builtins/cd_helper.c\
+		./builtins/cd_norm.c\
 		./builtins/exit.c\
 		./builtins/env.c\
 		./builtins/export.c\
