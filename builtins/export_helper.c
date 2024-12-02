@@ -28,14 +28,17 @@ void	print_env(t_shell *shell)
 
 void	print_exp(t_shell *shell)
 {
-	env_list	*current;
+	int	i;
+	char	**envir;
 
-	current = shell->exp;
-	while (current)
+	i = 0;
+	envir = sorting_for_export(shell ->exp);
+	while (envir[i])
 	{
-		printf("declare -x %s\"%s\"\n", current->key, current->value);
-		current = current->next;
+		print_exp_helper(envir[i]);
+		i++; 
 	}
+	free_args(envir);
 }
 void	print_exp_helper(char *exp)
 {

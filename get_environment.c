@@ -3,44 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_environment.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/24 16:43:16 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/11/24 16:43:17 by ashahbaz         ###   ########.fr       */
+/*   Created: 2024/12/02 14:31:04 by hakarape          #+#    #+#             */
+/*   Updated: 2024/12/02 14:31:06 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "./include/minishell.h"
-
-char	**ascii_sort_env(char **env)
-{
-	int	i;
-	int	j;
-	char *tmp;
-
-	i = 0;
-	j = 0;
-	tmp = NULL;
-	if (!env)
-		return (NULL);
-	while (env[i])
-	{
-		j = 0;
-		while (env[j])
-		{
-			if (spec_strcmp(env[i], env[j]) < 0)
-			{
-				tmp = env[i];
-				env[i] = env[j];
-				env[j] = tmp;
-			}
-			j++;
-		}
-		i++;
-	}
-	return (env);
-}
 
 char	*get_the_key(char *str)
 {
@@ -62,8 +32,9 @@ char	*get_the_key(char *str)
 		key[i] = str[i];
 		i++;
 	}
-	key[i] = '=';
-	i++;
+	if (str[i])
+		key[i++] = '=';
+	//i++;
 	key[i] = '\0';
 	return (key);
 }
@@ -75,7 +46,7 @@ char	*get_the_value(char *str)
 
 	value = NULL;
 	i = 0;
-	if (!str)
+	if (!str || !ft_strchr(str, '='))
 		return (NULL);
 	while (*str)
 		str++;
@@ -94,33 +65,8 @@ char	*get_the_value(char *str)
 		i++;
 	}
 	value[i] = '\0';
+	//printf("vaue=\n", value);
 	return (value);
-}
-
-env_list	*add_node(char *str)
-{
-	env_list	*node;
-
-	node = malloc(sizeof(env_list));
-    if (!node)
-	{
-        free(node);
-        node = NULL;
-		return (NULL);
-    }
-	node->key = get_the_key(str);
-	node -> value = get_the_value(str);
-	if (!node -> key || !node -> value)
-		{
-			free (node -> key);
-			free (node -> value);
-			free (node);
-			node = NULL;
-			system("leaks minishell");
-			return (NULL);
- 		}
-	node -> next = NULL;
-	return (node);
 }
 
 void	get_env_list(t_shell **shell, char *str)
@@ -130,9 +76,7 @@ void	get_env_list(t_shell **shell, char *str)
 	if (!str)
 		return ;
 	if (!(*shell) -> env)
-	{
 		(*shell) -> env = add_node(str);
-	}
 	else
 	{
 		 current = (*shell)->env;
@@ -141,8 +85,6 @@ void	get_env_list(t_shell **shell, char *str)
         current -> next = add_node(str);
 	}
 }
-
-
 void	get_exp_list(t_shell **shell, char *str)
 {
 	env_list *current;
@@ -162,6 +104,14 @@ void	get_exp_list(t_shell **shell, char *str)
 	}
 }
 
+static void norm_get_env(char *env, t_shell *shell, int *i)
+{
+	if (spec_strcmp(env, "OLDPWD=") == 0)
+	{
+		get_exp_list(&shell, "OLDPWD");
+		(*i)++;
+	}
+}
 void	get_environment(t_shell *shell, char **env)
 {
 	char **envir;
@@ -172,6 +122,8 @@ void	get_environment(t_shell *shell, char **env)
 	{
 		while (env[i])
 		{
+			if (spec_strcmp(env[i], "OLDPWD=") == 0)
+				i++;
 			get_env_list(&shell, env[i]);
 			i++;
 		}
@@ -179,19 +131,11 @@ void	get_environment(t_shell *shell, char **env)
 	if (!(shell -> exp))
 	{
 		i = 0;
-		envir = ascii_sort_env(env);
-		while (envir[i])
+		while (env[i])
 		{
-			get_exp_list(&shell, envir[i]);
+			norm_get_env(env[i], shell, &i);
+			get_exp_list(&shell, env[i]);
 			i++;
 		}
 	}
-	if (ft_strcmp(shell -> input, "env") == 0)
-			print_env(shell);
-	if (ft_strcmp(shell -> input, "export") == 0)
-			print_exp(shell);
-	// else if (ft_strcmp(shell -> input, "pwd") == 0)
-	// 	my_pwd();
-	// else if (ft_strcmp(shell -> input, "echo") == 0)
-	// 	my_echo(4, shell -> input)
 }

@@ -12,7 +12,7 @@
 
 #include "../include/minishell.h"
 
-/*static void my_echo_helper_one(int count, char **input, int i)
+void my_echo_helper_one(int count, char **input, int i)
 {
 	while (i < count)
 	{
@@ -26,7 +26,7 @@
 	}
 }
 
-static void	my_echo_helper_two(int count, char **input, int i)
+void	my_echo_helper_two(int count, char **input, int i)
 {
 	int	j;
 
@@ -73,7 +73,7 @@ void my_echo(int count, char **args)
 			return ;
 		my_echo_helper_two(count, args, i);
 	}
-}*/
+}
 // void	execute_echo(t_shell *shell)
 // {
 // 	t_commands *cmd;

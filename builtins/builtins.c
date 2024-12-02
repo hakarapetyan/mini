@@ -23,14 +23,9 @@ int	builtins(t_shell *shell)
 		return (1);
 	}
 	else if (cmd && ham_strcmp(cmd -> name, "echo") == 0)
-	{
-
 		my_echo(shell -> token_count, cmd -> args);
-	}
 	else if (cmd && ft_strcmp(cmd -> name, "exit") == 0)
-	{
 		execute_exit(shell);
-	}
 	else if (cmd && ft_strcmp(cmd -> name, "env") == 0)
 	{
 		if(my_env(shell -> token_count, shell, cmd->args))
