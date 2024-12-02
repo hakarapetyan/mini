@@ -1,3 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_args.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/02 14:13:25 by ashahbaz          #+#    #+#             */
+/*   Updated: 2024/12/02 14:13:25 by ashahbaz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 #include "./include/minishell.h"
 
 static void	allocate_args(t_commands **cmd, int count, t_shell *shell)
@@ -16,7 +29,7 @@ static void	allocate_args(t_commands **cmd, int count, t_shell *shell)
 		i++;
 	}
 	(*cmd) -> args[i] = NULL;
-} 
+}
 
 
 static void add_args_helper(t_commands **tmp, int *i)

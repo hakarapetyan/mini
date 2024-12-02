@@ -1,7 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   prepare_redirections.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/02 14:13:48 by ashahbaz          #+#    #+#             */
+/*   Updated: 2024/12/02 14:13:48 by ashahbaz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 #include "./include/minishell.h"
 
 
-// //freeee pathnmae it would give leaks 
+// //freeee pathnmae it would give leaks
 static int handle_input_redirection(t_shell *shell, char **pathname)
 {
     if (shell->command->r_heredoc)
@@ -157,4 +170,4 @@ int prepare_redirections(t_shell *shell, char **pathname)
 // 			close(shell->command->fd_out);
 // 		}
 // 	}
-// } 
+// }
