@@ -1,35 +1,9 @@
 #ifndef BUILTINS_H
 # define BUILTINS_H
+# define INT_MAX_8 "9223372036854775807"
+# define INT_MIN_8 "-9223372036854775808"
 
 
-
-
-
-
-// int	ft_lstsize(env_list *lst);
-// void	ft_putendl_fd(char *s, int fd);
-// int is_alpha(char *arg);
-// int	my_strchr(const char *s, int c);
-// int	add_node_to_list(env_list *list, char *argv);
-// char *get_value(t_shell *shell, char *key);
-// int check_key(env_list *list, env_list *new);
-
-// //int	ham_strlen(char *str);
-// //int	ham_strcmp(char *s1, char *s2);
-
-
-// int	builtins(t_shell *shell);
-// void my_echo(int count, char **args);
-// int my_pwd(t_shell *shell);
-// int my_env(int argc,t_shell *shell, char **argv);
-// int my_export(int argc, char **arg, t_shell *shell);
-// int my_unset(int size, char **arg, t_shell *shell);
-// int	my_cd(int argc, char **argv, t_shell *shell);
-// int execute_exit(t_shell *shell);
-
-
-
-//builtins
 int		my_pwd(t_shell *shell);
 int		execute_pwd(t_shell *shell);
 void	my_echo_helper_one(int argc, char **input, int i);
@@ -40,6 +14,7 @@ int		ham_strlen(char *str);
 int		ham_strcmp(char *s1, char *s2);
 int		my_cd_helper(char *argv,t_shell *shell);
 int		my_cd(int argc, char **argv, t_shell *shell);
+int		cd_errors_checking(char *oldpwd, char *home);
 void	changes_in_list(env_list *list, char *pwd,char *oldpwd);
 //void	changes_in_exp(t_shell *shell, char *pwd,char *oldpwd);
 char	*get_value(t_shell *shell, char *key);

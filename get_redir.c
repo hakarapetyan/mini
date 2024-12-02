@@ -39,6 +39,7 @@ void	get_redir(t_token **token,t_commands **tmp,  t_shell *shell)
 	else if ((*token) -> type == R_HEREDOC)
 	{
 		get_redir_helper(token, shell, &((*tmp) -> r_heredoc));
+		(*tmp) -> state = (*token) -> state;
 	}
 	(*token) = (*token)->next ? (*token)->next->next : NULL;
 }

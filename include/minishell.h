@@ -56,15 +56,15 @@ char	*extract_whitespace(char **current);
 char	*generate_spaces(int count);
 
 
-
+void	token_count(t_shell *shell);
 //builtins
 //void	my_pwd(void);
 void	my_echo_helper_one(int argc, char **input, int i);
 void	my_echo_helper_two(int argc, char **input, int i);
 void	my_echo(int argc, char **input);
-void	execute_echo(t_shell *shell);
-int		ham_strlen(char *str);
-int		ham_strcmp(char *s1, char *s2);
+// void	execute_echo(t_shell *shell);
+// int		ham_strlen(char *str);
+// int		ham_strcmp(char *s1, char *s2);
 
 void	init_shell(t_shell *shell);
 

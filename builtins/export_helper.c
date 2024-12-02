@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_helper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 12:47:52 by hakarape          #+#    #+#             */
-/*   Updated: 2024/11/23 12:49:10 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/02 15:07:51 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	print_exp(t_shell *shell)
 	while (envir[i])
 	{
 		print_exp_helper(envir[i]);
-		i++; 
+		i++;
 	}
 	free_args(envir);
 }
@@ -57,9 +57,9 @@ void	print_exp_helper(char *exp)
 		if (*exp)
 		{
 			exp++;
-			printf("\"%s\"\n", exp); 
+			printf("\"%s\"\n", exp);
 		}
 	}
 	else
-		printf("declare -x %s\n", exp);	
+		printf("declare -x %s\n", exp);
 }

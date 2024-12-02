@@ -10,6 +10,7 @@ INCLUDE = ./include/minishell.h\
 
 SRCS =  main.c\
 		get_environment.c\
+		get_env_helper.c\
 		init_shell.c\
 		lexical_analyzer.c\
 		create_token.c\
@@ -18,7 +19,6 @@ SRCS =  main.c\
 		extract_var.c\
 		var_search.c\
 		create_commands.c\
-		a_builtins.c\
 		find_path.c\
 		execute.c\
 		ft_split.c\
@@ -38,6 +38,8 @@ SRCS =  main.c\
 		./builtins/builtins.c\
 		./builtins/utils_builtins.c\
 		./builtins/cd.c\
+		./builtins/cd_helper.c\
+		./builtins/cd_norm.c\
 		./builtins/echo.c\
 		./builtins/env.c\
 		./builtins/exit.c\

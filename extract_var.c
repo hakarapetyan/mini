@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:05:24 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/11/24 19:55:41 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/02 19:04:31 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static	char *var_in_quotes_helper(char **str, int *len)
 
 static char	*var_in_quotes(t_shell *shell, char **str)
 {
-	int len;
+	int		len;
 	char	*tmp;
 	char	*res;
 
@@ -100,3 +100,9 @@ char	*extract_var_from_quoted_str(char *str, t_shell *shell)
 	}
 	return (res);
 }
+
+
+// char	*parse_line_heredoc(char *str,t_shell *shell)
+// {
+
+// }

@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:42:31 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/11/24 16:42:36 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/02 15:16:50 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,3 +101,22 @@ t_token *get_the_token_i_want(t_shell *shell)
 }
 
 
+void	token_count(t_shell *shell)
+{
+	t_token *tkn;
+	int count;
+
+	count = 0;
+	tkn = shell -> token;
+	if (!tkn)
+	{
+		shell -> token_count = count;
+		return;
+	}
+	while (tkn)
+	{
+		count++;
+		tkn = tkn -> next;
+	}
+	shell -> token_count = count;
+}

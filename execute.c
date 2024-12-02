@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:43:43 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/11/24 19:55:55 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/02 15:26:25 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static void execute_execve(t_shell *shell, char **pathname)
     else
 	{
 		if (*pathname)
-			free(*pathname);	
+			free(*pathname);
         error_message(1, "fork failed");
 	}
 }
@@ -149,10 +149,6 @@ void execute_command(t_shell *shell)
     if (pathname)
         free(pathname);
 }
-
-
-
-
 
 
 int	is_builtin(char *name)

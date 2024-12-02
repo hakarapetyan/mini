@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:53:12 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/11/24 16:16:00 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/02 15:16:35 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ int	tokenization(t_shell *shell)
 	// print_tokens(shell);
 	// printf("\n");
 	token_list_without_spaces(shell);
+	token_count(shell);
 	//expand_heredoc(shell);
 	return (0);
 }

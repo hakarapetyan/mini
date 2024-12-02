@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env_helper.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 18:52:10 by hakarape          #+#    #+#             */
-/*   Updated: 2024/11/24 17:39:58 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/02 15:04:31 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ env_list	*add_node(char *str)
     }
 	node -> key = get_the_key(str);
 	node -> value = get_the_value(str);
-	
+
 	// printf("vlll=%s\n", node->key);
 	// if (!node -> key || !node -> value)
 	// 	{
@@ -88,7 +88,7 @@ char **list_to_arr(env_list *list)
 	{
 		if (!list->value)
 			list->value = ft_strdup("");
-		cmp = ft_strjoin(list ->key, list-> value);
+		cmp = another_strjoin(list ->key, list-> value);
 		arr[size] = cmp;
 		size++;
 		list = list ->next;

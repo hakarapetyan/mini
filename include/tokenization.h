@@ -41,6 +41,7 @@ typedef struct s_commands
 	int 				is_append;
 	int					fd_in;
 	int					fd_out;
+	t_lexer_state		state;
 	struct s_commands	*next;
 	struct s_commands	*prev;
 } t_commands;

@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:43:52 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/11/24 16:43:53 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/02 15:09:32 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	add_token(t_shell *shell, t_token_type type, t_lexer_state state,
 		(shell)->token = create_token(shell, type, state, value);
 		if (!((shell)->token))
 			error(ALLOCATION_ERR, shell);
-		(shell)->token_count++;
+		//(shell)->token_count++;
 		expand_var(shell);
 	}
 	else
@@ -57,7 +57,7 @@ void	add_token(t_shell *shell, t_token_type type, t_lexer_state state,
 		current->next = create_token(shell, type, state, value);
 		if (!(current->next))
 			error(ALLOCATION_ERR, shell);
-		(shell)->token_count++;
+		//shell)->token_count++;
 		expand_var(shell);
 	}
 }
