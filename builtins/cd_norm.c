@@ -7,12 +7,15 @@ static void only_cd(t_shell *shell, char *tmp, char *cmd)
 	changes_in_list(shell->exp, cmd, tmp);
 }
 
-static int	cd_minus(t_shell *shell, char *cmd)
+static int	cd_minus(t_shell *shell)
 {
 	char *tmp;
+	char *cmd;
 
 	tmp = get_value(shell, "OLDPWD=");
-	if (!tmp)
+	cmd = get_value(shell, "PWD=");
+	printf("tmp=%s\n", tmp);
+	if ((ft_strcmp(tmp, "\0") == 0 || !tmp) && !cmd)
 	{
 		ft_putendl_fd("bash: cd: OLDPWD not set\n", 2);
 		return(1);
@@ -20,7 +23,7 @@ static int	cd_minus(t_shell *shell, char *cmd)
 	changes_in_list(shell->env, tmp, cmd);
 	changes_in_list(shell->exp, tmp, cmd);
 	chdir(tmp);
-	cmd = getcwd(NULL, 0);
+	cmd = get_value(shell, "PWD=");
 	printf("%s\n", cmd);
 	return (0);
 }
@@ -29,7 +32,7 @@ static int my_cd_helper_norm(t_shell *shell, char *argv, char *tmp, char *cmd)
 {
 			if (ft_strcmp(argv, "-") == 0)
 			{
-				if (cd_minus(shell, cmd))
+				if (cd_minus(shell))
 					return (1);
 			}
 			else if (!chdir(argv))

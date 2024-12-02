@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 17:24:31 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/01 22:12:16 by marvin           ###   ########.fr       */
+/*   Updated: 2024/12/02 14:11:55 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,38 @@ static int is_digit(char *arg)
     }
     return (0);
 }
+// long	ft_atoi(char *str)
+// {
+// 	int		i;
+// 	int		sign;
+// 	long	result;
+
+// 	i = 0;
+// 	sign = 1;
+// 	result = 0;
+// 	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
+// 		i++;
+// 	if (str[i] == '-')
+// 		sign = -1;
+// 	if (str[i] == '+' || str[i] == '-')
+// 		i++;
+// 	while (str[i] >= '0' && str[i] <= '9')
+// 	{
+// 		result = result * 10 + (str[i] - 48);
+// 		i++;
+// 	}
+// 	if (str[i] || str[i - 1] == '-' || str[i - 1] == '+')
+// 	{
+// 		ft_error("IS NOT ONLY DIGIT\n");
+// 		return (0);
+// 	}
+// 	return (result * sign);
+// }
 static int	check_int(char *arg)
 {
-	if (ft_strcmp(arg, INT_MAX_8) > 0 || ft_strcmp(arg, INT_MIN_8) < 0)
+	printf("arg=%c\n", *arg);
+	printf("argum=%s\n", arg);
+	if (ft_strcmp(arg, INT_MAX_8) > 0 || (ft_strcmp(arg, INT_MIN_8) > 0 && *arg == '-'))
 	{
 		printf("good\n");
 		printf("exit\nminishell: exit: %s: numeric argument required\n", arg);
