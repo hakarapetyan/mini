@@ -10,6 +10,7 @@
 # include <fcntl.h>
 # include <errno.h>
 # include <sys/wait.h>
+#include <dirent.h>
 # include "tokenization.h"
 # include "env.h"
 # include "builtins.h"
@@ -27,7 +28,7 @@
 
 
 
-int prepare_redirections(t_shell *shell, char **pathname);
+int prepare_redirections(t_shell *shell);
 
 void	get_redir(t_token **token,t_commands **tmp,  t_shell *shell);
 

@@ -41,7 +41,7 @@ static void run_execve(t_shell *shell, char **pathname)
 		if (*pathname)
 			free(*pathname);
 		//free_path
-		exit(EXIT_FAILURE);
+		//exit(EXIT_FAILURE);
 	}
 }
 static void execute_execve(t_shell *shell, char **pathname)
@@ -52,10 +52,8 @@ static void execute_execve(t_shell *shell, char **pathname)
     pid = fork();
     if (pid == 0)
     {
-    	if (prepare_redirections(shell, pathname) >= 0)
+    	if (prepare_redirections(shell) >= 0)
 			run_execve(shell, pathname);
-			if(*pathname)
-				free(*pathname);
     }
     else if (pid > 0)
 	{
@@ -65,10 +63,10 @@ static void execute_execve(t_shell *shell, char **pathname)
 	}
     else
 	{
-		if (*pathname)
-			free(*pathname);
         error_message(1, "fork failed");
 	}
+	free(*pathname);
+	*pathname = NULL;
 }
 
 
@@ -108,9 +106,9 @@ static void handle_builtin(t_shell *shell)
        error_message(1, "dup error");
         return;
     }
-    if (prepare_redirections(shell, NULL) < 0)
+    if (prepare_redirections(shell) < 0)
     {
-		error_message(1, "redir error");
+		//error_message(1, "redir error");
 	    return;
     }
     builtins(shell);
@@ -120,36 +118,85 @@ static void handle_builtin(t_shell *shell)
     close(original_stdout);
 }
 
+// void execute_command(t_shell *shell)
+// {
+//     char *pathname = NULL;
+
+//     if (!(shell->command->name))
+//     {
+//         single_redir_file(shell);
+//         return;
+//     }
+//     if (is_builtin(shell->command->name))
+//     {
+//         handle_builtin(shell);
+//         return;
+//     }
+// 	 DIR *dir = opendir(shell->command->name);
+//     if (dir)
+//     {
+//         simple_error(CMD_NOT_FOUND, shell->command->name, "Is a directory");
+//         closedir(dir); 
+//         return;
+//     }
+//     if (access(shell->command->name, X_OK || F_OK) == 0)
+//         pathname = ft_strdup(shell->command->name);
+//     else
+//     {
+//         pathname = find_path(shell, shell->command->name);
+//         if (!pathname)
+//         {
+//             simple_error(CMD_NOT_FOUND, shell->command->name, "command not found");
+//             return;
+//         }
+//     }
+//     execute_execve(shell, &pathname);
+// }
+
+static int is_directory(const char *path) {
+    DIR *dir = opendir(path);
+
+    if (dir) {
+        closedir(dir);
+        return 1;
+    }
+
+    return 0;
+}
+
+
 void execute_command(t_shell *shell)
-{
+ {
     char *pathname = NULL;
 
-    if (!(shell->command->name))
+  	if (!(shell->command->name))
     {
         single_redir_file(shell);
         return;
     }
     if (is_builtin(shell->command->name))
-    {
+	{
         handle_builtin(shell);
         return;
     }
-    if (access(shell->command->name, X_OK || F_OK) == 0)
-        pathname = ft_strdup(shell->command->name);
-    else
-    {
-        pathname = find_path(shell, shell->command->name);
-        if (!pathname)
-        {
-            simple_error(CMD_NOT_FOUND, shell->command->name, "command not found");
+    if (access(shell->command->name, X_OK | F_OK) == 0) {
+		  if (is_directory(shell->command->name)) {
+            simple_error(1, shell->command->name, "Is a directory");
             return;
         }
+        pathname = ft_strdup(shell->command->name);
     }
-    execute_execve(shell, &pathname);
-    if (pathname)
-        free(pathname);
+    if (pathname) {
+        execute_execve(shell, &pathname);
+    } else {
+        pathname = find_path(shell, shell->command->name);
+        if (!pathname ) {
+            simple_error(0, shell->command->name, "command not found");
+            return;
+        }
+        execute_execve(shell, &pathname);
+    }
 }
-
 
 int	is_builtin(char *name)
 {

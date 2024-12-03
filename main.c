@@ -72,21 +72,27 @@ int	main(int argc, char **argv, char **env)
 			add_history(shell.input);
 		get_environment(&shell, env);
 		lexical_analyzer(&shell);
-		if (check_redir_errors(&shell) != -1)
+		if (check_redir_errors(&shell) >= 0)
 		{
-			create_commands(&shell);
-			heredoc_handle(&shell);
-			// print_tokens(&shell);
-			///print_commands(&shell);
-			// builtins(&shell);
-			//if (shell.command)
-			execute_command(&shell);
+			if (create_commands(&shell) >= 0)
+			{
+				//free_tokens(shell.token);
+				heredoc_handle(&shell);
+				//  print_tokens(&shell);
+				// print_commands(&shell);
+				// builtins(&shell);
+				//if (shell.command)
+				execute_command(&shell);
+
+			}
 		}
 		free_shell(&shell);
 		//system("leaks minishell");
 	}
 	free_env(shell.env);
 	shell.env = NULL;
+	free_env(shell.exp);
+	shell.exp = NULL;
 	free_shell(&shell);
 	//system("leaks minishell");
 	return (0);

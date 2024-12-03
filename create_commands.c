@@ -13,16 +13,21 @@
 
 #include "./include/minishell.h"
 
-static void	create_first_command(t_token **tkn, t_commands **tmp, t_shell *shell)
+static int	create_first_command(t_token **tkn, t_commands **tmp, t_shell *shell)
 {
-	*tmp = create_command((*tkn) -> value);
-	shell -> command = *tmp;
-	if (!(shell -> command))
-		error(ALLOCATION_ERR, shell);
-	shell -> command_count++;
+	if ((*tkn) -> value && (*(*tkn) -> value) != '\0')
+	{
+		*tmp = create_command((*tkn) -> value);
+		shell -> command = *tmp;
+		if (!(shell -> command))
+			error(ALLOCATION_ERR, shell);
+		shell -> command_count++;
+		return (0);
+	}
+	return (-1);
 }
 
-void	create_commands(t_shell *shell)
+int	create_commands(t_shell *shell)
 {
 	t_token		*tkn;
 	t_commands	*tmp;
@@ -36,12 +41,16 @@ void	create_commands(t_shell *shell)
 		while (tkn)
 		{
 			if (!tmp)
-				create_first_command(&tkn, &tmp, shell);
+			{
+				if	(create_first_command(&tkn, &tmp, shell) < 0)
+					return (-1);
+			}
 			else
 				add_command(&tkn, &tmp, shell);
 			get_args(&tkn, shell);
 		}
 	}
+	return (0);
 }
 
 

@@ -48,7 +48,11 @@ void	my_echo_helper_two(int count, char **input, int i)
 	{
 		while (i < count && input[i])
 		{
-			printf("%s ",input[i]);
+			 if (i == count - 1) {
+                printf("%s", input[i]);  // No space after the last word
+            } else {
+                printf("%s ", input[i]);  // Space after each word except the last one
+            }
 			i++;
 		}
 		printf("\n");
