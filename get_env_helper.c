@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 18:52:10 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/02 15:04:31 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/03 20:35:25 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ char **list_to_arr(env_list *list)
 {
 	int size;
 	char **arr;
-	char *tmp;
 	char *cmp;
 
 	size = 0;

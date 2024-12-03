@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset_helper.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 16:11:29 by hakarape          #+#    #+#             */
-/*   Updated: 2024/11/23 16:13:14 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/03 20:38:13 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	my_strchr(const char *s, int c)
 int is_alpha(char *arg)
 {
     int i;
-    
+
     i = 0;
     if (arg[i] == '+' || arg[i] == '-')
 		i++;
@@ -45,7 +45,7 @@ int is_alpha(char *arg)
 int is_digit_unset(char *arg)
 {
     int i;
-    
+
     i = 0;
     if (arg[i] == '+' || arg[i] == '-')
 		i++;
@@ -60,6 +60,7 @@ int is_digit_unset(char *arg)
 }
 void write_print(char *arg, char * msg, int fd)
 {
+	(void)fd;
 	ft_putendl_fd(msg, 2);
 	write(2, "`", 1);
 	ft_putendl_fd(arg, 2);

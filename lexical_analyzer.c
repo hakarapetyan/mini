@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:53:12 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/02 15:16:35 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/03 19:10:48 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ void  lexical_analyzer(t_shell *shell)
 
 	status = tokenization(shell);
 	if (status == -2)
+	{
 		error("quote error", shell);
+		return ;
+	}
 }
 
 
@@ -88,7 +91,7 @@ static void token_list_without_spaces(t_shell *shell)
     {
         if (tkn -> type == TK_SPACE)
 			tk_space_remove(shell, &tkn, &tmp, &prev);
-        //else if (tkn -> next && tkn -> next -> type != TK_SPACE )
+        //else if (tkn -> next && tkn -> next -> type != TK_SPACE)
         else if ((tkn -> type == WORD || tkn -> type == ENV_VAR) && tkn -> next && (tkn -> next -> type == WORD || tkn -> next -> type == ENV_VAR))
 		{
             new_value = ft_strjoin(tkn -> value, tkn -> next -> value);

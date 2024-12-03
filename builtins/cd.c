@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:48:42 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/02 16:49:30 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/03 20:36:51 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ static int	my_cd_norm(int argc, char **argv, t_shell *shell)
 	int i;
 
 	i = 0;
+	(void)argc;
 	// if	(argc > 2)
 	// {
 	// 	ft_putendl_fd("minishell: cd: too many arguments\n", 2);

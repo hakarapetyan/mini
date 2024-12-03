@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 17:24:31 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/02 18:01:08 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/03 20:37:54 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,20 @@ static int is_digit(char *arg)
     return (0);
 }
 
-static int	check_int(char *arg)
-{
-	printf("arg=%c\n", *arg);
-	printf("argum=%s\n", arg);
-	if (ft_strcmp(arg, INT_MAX_8) > 0 || (ft_strcmp(arg, INT_MIN_8) > 0 && *arg == '-'))
-	{
-		printf("good\n");
-		//printf("exit\nminishell: exit: %s: numeric argument required\n", arg);
-		write(STDERR_FILENO, "exit\n", 5);
-		simple_error(255, arg, "numeric argument required");
-		return (1);
-	}
-	return (0);
-}
+// static int	check_int(char *arg)
+// {
+// 	printf("arg=%c\n", *arg);
+// 	printf("argum=%s\n", arg);
+// 	if (ft_strcmp(arg, INT_MAX_8) > 0 || (ft_strcmp(arg, INT_MIN_8) > 0 && *arg == '-'))
+// 	{
+// 		printf("good\n");
+// 		//printf("exit\nminishell: exit: %s: numeric argument required\n", arg);
+// 		write(STDERR_FILENO, "exit\n", 5);
+// 		simple_error(255, arg, "numeric argument required");
+// 		return (1);
+// 	}
+// 	return (0);
+// }
 static int	norm_my_exit(int args,char **argv, int i)
 {
 	if (args == 1)
@@ -80,6 +80,7 @@ int my_exit(int args, char **argv, t_shell *shell)
 	int	exit;
 
 	i = 0;
+	(void)shell;
 	if (argv[i] && ft_strcmp(argv[i], "exit") == 0)
 		i++;
 	exit = norm_my_exit(args, argv, i);

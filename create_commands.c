@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:43:58 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/02 18:58:13 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/03 18:20:19 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ t_commands	*create_command(char *value)
 	command -> next = NULL;
 	command -> prev = NULL;
 	command -> state = DEFAULT;
+	command -> heredoc_count = 0;
 	if (!command)
 	{
 		free_commands(command);

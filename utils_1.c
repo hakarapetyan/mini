@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:42:48 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/11/24 16:42:49 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/03 19:00:17 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ size_t	ft_strlen(char *s)
 	size_t	i;
 
 	i = 0;
-	if (!s)
+	if (!s || !*s)
 		return (0);
 	if (s[i])
 	{

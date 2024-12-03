@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:43:28 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/11/24 16:43:29 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/03 20:17:10 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@ static void	copy_str(char *s, char **str, size_t *i, size_t len)
 	j = 0;
 	if (s)
 	{
+		//printf("%d\n", ft_strlen(s));
 		while (*i < ft_strlen(s) && j < len)
 		{
-			if (is_quote(s[*i]))
+			if (s[*i] && is_quote(s[*i]))
 			{
 				quote = s[*i];
 				(*i)++;
@@ -60,15 +61,21 @@ static int	handle_quote(t_shell *shell, char **current, char *quote, int *i)
 
 	len = 0;
 	(*i)++;
-	while ((*current)[(*i)] && (*current)[(*i)] != *quote)
+	if (((*current)[(*i)] && (*current)[(*i)] == '\0') || !((*current)[(*i)]))
+	{
+		//error("minishell: expected quote", shell);
+		syntax_error("\"");
+		return (-1);
+	}
+	while ((*current)[(*i)] && (*current)[(*i)] != *quote )
 	{
 		(*i)++;
 		len++;
 	}
 	if ((*current)[(*i)] != *quote)
 	{
-		error("quote error", shell);
-		return (0);
+		error("minishell: expected quote", shell);
+		return (-1);
 	}
 	if ((*current)[(*i)] == *quote)
 		(*i)++;
@@ -77,12 +84,18 @@ static int	handle_quote(t_shell *shell, char **current, char *quote, int *i)
 static	char *check_quote(t_shell *shell,char **current, int *i, char *quote)
 {
 	int	len;
+	int n;
 
 	len = 0;
+	n = 0;
 	if ((*current)[*i] && is_quote((*current)[(*i)]))
 	{
 		*quote = (*current)[(*i)];
-		len += handle_quote(shell, current, quote, i);
+		n = handle_quote(shell, current, quote, i);
+		if (n >= 0)
+			len += n;
+		else
+			return (NULL);
 		return (another_substr(*current, 0, len));
 	}
 	while ((*current)[(*i)] && !is_space((*current)[*i]) && !is_quote((*current)[(*i)]) && !is_sep((*current)[*i]))
@@ -113,7 +126,7 @@ char	*extract_word(char **current, t_shell *shell)
 	*current += i;
 	if ((var_search(var,shell)) && (quote == '"' || !quote))
 	{
-		if (get_the_token_i_want(shell) -> type == R_HEREDOC)
+		if (get_the_token_i_want(shell) &&  get_the_token_i_want(shell)-> type == R_HEREDOC)
 			return (var);
 		res = extract_var_from_quoted_str(var,shell);
 		free_arr(&var);

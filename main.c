@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:32:14 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/02 18:46:39 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/03 20:39:36 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	main(int argc, char **argv, char **env)
 			create_commands(&shell);
 			heredoc_handle(&shell);
 			// print_tokens(&shell);
-			print_commands(&shell);
+			///print_commands(&shell);
 			// builtins(&shell);
 			//if (shell.command)
 			execute_command(&shell);

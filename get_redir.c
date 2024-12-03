@@ -39,7 +39,15 @@ void	get_redir(t_token **token,t_commands **tmp,  t_shell *shell)
 	else if ((*token) -> type == R_HEREDOC)
 	{
 		get_redir_helper(token, shell, &((*tmp) -> r_heredoc));
-		(*tmp) -> state = (*token) -> state;
+		if ((*token) -> next)
+			(*tmp) -> state = (*token) -> next -> state;
+		(*tmp) -> heredoc_count += 1;
+		if ((*tmp) -> heredoc_count > 16)
+		{
+			write(STDERR_FILENO, "minishell: maximum here-document count exceeded\n",49);
+			free_shell(shell);
+			exit (1);
+		}
 	}
 	(*token) = (*token)->next ? (*token)->next->next : NULL;
 }
