@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 17:54:50 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/11/19 18:45:30 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/11/23 18:02:25 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ void	free_args(char **args)
 		i++;
 	}
 	free(args);
-	args = NULL;
 }
 
 void	free_commands(t_commands *command)
@@ -92,6 +91,8 @@ void	free_commands(t_commands *command)
 				free(command -> r_in);
 			if (command -> r_out)
 				free(command -> r_out);
+			if (command -> r_heredoc)
+				free(command -> r_heredoc);
 			command -> args = NULL;
 			free(command);
 			command = tmp;
@@ -103,19 +104,20 @@ void	free_commands(t_commands *command)
 
 void	free_shell(t_shell *shell)
 {
-	free_tokens(shell -> token);
-	//free_env(shell -> env);
-	//free_env(shell -> exp);
-	free_commands(shell -> command);
 	free(shell -> input);
+	shell -> input = NULL;
+	free_tokens(shell -> token);
+	// free_env(shell -> env);
+	// free_env(shell -> exp);
+	free_commands(shell -> command);
 	free(shell -> pwd);
 	free(shell -> oldpwd);
 	shell -> token_count = 0;
+	shell -> command_count = 0;
 	shell -> token = NULL;
-	shell -> input = NULL;
 	shell -> command = NULL;
-	//shell -> env = NULL;
-	//shell -> exp = NULL;
+	// shell -> env = NULL;
+	// shell -> exp = NULL;
 	shell -> pwd = NULL;
 	shell -> oldpwd = NULL;
 }

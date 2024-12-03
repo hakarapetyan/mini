@@ -4,5 +4,5 @@ cd.c/ mkdir -p a/b
 cd a/b
 rm -rf ../../a
 cd ../
-/export _=trdthyyt /karogh enq chughghel
-metsatar-poqratar 
+/export _=trdthyyt
+metsatar-poqratar

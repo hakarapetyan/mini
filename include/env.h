@@ -15,6 +15,7 @@ typedef struct s_shell
 	char			*input;
 	int				shlvl;
 	int				token_count;
+	int				command_count;
 	int				flag;
 	t_token			*token;
 	env_list		*env;
@@ -22,6 +23,7 @@ typedef struct s_shell
 	t_commands		*command;
 	struct s_shell	*next;
 } t_shell;
+
 
 
 
@@ -35,5 +37,4 @@ env_list	*add_node(char *str);
 int			ft_lstsize(env_list *lst);
 char		**list_to_arr(env_list *env);
 char		**sorting_for_export(env_list *list);
-//void		add_oldpwd(env_list *list, char *pwd);
 #endif

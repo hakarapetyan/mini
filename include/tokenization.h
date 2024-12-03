@@ -37,10 +37,11 @@ typedef struct s_commands
 	char				**args;
 	char				*r_in;
 	char				*r_out;
+	char				*r_heredoc;
 	int 				is_append;
-	int					is_heredoc;
 	int					fd_in;
 	int					fd_out;
+	t_lexer_state		state;
 	struct s_commands	*next;
 	struct s_commands	*prev;
 } t_commands;

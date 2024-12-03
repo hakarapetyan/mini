@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 20:18:16 by hakarape          #+#    #+#             */
-/*   Updated: 2024/11/24 16:07:09 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/03 20:07:04 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	del_one(env_list *env)
 	free(env->value);
 	free(env->key);
 	free(env);
-	return (0);	
+	return (0);
 }
 int del_from_lst(env_list *env, char *nv)
 {
@@ -59,14 +59,15 @@ int my_unset_helper(char **arg, env_list *env, env_list *exp)
 			i++;
 		if (is_alpha(arg[i]) && my_strchr(arg[i], '?') && my_strchr(arg[i], '_'))
 		{
-			write_print(arg[i], "minishell: unset:", 2);
-			ft_putendl_fd(" not a valid identifier", 2);
-			write(2, "\n", 1);
+			simple_error(EXIT_FAILURE, arg[i], "not a valid identifier");
+			// write_print(arg[i], "minishell: unset:", 2);
+			// ft_putendl_fd(" not a valid identifier", 2);
+			// write(2, "\n", 1);
 			return(1);
 		}
 		if (!del_from_lst(env, arg[i]))
 			del_from_lst(exp, arg[i]);
-		else 
+		else
 			return (1);
 		i++;
 	}

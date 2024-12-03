@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:48:42 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/02 21:36:07 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/03 20:52:26 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,12 @@ static void add_oldpwd_to_exp(env_list *list, char *pwd, t_shell *shell)
 		}
 }
 
-static int	cd_errors_checking(char *oldpwd, char *home)
+int	cd_errors_checking(char *oldpwd, char *home)
 {
 	if (!oldpwd)
 	{
-		ft_putendl_fd("bash: cd: OLDPWD not set\n", 2);
-		return(1);
-	}
-	if (!home)
-	{
-		ft_putendl_fd("bash: cd: HOME not set\n", 2);
+		simple_error(EXIT_FAILURE, "cd", home);
+		//ft_putendl_fd("bash: cd: OLDPWD not set\n", 2);
 		return(1);
 	}
 	return (0);
@@ -73,11 +69,11 @@ static int	my_cd_norm(int argc, char **argv, t_shell *shell)
 	int i;
 
 	i = 0;
-	if	(argc > 2)
-	{
-		ft_putendl_fd("minishell: cd: too many arguments\n", 2);
-		return (1);
-	}
+	// if	(argc > 2)
+	// {
+	// 	ft_putendl_fd("minishell: cd: too many arguments\n", 2);
+	// 	return (1);
+	// }
 	if (argv[i] && (!ft_strcmp(argv[i], "cd")))
 		i++;
 	if (my_cd_helper(argv[i], shell))
@@ -93,20 +89,20 @@ int	my_cd(int argc, char **argv, t_shell *shell)
 	env_list *env=shell->env;
 	env_list *exp = shell->exp;
 	pwd = get_value(shell, "PWD=");
-	oldpwd = get_value(shell, "OLDPWD=");
+	//oldpwd = get_value(shell, "OLDPWD=");
 	if (shell -> flag != 1)
 	{
 		add_oldpwd_to_env(env, pwd, shell);//shell taluc segv
 		add_oldpwd_to_exp(exp, pwd, shell);
 	}
 	home = get_value(shell, "HOME=");
-	// if (cd_errors_checking(oldpwd, home))
-	// 	return (1);
 	if (argc > 1)
 	{
 		if(my_cd_norm(argc, argv, shell))
 			return(1);
 	}
+	// if (cd_errors_checking(oldpwd, "OLDPWD not set"))
+	// 	return (1);
 	else
 	{
 		chdir(home);
