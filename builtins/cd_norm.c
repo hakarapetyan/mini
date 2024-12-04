@@ -14,6 +14,7 @@ static int	cd_minus(t_shell *shell)
 
 	tmp = get_value(shell, "OLDPWD=");
 	cmd = get_value(shell, "PWD=");
+	
 	if ((ft_strcmp(tmp, "\0") == 0 || !tmp) && !cmd)
 	{
 		simple_error(EXIT_FAILURE, "cd", "OLDPWD not set");
@@ -25,9 +26,13 @@ static int	cd_minus(t_shell *shell)
 	chdir(tmp);
 	cmd = get_value(shell, "PWD=");
 	if ((!cmd && tmp))
-		printf("aaa%s\n", tmp);
+		printf("%s\n", tmp);
 	else
-		printf("ffff%s\n", cmd);
+	{
+		simple_error(EXIT_FAILURE, "cd", "OLDPWD not set");
+		//ft_putendl_fd("bash: cd: OLDPWD not set\n", 2);
+		return(1);
+	}
 	return (0);
 }
 

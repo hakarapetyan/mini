@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:38:26 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/02 16:18:31 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/05 01:40:18 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	my_export_helper(char **arg, env_list *env, env_list *exp)
 			i++;
 		while (arg[i])
 		{
-			if (is_alpha(arg[i]) && !ft_strchr(arg[i], '_') && !ft_strchr(arg[i], '=') )
+			if ((!is_alpha(arg[i]) || !my_strchr(arg[i], '_')))
 			{
 				simple_error(EXIT_FAILURE, arg[i],"not a valid identifier");
 				// write_print(arg[i], "minishell: export:", 2);

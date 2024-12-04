@@ -18,7 +18,7 @@ void changes_in_list(env_list *list, char *pwd,char *oldpwd)
 char *get_value(t_shell *shell, char *key)
 {
 	env_list *env;
-	
+	printf("key=%s\n", key);
 	env = shell -> env;
 	if (!(*key) || !key)
 		return (NULL);
@@ -28,6 +28,7 @@ char *get_value(t_shell *shell, char *key)
 		{
 			if (!env->value)
 				return(NULL);
+			printf("env->value%s\n", env->value);
 			return (env ->value);
 		}
 		env = env->next;

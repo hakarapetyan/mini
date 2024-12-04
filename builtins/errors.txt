@@ -4,5 +4,5 @@ cd.c/ mkdir -p a/b
 cd a/b
 rm -rf ../../a
 cd ../
-/export _=trdthyyt
+export.c/export jkvk+ /export TES=T=""
 metsatar-poqratar

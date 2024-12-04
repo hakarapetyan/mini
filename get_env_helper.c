@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env_helper.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 18:52:10 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/02 15:04:31 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/05 01:12:12 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ env_list	*add_node(char *str)
 	node -> key = get_the_key(str);
 	node -> value = get_the_value(str);
 
-	// printf("vlll=%s\n", node->key);
+	// printf("klll=%s\n", node->key);
+	// printf("vlll=%s\n", node->value);
 	// if (!node -> key || !node -> value)
 	// 	{
 	// 		free (node -> key);
