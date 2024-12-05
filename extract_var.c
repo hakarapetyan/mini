@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:05:24 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/02 19:04:31 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/05 15:34:04 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static char	*var_in_quotes(t_shell *shell, char **str)
 	len = 0;
 	tmp = NULL;
 	res = NULL;
-	if ((*str)[len] == '$' && !((*str)[len + 1]))
+	if ((*str)[len] == '$' && !((*str)[len + 1]))//dzel
 	{
 		(*str)++;
 		return (ft_strdup("$"));
@@ -52,12 +52,12 @@ static char	*var_in_quotes(t_shell *shell, char **str)
 	if ((*str)[len] == '$' && ((*str)[len + 1]) && ((*str)[len + 1]) == '?')
 	{
 		(*str) += 2;
-		return (ft_itoa(get_status()));
+		return (ft_itoa(get_status()));//freeeee itoa
 	}
 	tmp = var_in_quotes_helper(str, &len);
 	if (!tmp)
 		return (NULL);
-	res = is_key(shell -> env, tmp);
+	res = is_key(shell, tmp);
 	free_arr(&tmp);
 	if (!res)
 		return (ft_strdup(""));

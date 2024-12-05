@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:00:55 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/11/24 16:04:28 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/05 15:35:14 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int is_key_helper(t_shell *shell, char **tmp)
 {
-	if (is_key(shell -> env, *tmp))
+	if (is_key(shell, *tmp))
 	{
 		free_arr(tmp);
 		return(1);

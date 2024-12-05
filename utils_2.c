@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:42:41 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/11/24 16:42:42 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/05 15:37:19 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,14 @@
 #include "./include/minishell.h"
 
 
-char	*is_key(env_list	*node, char *need_to_be_find)
+char	*is_key(t_shell *shell, char *need_to_be_find)
 {
+	env_list *node;
+
+	node = shell -> env;
 	if (!need_to_be_find || !node)
 		return (NULL);
-	while (node && node -> next)
+	while (node)
 	{
 		if (spec_strcmp(node -> key, need_to_be_find) == 0)
 		{

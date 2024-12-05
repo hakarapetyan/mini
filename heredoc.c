@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:52:37 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/03 17:59:19 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/05 19:06:05 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int heredoc_handle(t_shell *shell)
 			delimiter = NULL;
 		}
 		close(fd);
+		//handle_input_redirection(shell);
 		// fd = open("tmp_file", O_RDONLY);
 		// if (fd < 0)
 		// {

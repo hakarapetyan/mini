@@ -1,0 +1,7 @@
+Command: cat]
+r_in: ppp
+r_out: iii
+r_heredoc: 1
+index: 0 , Args:cat 
+jskad
+[1;37m.minishell [0m

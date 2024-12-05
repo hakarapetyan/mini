@@ -28,9 +28,13 @@
 
 
 
+int handle_output_redirection(t_shell *shell);
+int handle_input_redirection(t_shell *shell);
+int single_redir_file(t_commands *command);
+
 int prepare_redirections(t_shell *shell);
 
-void	get_redir(t_token **token,t_commands **tmp,  t_shell *shell);
+int	get_redir(t_token **token,t_commands **tmp,  t_shell *shell);
 
 char	*ft_itoa(int n);
 void	print_commands(t_shell *shell);
@@ -103,7 +107,7 @@ int		is_sep(char c);
 
 
 ///utils2
-char	*is_key(env_list	*node, char *need_to_be_find);
+char	*is_key(t_shell *shell, char *need_to_be_find);
 char	*ft_strjoin(char *s1, char *s2);
 char	*another_strjoin(char *s1, char *s2);
 int		ft_strchr(char *str, char c);

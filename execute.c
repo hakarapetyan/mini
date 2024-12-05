@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:43:43 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/02 15:26:25 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/05 20:41:18 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int ft_open(char *redir, int flag, int permission)
 
 static void run_execve(t_shell *shell, char **pathname)
 {
-	if (execve(*pathname, shell->command->args, NULL) == -1)
+	if (execve(*pathname, shell->command->args,NULL) == -1)
 	{
 		perror("execve failed");
 		if (*pathname)
@@ -52,7 +52,7 @@ static void execute_execve(t_shell *shell, char **pathname)
     pid = fork();
     if (pid == 0)
     {
-    	if (prepare_redirections(shell) >= 0)
+    	//if (prepare_redirections(shell) >= 0)
 			run_execve(shell, pathname);
     }
     else if (pid > 0)
@@ -71,87 +71,57 @@ static void execute_execve(t_shell *shell, char **pathname)
 
 
 
-static void single_redir_file(t_shell *shell)
+int single_redir_file(t_commands *command)
 {
-	if (shell->command->r_in || shell -> command ->r_heredoc)
+	if (command->r_in)
 	{
-		shell->command->fd_in = open(shell->command->r_in, O_RDONLY);
-		if (shell->command->fd_in < 0)
+		command->fd_in = open(command->r_in, O_RDONLY);
+		if (command->fd_in < 0)
 		{
-			error_message(1, shell -> command -> r_in);
+			error_message(1, command -> r_in);
+			return (-1);
 		}
-		close(shell->command->fd_in);
+		close(command->fd_in);
 	}
-	if (shell->command->is_append)
-		shell->command->fd_out = open(shell->command->r_out, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	else if (shell->command->r_out)
+	if (command->is_append)
+		command->fd_out = open(command->r_out, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	else if (command->r_out)
 	{
-		shell->command->fd_out = ft_open(shell->command->r_out, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (shell->command->fd_out < 0)
+		command->fd_out = ft_open(command->r_out, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (command->fd_out < 0)
 		{
-			error_message(1, shell -> command -> r_out);
+			error_message(1, command -> r_out);
+			return (-1);
 		}
-		close(shell->command->fd_out);
+		close(command->fd_out);
 	}
+	return (0);
 }
 
 
 static void handle_builtin(t_shell *shell)
 {
-    int original_stdin = dup(STDIN_FILENO);
-    int original_stdout = dup(STDOUT_FILENO);
+	printf("hasar?\n");
+    // int original_stdin = dup(STDIN_FILENO);
+    // int original_stdout = dup(STDOUT_FILENO);
 
-    if (original_stdin < 0 || original_stdout < 0)
-    {
-       error_message(1, "dup error");
-        return;
-    }
-    if (prepare_redirections(shell) < 0)
-    {
-		//error_message(1, "redir error");
-	    return;
-    }
+    // if (original_stdin < 0 || original_stdout < 0)
+    // {
+    //    error_message(1, "dup error");
+    //     return;
+    // }
+    // if (prepare_redirections(shell) < 0)
+    // {
+	// 	//error_message(1, "redir error");
+	//     return;
+    // }
     builtins(shell);
-    dup2(original_stdin, STDIN_FILENO);
-    dup2(original_stdout, STDOUT_FILENO);
-    close(original_stdin);
-    close(original_stdout);
+    // dup2(original_stdin, STDIN_FILENO);
+    // dup2(original_stdout, STDOUT_FILENO);
+    // close(original_stdin);
+    // close(original_stdout);
 }
 
-// void execute_command(t_shell *shell)
-// {
-//     char *pathname = NULL;
-
-//     if (!(shell->command->name))
-//     {
-//         single_redir_file(shell);
-//         return;
-//     }
-//     if (is_builtin(shell->command->name))
-//     {
-//         handle_builtin(shell);
-//         return;
-//     }
-// 	 DIR *dir = opendir(shell->command->name);
-//     if (dir)
-//     {
-//         simple_error(CMD_NOT_FOUND, shell->command->name, "Is a directory");
-//         closedir(dir); 
-//         return;
-//     }
-//     if (access(shell->command->name, X_OK || F_OK) == 0)
-//         pathname = ft_strdup(shell->command->name);
-//     else
-//     {
-//         pathname = find_path(shell, shell->command->name);
-//         if (!pathname)
-//         {
-//             simple_error(CMD_NOT_FOUND, shell->command->name, "command not found");
-//             return;
-//         }
-//     }
-//     execute_execve(shell, &pathname);
-// }
 
 static int is_directory(const char *path) {
     DIR *dir = opendir(path);
@@ -160,7 +130,6 @@ static int is_directory(const char *path) {
         closedir(dir);
         return 1;
     }
-
     return 0;
 }
 
@@ -169,33 +138,35 @@ void execute_command(t_shell *shell)
  {
     char *pathname = NULL;
 
-  	if (!(shell->command->name))
-    {
-        single_redir_file(shell);
-        return;
-    }
+  	// if (!(shell->command->name))
+    // {
+    //     single_redir_file(shell -> command);
+    //     return;
+    // }
     if (is_builtin(shell->command->name))
 	{
+		//printf("barev\n");
         handle_builtin(shell);
         return;
     }
-    if (access(shell->command->name, X_OK | F_OK) == 0) {
-		  if (is_directory(shell->command->name)) {
-            simple_error(1, shell->command->name, "Is a directory");
-            return;
-        }
-        pathname = ft_strdup(shell->command->name);
-    }
-    if (pathname) {
-        execute_execve(shell, &pathname);
-    } else {
-        pathname = find_path(shell, shell->command->name);
-        if (!pathname ) {
-            simple_error(0, shell->command->name, "command not found");
-            return;
-        }
-        execute_execve(shell, &pathname);
-    }
+    // if (access(shell->command->name, X_OK | F_OK) == 0) {
+	// 	  if (is_directory(shell->command->name)) {
+    //         simple_error(126, shell->command->name, "is a directory");
+    //         return;
+    //     }
+    //     pathname = ft_strdup(shell->command->name);
+    // }
+	// //if (check_non_directory())
+    // if (pathname) {
+    //     execute_execve(shell, &pathname);
+    // } else {
+    //     pathname = find_path(shell, shell->command->name);
+    //     if (!pathname ) {
+    //         simple_error(127, shell->command->name, "command not found");
+    //         return;
+    //     }
+    //     execute_execve(shell, &pathname);
+    // }
 }
 
 int	is_builtin(char *name)

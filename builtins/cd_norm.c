@@ -109,7 +109,7 @@ static int handle_chdir(t_shell *shell, char *path)
 
     if (!old_path)
 	{
-		error(ALLOCATION_ERR, shell);
+		error("ALLOCATION_ERR", shell);//cd error 
         return (0);
 	}
     if (chdir(path) != 0)

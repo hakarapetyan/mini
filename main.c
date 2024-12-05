@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:32:14 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/03 20:39:36 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/05 20:58:03 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,15 +74,20 @@ int	main(int argc, char **argv, char **env)
 		lexical_analyzer(&shell);
 		if (check_redir_errors(&shell) >= 0)
 		{
+
+				//print_tokens(&shell);
 			if (create_commands(&shell) >= 0)
 			{
 				//free_tokens(shell.token);
-				heredoc_handle(&shell);
-				//  print_tokens(&shell);
-				// print_commands(&shell);
+				print_commands(&shell);
+				prepare_redirections(&shell);
+				// if (prepare_redirections(&shell)< 0)
+				// 	unlink("tmp_file");
+				execute_command(&shell);
+				dup2( STDOUT_FILENO, 3);
+
 				// builtins(&shell);
 				//if (shell.command)
-				execute_command(&shell);
 
 			}
 		}

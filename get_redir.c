@@ -21,20 +21,26 @@ static void	get_redir_helper(t_token **token,  t_shell *shell, char **type)
 		*type = ft_strdup((*token) -> next -> value);
 	if (!(*type))
 		error(ALLOCATION_ERR, shell);
-
 //	open_the_file(shell, (*type));
 }
 
-void	get_redir(t_token **token,t_commands **tmp,  t_shell *shell)
+int	get_redir(t_token **token,t_commands **tmp,  t_shell *shell)
 {
 	if ((*token) -> type == R_IN)
+	{
 		get_redir_helper(token, shell, &((*tmp) -> r_in));
+		handle_input_redirection(shell);
+	}
 	else if ((*token) -> type == R_OUT)
+	{
 		get_redir_helper(token, shell, &((*tmp) -> r_out));
+		handle_output_redirection(shell);
+	}
 	else if ((*token) -> type == R_APPEND)
 	{
 		get_redir_helper(token, shell, &((*tmp) -> r_out));
 		(*tmp) -> is_append = 1;
+		//handle_output_redirection(shell);
 	}
 	else if ((*token) -> type == R_HEREDOC)
 	{
@@ -42,6 +48,7 @@ void	get_redir(t_token **token,t_commands **tmp,  t_shell *shell)
 		if ((*token) -> next)
 			(*tmp) -> state = (*token) -> next -> state;
 		(*tmp) -> heredoc_count += 1;
+		//handle_input_redirection(shell);
 		if ((*tmp) -> heredoc_count > 16)
 		{
 			write(STDERR_FILENO, "minishell: maximum here-document count exceeded\n",49);
@@ -50,4 +57,9 @@ void	get_redir(t_token **token,t_commands **tmp,  t_shell *shell)
 		}
 	}
 	(*token) = (*token)->next ? (*token)->next->next : NULL;
+	// if (single_redir_file(*tmp) < 0)
+	// {
+	// 	return (-1);
+	// }
+	return (0);
 }

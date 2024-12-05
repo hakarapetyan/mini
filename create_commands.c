@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:43:58 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/03 18:20:19 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/05 16:25:10 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 
 static int	create_first_command(t_token **tkn, t_commands **tmp, t_shell *shell)
 {
-	if ((*tkn) -> value && (*(*tkn) -> value) != '\0')
+	if (((*tkn) -> value && (*(*tkn) -> value) != '\0') || ((*tkn) -> state != DEFAULT
+		&& (*tkn) -> value && (*(*tkn) -> value) == '\0'))
 	{
 		*tmp = create_command((*tkn) -> value);
 		shell -> command = *tmp;
@@ -47,7 +48,8 @@ int	create_commands(t_shell *shell)
 			}
 			else
 				add_command(&tkn, &tmp, shell);
-			get_args(&tkn, shell);
+			if (get_args(&tkn, shell) < 0)
+				return (-1);
 		}
 	}
 	return (0);

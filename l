@@ -1,0 +1,3 @@
+hasar?
+hi 
+[1;37m.minishell [0m
