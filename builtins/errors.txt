@@ -1,8 +1,6 @@
 exit.c /exit 999999999999999
-cd.c /cd /bin/ls
 cd.c/ mkdir -p a/b
 cd a/b
 rm -rf ../../a
 cd ../
-export.c/export jkvk+ /export TES=T=""
 metsatar-poqratar

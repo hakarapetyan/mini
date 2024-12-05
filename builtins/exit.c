@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/11 17:24:31 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/02 18:01:08 by ashahbaz         ###   ########.fr       */
+/*   Created: 2024/12/05 14:33:04 by hakarape          #+#    #+#             */
+/*   Updated: 2024/12/05 19:13:07 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../include/minishell.h"
 
@@ -99,14 +100,23 @@ void execute_exit(t_shell *shell)
 
 	func = my_exit(shell -> token_count, cmd -> args, shell);
 	if(func == 1)
+	{
+		free_env(shell->env);
+		free_env(shell->exp);
+		free_shell(shell);
 		exit(1);
+	}
 	else if (func == 2)
 		{
 			write(STDERR_FILENO, "exit\n", 5);
 			simple_error(EXIT_FAILURE, "exit", "too many arguments");
 		}
-		//printf("exit\nminshell: exit: too many arguments\n");
 	else
+	{
+		free_env(shell->env);
+		free_env(shell->exp);
+		free_shell(shell);
 		exit(0);
+	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:32:14 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/03 18:54:44 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/05 19:12:32 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int	main(int argc, char **argv, char **env)
 		//system("leaks minishell");
 	}
 	free_env(shell.env);
+	free_env(shell.exp);
 	shell.env = NULL;
 	free_shell(&shell);
 	//system("leaks minishell");

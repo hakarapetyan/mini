@@ -1,10 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd_norm.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/05 14:32:45 by hakarape          #+#    #+#             */
+/*   Updated: 2024/12/05 14:32:45 by hakarape         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
-static void only_cd(t_shell *shell, char *tmp, char *cmd)
+static int  only_cd(t_shell *shell, char *tmp, char *cmd)
 {
 	cmd = getcwd(NULL, 0);
-	changes_in_list(shell->env, cmd, tmp);
-	changes_in_list(shell->exp, cmd, tmp);
+	if (cmd != NULL)
+	{
+		changes_in_list(shell->env, cmd, tmp);
+		changes_in_list(shell->exp, cmd, tmp);
+	}
+	else
+		return (1);
+	free(cmd);
+	return (0);
 }
 
 static int	cd_minus(t_shell *shell)
@@ -44,7 +63,14 @@ static int my_cd_helper_norm(t_shell *shell, char *argv, char *tmp, char *cmd)
 					return (1);
 			}
 			else if (!chdir(argv))
-				only_cd(shell, tmp, cmd);
+			{
+				if(only_cd(shell, tmp, cmd))
+				{
+					error(GETCWDERROR, shell);
+					free(cmd);
+					return (1);
+				}
+			}
 			else
 			{
 				error_message(EXIT_FAILURE, argv);
@@ -66,15 +92,20 @@ int	my_cd_helper(char *argv, t_shell *shell)//cd -
 		if (cmd != NULL)
 		{
 			if(my_cd_helper_norm(shell, argv, tmp, cmd))
+			{
+				free(cmd);
 				return (1);
-			free(cmd);
+			}
 		}
 		else
 		{
-			error(ALLOCATION_ERR, shell);
+			error(GETCWDERROR, shell);
 			//ft_putendl_fd("path not found\n", 2);
+			free(cmd);
 			return(1);
 		}
 	}
+	free(cmd);
 	return (0);
 }
+

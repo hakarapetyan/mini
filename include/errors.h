@@ -2,6 +2,7 @@
 # define ERRORS_H
 
 # define ALLOCATION_ERR "Allocation failed"
+# define GETCWDERROR "cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory"
 # define READLINE_ERR "Readline failed"
 # define SYNTAX_ERR_MSG "syntax error near unexpected token `"
 # define CMD_NOT_FND_MSG "command not found"
