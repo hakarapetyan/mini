@@ -43,7 +43,8 @@ void	print_commands(t_shell *shell);
 char	*find_path(t_shell *shell, char	*command_name);
 
 //execute
-void	execute_command(t_shell *shell);
+int execute(t_shell *shell);
+int	execute_command(t_shell *shell);
 int		is_builtin(char *name);
 
 //ft_split

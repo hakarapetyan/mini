@@ -38,7 +38,6 @@ int handle_input_redirection(t_shell *shell)
             error_message(1, "tmp_file");
             return (-1);
         }
-		//close(shell->command->fd_in);
     }
     return (0);
 }
@@ -67,24 +66,22 @@ int handle_output_redirection(t_shell *shell)
     else if (shell->command->r_out)
     {
         shell->command->fd_out = open(shell->command->r_out, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		printf("%d\n",shell->command->fd_out);
         if (shell->command->fd_out < 0)
         {
             error_message(1, shell->command->r_out);
             return (-1);
         }
-      //  printf("am i in output\n");
-		////////close(shell->command->fd_out);
     }
     return (0);
 }
 
 static int setup_output_fd(t_shell *shell)
 {
+
     if (shell->command->fd_out >= 0)
     {
-
-        printf("am i in output dup\n");
+     //shell -> original_stdout = dup(STDOUT_FILENO);
+       // printf("am i in output dup\n");
         if (dup2(shell->command->fd_out, STDOUT_FILENO) < 0)
         {
             error_message(1, shell->command->r_out);

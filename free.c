@@ -107,8 +107,6 @@ void	free_shell(t_shell *shell)
 	free(shell -> input);
 	shell -> input = NULL;
 	free_tokens(shell -> token);
-	// free_env(shell -> env);
-	// free_env(shell -> exp);
 	free_commands(shell -> command);
 	free(shell -> pwd);
 	free(shell -> oldpwd);
@@ -116,8 +114,6 @@ void	free_shell(t_shell *shell)
 	shell -> command_count = 0;
 	shell -> token = NULL;
 	shell -> command = NULL;
-	// shell -> env = NULL;
-	// shell -> exp = NULL;
 	shell -> pwd = NULL;
 	shell -> oldpwd = NULL;
 }
@@ -140,4 +136,15 @@ void	free_arr(char **arr)
 		*arr = NULL;
 	}
 	arr = NULL;
+}
+
+
+void	clean_shell_exit(t_shell *shell, int status)
+{
+	free_env(shell -> env);
+	shell -> env = NULL;
+	free_env(shell -> exp);
+	shell -> exp = NULL;
+	free_shell(shell);
+	exit(status);
 }

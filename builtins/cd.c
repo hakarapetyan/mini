@@ -83,12 +83,12 @@ int	my_cd(int argc, char **argv, t_shell *shell)
 {
 	char	*pwd;
 	char	*home;
-	char	*oldpwd;
+	//char	*oldpwd;
 
 	env_list *env=shell->env;
 	env_list *exp = shell->exp;
 	pwd = get_value(shell, "PWD=");
-	oldpwd = get_value(shell, "OLDPWD=");
+	//oldpwd = get_value(shell, "OLDPWD=");
 	add_oldpwd_to_env(env, pwd);//shell taluc segv
 	add_oldpwd_to_exp(exp, pwd);
 	home = get_value(shell, "HOME=");

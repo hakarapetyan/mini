@@ -31,6 +31,8 @@ void	init_shell(t_shell *shell)
 	shell -> next = NULL;
 	shell -> token = NULL;
 	shell -> command = NULL;
+	//dup(STDIN_FILENO);
+	//dup(STDOUT_FILENO);
 	// init_data(&shell -> env);
 	// init_data(&shell -> exp);
 }

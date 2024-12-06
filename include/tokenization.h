@@ -41,6 +41,8 @@ typedef struct s_commands
 	int 				is_append;
 	int					fd_in;
 	int					fd_out;
+	int					stdin_original;
+	int					stdout_original;
 	int					heredoc_count;
 	t_lexer_state		state;
 	struct s_commands	*next;

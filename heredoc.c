@@ -26,7 +26,7 @@ int heredoc_handle(t_shell *shell)
 		fd = open("tmp_file", O_WRONLY | O_CREAT | O_TRUNC, 0600);
 		while (1)
 		{
-			delimiter = readline("< ");
+			delimiter = readline("> ");
 			if (ft_strcmp(delimiter, cmd -> r_heredoc) == 0)
 			{
 				free(delimiter);
@@ -35,21 +35,12 @@ int heredoc_handle(t_shell *shell)
 			}
 			if (cmd -> state == DEFAULT)
 				delimiter = extract_var_from_quoted_str(delimiter, shell);
-			// else
-			// 	delimiter = parse_line_heredoc(delimiter, shell);
 			write(fd, delimiter, ft_strlen(delimiter));
 			write(fd, "\n", 1);
 			free(delimiter);
 			delimiter = NULL;
 		}
 		close(fd);
-		//handle_input_redirection(shell);
-		// fd = open("tmp_file", O_RDONLY);
-		// if (fd < 0)
-		// {
-		// 	perror("");
-		// }
-		// cmd -> fd_in = fd;
 	}
 	return (0);
 }

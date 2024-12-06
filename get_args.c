@@ -79,9 +79,13 @@ int get_args(t_token **token, t_shell *shell)
 
 	tmp = shell -> command;
     if (!token || !*token || !shell || !shell->token)
+	{
         return (-1);
+	}
 	if (!tmp)
+	{
 		return (-1);
+	}
 	while (tmp -> next)
 		tmp = tmp -> next;
 	if (tmp -> args)

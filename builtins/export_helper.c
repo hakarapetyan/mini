@@ -42,9 +42,9 @@ void	print_exp(t_shell *shell)
 }
 void	print_exp_helper(char *exp)
 {
-	int	i;
+	// int	i;
 
-	i = 0;
+	// i = 0;
 	if(ft_strchr(exp, '='))
 	{
 		printf("declare -x ");

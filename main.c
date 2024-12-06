@@ -74,19 +74,15 @@ int	main(int argc, char **argv, char **env)
 		lexical_analyzer(&shell);
 		if (check_redir_errors(&shell) >= 0)
 		{
-
 				//print_tokens(&shell);
 			if (create_commands(&shell) >= 0)
 			{
 				//free_tokens(shell.token);
-				print_commands(&shell);
+				//print_commands(&shell);
 				prepare_redirections(&shell);
-				// if (prepare_redirections(&shell)< 0)
-				// 	unlink("tmp_file");
-				execute_command(&shell);
-				dup2( STDOUT_FILENO, 3);
-
-				// builtins(&shell);
+				execute(&shell);
+				dup2(shell.command -> stdin_original, STDIN_FILENO);
+   				dup2(shell.command -> stdout_original, STDOUT_FILENO);
 				//if (shell.command)
 
 			}

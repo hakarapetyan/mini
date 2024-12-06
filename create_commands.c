@@ -82,7 +82,6 @@ t_commands	*create_command(char *value)
 	command = malloc(sizeof(t_commands));
 	if (!command)//allocation failed;
 		return (NULL);
-	//create_command_helper(tkn, &command);
 	command -> r_in = NULL;
 	command -> r_out = NULL;
 	command -> r_heredoc = NULL;
@@ -93,6 +92,8 @@ t_commands	*create_command(char *value)
 	command -> prev = NULL;
 	command -> state = DEFAULT;
 	command -> heredoc_count = 0;
+	command -> stdin_original = dup(STDIN_FILENO);
+	command -> stdout_original = dup(STDOUT_FILENO);
 	if (!command)
 	{
 		free_commands(command);
