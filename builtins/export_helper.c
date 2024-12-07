@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   export_helper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/23 12:47:52 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/02 15:07:51 by ashahbaz         ###   ########.fr       */
+/*   Created: 2024/12/05 14:33:10 by hakarape          #+#    #+#             */
+/*   Updated: 2024/12/05 14:33:11 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../include/minishell.h"
 
@@ -42,9 +43,9 @@ void	print_exp(t_shell *shell)
 }
 void	print_exp_helper(char *exp)
 {
-	// int	i;
+	int	i;
 
-	// i = 0;
+	i = 0;
 	if(ft_strchr(exp, '='))
 	{
 		printf("declare -x ");

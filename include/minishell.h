@@ -10,7 +10,8 @@
 # include <fcntl.h>
 # include <errno.h>
 # include <sys/wait.h>
-#include <dirent.h>
+# include <dirent.h>
+# include <string.h>
 # include "tokenization.h"
 # include "env.h"
 # include "builtins.h"
@@ -43,8 +44,8 @@ void	print_commands(t_shell *shell);
 char	*find_path(t_shell *shell, char	*command_name);
 
 //execute
-int execute(t_shell *shell);
-int	execute_command(t_shell *shell);
+int execute(t_shell *shell, t_commands *command);
+int	execute_command(t_shell *shell, t_commands *command);
 int		is_builtin(char *name);
 
 //ft_split

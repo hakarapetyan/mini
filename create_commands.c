@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:43:58 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/05 16:25:10 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/07 18:08:25 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,15 +60,16 @@ void	add_command(t_token **tkn, t_commands **tmp, t_shell *shell)
 {
 	if (!ft_strcmp((*tkn) -> value, "|"))
 	{
-			while ((*tmp) -> next)
-				(*tmp) = (*tmp) -> next;
-			(*tmp) -> next = create_command((*tkn) -> next -> value);
-			if (!((*tmp) -> next))
-				free_shell(shell);
-			(*tmp) -> next -> prev = *tmp;
-			(*tkn) = (*tkn) -> next;
+		while ((*tmp) -> next)
 			(*tmp) = (*tmp) -> next;
-			shell -> command_count++;
+		(*tmp) -> next = create_command((*tkn) -> next -> value);
+		if (!((*tmp) -> next))
+			free_shell(shell);
+		(*tmp) -> next -> prev = *tmp;
+		(*tkn) = (*tkn) -> next;
+		(*tmp) = (*tmp) -> next;
+		shell -> command_count++;
+		shell -> pipe_count++;
 	}
 }
 

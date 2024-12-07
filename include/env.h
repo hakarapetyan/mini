@@ -14,6 +14,8 @@ typedef struct s_shell
 	char			*oldpwd;
 	char			*input;
 	int				shlvl;
+	int				*pid;
+	int				pipe_count;
 	int				token_count;
 	int				command_count;
 	t_token			*token;

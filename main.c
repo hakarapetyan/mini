@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:32:14 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/05 20:58:03 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/07 19:26:25 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,83 @@ static int	check_redir_errors(t_shell *shell)
 	}
 	return (0);
 }
+static void execute_piped_commands(t_shell *shell)
+{
+    t_commands *cmd = shell->command;
+    int pipefd[2];
+    int prev_fd = STDIN_FILENO;
+
+    while (cmd)
+    {
+        if (cmd->next)
+        {
+            if (pipe(pipefd) == -1)
+                perror("pipe error");
+        }
+
+        // pid_t pid = fork();
+        // if (pid == -1)
+        // {
+        //     perror("fork error");
+        //     exit(EXIT_FAILURE);
+        // }
+
+        // if (pid == 0) // Child process
+        // {
+        //     // Redirect input
+            if (prev_fd != STDIN_FILENO)
+            {
+                dup2(prev_fd, STDIN_FILENO);
+                close(prev_fd);
+            }
+
+            // Redirect output
+            if (cmd->next)
+            {
+                dup2(pipefd[1], STDOUT_FILENO);
+                close(pipefd[1]);
+                close(pipefd[0]);
+            }
+
+         execute(shell, cmd); // Your existing function to exec the command
+          //  exit(EXIT_SUCCESS);
+     //   }
+        // else // Parent process
+        // {
+        //     waitpid(pid, NULL, 0); // Wait for the child process
+        //     if (prev_fd != STDIN_FILENO)
+        //         close(prev_fd);
+        //     if (cmd->next)
+        //         close(pipefd[1]);
+
+            prev_fd = pipefd[0]; // Pass read end for next command
+        // }
+
+        cmd = cmd->next; // Move to the next command
+    }
+}
+
+static int create_pipes(t_shell *shell)
+{
+	int	pipe_index;
+	int	i;
+	int	(*fd)[2];
+
+	pipe_index = 0;
+	i = 0;
+	while (pipe_index < shell -> pipe_count)
+	{
+
+	}
+}
+static int	execution(t_shell *shell)
+{
+	shell -> pid = malloc(sizeof(int) * ((shell -> pipe_count) + 1));
+	if(!(shell -> pid))
+		//freeee
+	create_pipes(shell);
+}
+
 
 int	main(int argc, char **argv, char **env)
 {
@@ -79,12 +156,16 @@ int	main(int argc, char **argv, char **env)
 			{
 				//free_tokens(shell.token);
 				//print_commands(&shell);
+				//create_pipes(&shell);
 				prepare_redirections(&shell);
-				execute(&shell);
+			//	if (contains_pipes(shell.command)) // Implement this function
+					execute_piped_commands(&shell); // Handles piped commands
+              //  else
+               //     execute(&shell); // Handles regular commands
+
+				//execute(&shell);
 				dup2(shell.command -> stdin_original, STDIN_FILENO);
    				dup2(shell.command -> stdout_original, STDOUT_FILENO);
-				//if (shell.command)
-
 			}
 		}
 		free_shell(&shell);

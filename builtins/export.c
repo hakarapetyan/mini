@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/18 13:38:26 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/03 20:02:39 by ashahbaz         ###   ########.fr       */
+/*   Created: 2024/12/05 14:33:23 by hakarape          #+#    #+#             */
+/*   Updated: 2024/12/05 16:43:31 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,18 @@ int check_key(env_list *list, env_list *new)
 	}
 	return (0);
 }
+static	int	ft_isalpha(int c)
+{
+	if ((c < 65 || c > 90) && (c < 97 || c > 122))
+		return (0);
+	return (1);
+}
+int	my_isalnum(int c)
+{
+	if (ft_isalpha(c) || (c >= 48 && c <= 57))
+		return (1);
+	return (0);
+}
 int	my_export_helper(char **arg, env_list *env, env_list *exp)
 {
 	int	i;
@@ -58,7 +70,7 @@ int	my_export_helper(char **arg, env_list *env, env_list *exp)
 			i++;
 		while (arg[i])
 		{
-			if (is_alpha(arg[i]) && my_strchr(arg[i], '_') && my_strchr(arg[i], '=') )
+			if (!is_alpha(arg[i]) /*|| !my_strchr(arg[i], '_')*/)
 			{
 				simple_error(EXIT_FAILURE, arg[i],"not a valid identifier");
 				// write_print(arg[i], "minishell: export:", 2);

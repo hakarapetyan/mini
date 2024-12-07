@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:48:42 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/03 20:36:51 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/07 16:57:56 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,14 @@ static int check_oldpwd(env_list *env, char *key)
 	}
 	return (0);
 }
-static void add_oldpwd_to_env(env_list *list, char *pwd)
+static void  add_oldpwd_to_env(env_list *list, char *pwd, t_shell *shell)
 {
 	// if (!list || (*pwd))
 	// 	return ;
 	env_list *tmp = list;
 	if (!check_oldpwd(tmp, "OLDPWD="))
 	{
+		shell->flag = 1;
 		add_node_to_list(list, "OLDPWD=");
 		while (list -> next)
 			list = list->next;
@@ -36,7 +37,7 @@ static void add_oldpwd_to_env(env_list *list, char *pwd)
 	}
 }
 
-static void add_oldpwd_to_exp(env_list *list, char *pwd)
+static void add_oldpwd_to_exp(env_list *list, char *pwd, t_shell *shell)
 {
 	// if (!list || *pwd)
 	// 	return ;
@@ -46,6 +47,7 @@ static void add_oldpwd_to_exp(env_list *list, char *pwd)
 				{
 					list->key = ft_strdup("OLDPWD=");
 					list->value = ft_strdup(pwd);
+					shell->flag = 1;
 				}
 			list = list->next;
 		}
@@ -62,12 +64,11 @@ int	cd_errors_checking(char *oldpwd, char *home)
 	return (0);
 }
 
-static int	my_cd_norm(int argc, char **argv, t_shell *shell)
+static int	my_cd_norm(char **argv, t_shell *shell)
 {
 	int i;
 
 	i = 0;
-	(void)argc;
 	// if	(argc > 2)
 	// {
 	// 	ft_putendl_fd("minishell: cd: too many arguments\n", 2);
@@ -83,22 +84,24 @@ int	my_cd(int argc, char **argv, t_shell *shell)
 {
 	char	*pwd;
 	char	*home;
-	//char	*oldpwd;
-
+	
 	env_list *env=shell->env;
 	env_list *exp = shell->exp;
 	pwd = get_value(shell, "PWD=");
 	//oldpwd = get_value(shell, "OLDPWD=");
-	add_oldpwd_to_env(env, pwd);//shell taluc segv
-	add_oldpwd_to_exp(exp, pwd);
+	if (shell -> flag != 1)
+	{
+		add_oldpwd_to_env(env, pwd, shell);//shell taluc segv
+		add_oldpwd_to_exp(exp, pwd, shell);
+	}
 	home = get_value(shell, "HOME=");
-	// if (cd_errors_checking(oldpwd, home))
-	// 	return (1);
 	if (argc > 1)
 	{
-		if(my_cd_norm(argc, argv, shell))
+		if(my_cd_norm( argv, shell))
 			return(1);
 	}
+	// if (cd_errors_checking(oldpwd, "OLDPWD not set"))
+	// 	return (1);
 	else
 	{
 		chdir(home);

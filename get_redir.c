@@ -70,7 +70,7 @@ static int handle_input_redirection_case(t_token **token, t_commands **tmp, t_sh
 
 static int handle_output_redirection_case(t_token **token, t_commands **tmp, t_shell *shell)
 {
-	printf("barev\n");
+	
     get_redir_helper(token, shell, &((*tmp)->r_out));
     if (handle_output_redirection(shell) < 0)
         return (-1);

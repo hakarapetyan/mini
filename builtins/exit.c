@@ -3,36 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/11 17:24:31 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/03 20:37:54 by ashahbaz         ###   ########.fr       */
+/*   Created: 2024/12/05 14:33:04 by hakarape          #+#    #+#             */
+/*   Updated: 2024/12/07 19:32:11 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "../include/minishell.h"
 
-static int is_digit(char *arg)
-{
-    int i;
-
-    i = 0;
-    if (arg[i] == '+' || arg[i] == '-')
-		i++;
-    while (arg[i])
-    {
-        if (arg[i] >= 48 && arg[i] <= 57)
-            i++;
-        else
-        {
-			write(STDERR_FILENO, "exit\n", 5);
-			simple_error(255, arg, "numeric argument required");
-        	//printf("exit\nminishell: exit: %s: numeric argument required\n", arg);
-        	return (1);
-        }
-    }
-    return (0);
-}
 
 // static int	check_int(char *arg)
 // {
@@ -48,22 +28,105 @@ static int is_digit(char *arg)
 // 	}
 // 	return (0);
 // }
+static int	ft_nbr(const char *str)
+{
+	int	i;
+	int	n;
+
+	n = 0;
+	i = 0;
+	while ((str[i] >= '0' && str[i] <= '9') && str[i])
+	{
+		n = n * 10 + (str[i] - '0');
+		i++;
+	}
+	return (n);
+}
+long	ft_atoi(const char *str)
+{
+	int	i;
+	int	sign;
+	int	count;
+
+	sign = 1;
+	i = 0;
+	count = 0;
+	while (((str[i] >= 9 && str[i] <= 13) || str[i] == 32))
+		i++;
+	while (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i] == '-')
+		{
+			sign = -1;
+			count++;
+		}
+		else if (str[i] == '+')
+			count++;
+		i++;
+	}
+	if (count > 1)
+		return (0);
+	return (ft_nbr(&str[i]) * sign);
+}
+static int exit_status(char *argv)
+{
+	long num;
+	int tmp;
+	if (!argv)
+		return (0);
+	num = ft_atoi(argv);
+	if (num >= 0)
+		return (num % 256);
+	else if (num < 0)
+	{
+	    tmp = num % 256;
+	   if (tmp)
+	    tmp = tmp + 256;
+	   else
+	    return (tmp);
+	return (tmp);
+	}
+	return (0);
+}
+static int is_digit(char *arg)
+{
+    int i;
+
+    i = 0;
+    if (arg[i] == '+' || arg[i] == '-')
+		i++;
+    while (arg[i])
+    {
+        if (arg[i] >= 48 && arg[i] <= 57)
+            i++;
+        else
+        {
+			// write(STDERR_FILENO, "exit\n", 5);
+			// simple_error(255, arg, "numeric argument required");
+        	//printf("exit\nminishell: exit: %s: numeric argument required\n", arg);
+        	return (1);
+        }
+    }
+    return (0);
+}
 static int	norm_my_exit(int args,char **argv, int i)
 {
+	int	status;
+
+	status = exit_status(argv[i]);
 	if (args == 1)
 	{
 		printf("exit\n");
-		return (0);
+		return (set_status(SUCCESS), 0);
 	}
 	else if (args == 2)
 	{
-		// if (check_int(argv[i]))
-		// 	return (1);
 		if(is_digit(argv[i]))
 			return(1);
 		else
 		{
 			printf("exit\n");
+			set_status(status);
 			return (0);
 		}
 	}
@@ -74,18 +137,21 @@ static int	norm_my_exit(int args,char **argv, int i)
 		return (2);
 	}
 }
-int my_exit(int args, char **argv, t_shell *shell)
+int my_exit(int args, char **argv)
 {
 	int	i;
 	int	exit;
 
 	i = 0;
-	(void)shell;
 	if (argv[i] && ft_strcmp(argv[i], "exit") == 0)
 		i++;
 	exit = norm_my_exit(args, argv, i);
 	if (exit == 1)
+	{
+		write(STDERR_FILENO, "exit\n", 5);
+		simple_error(255, "exit", "numeric argument required");
 		return (1);
+	}
 	else if (exit == 2)
 		return (2);
 	else
@@ -98,16 +164,26 @@ void execute_exit(t_shell *shell)
 
 	cmd = shell -> command;
 
-	func = my_exit(shell -> token_count, cmd -> args, shell);
+	func = my_exit(shell -> token_count, cmd -> args);
 	if(func == 1)
-		exit(1);
+	{
+		free_env(shell->env);
+		free_env(shell->exp);
+		free_shell(shell);
+		//printf("gnac\n");
+		exit(get_status());
+	}
 	else if (func == 2)
 		{
 			write(STDERR_FILENO, "exit\n", 5);
 			simple_error(EXIT_FAILURE, "exit", "too many arguments");
 		}
-		//printf("exit\nminshell: exit: too many arguments\n");
 	else
-		exit(0);
+	{
+		free_env(shell->env);
+		free_env(shell->exp);
+		free_shell(shell);
+		exit(get_status());
+	}
 }
 

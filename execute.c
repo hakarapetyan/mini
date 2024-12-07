@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:43:43 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/05 20:41:18 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/07 17:39:14 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,28 @@ static void run_execve(t_shell *shell, char **pathname)
 {
 	if (execve(*pathname, shell->command->args,list_to_arr(shell -> env)) == -1)
 	{
+		//error_message(1, shell -> command -> name);
 		simple_error(127, shell->command->name, "command not found");
 		clean_shell_exit(shell, get_status());
 	}
 }
-int execute(t_shell *shell)
+
+// static void increment_shlvl(t_shell *shell)
+// {
+
+// 	shell -> shlvl++;
+// }
+int execute(t_shell *shell, t_commands *command)
 {
     pid_t pid;
 	int status;
 
     pid = fork();
     if (pid == 0)
-		execute_command(shell);
+	{
+		// increment_shlvl(shell);
+		execute_command(shell, command);
+	}
     else if (pid > 0)
 	{
         waitpid(pid, &status, 0);
@@ -54,7 +64,7 @@ static void handle_builtin(t_shell *shell)
 
 static int is_directory(char *path) {
     DIR *dir = opendir(path);
-	if (path && ((path[0] == '.'&&  path[1] == '/') || path[ft_strlen(path) - 1] == '/'))
+	if (path && ((path[0] == '.'&&  path[1] == '/') || path[ft_strlen(path) - 1] == '/' || path[0] == '/'))
 	{
 		if (dir) {
 			closedir(dir);
@@ -65,40 +75,43 @@ static int is_directory(char *path) {
 }
 
 
-int execute_command(t_shell *shell)
+int execute_command(t_shell *shell, t_commands *command)
  {
     char *pathname = NULL;
 
-    if (is_builtin(shell->command->name))
+    if (is_builtin(command -> name))
 	{
         handle_builtin(shell);
-        clean_shell_exit(shell, get_status());
+		return (0);
+        // clean_shell_exit(shell, get_status());
     }
-	if (access(shell->command->name, X_OK | F_OK) == 0)
+	if (access(command -> name, X_OK | F_OK) == 0)
 	{
-		if (is_directory(shell->command->name)) 
+		if (is_directory(command -> name))
 		{
-			simple_error(126, shell->command->name, "is a directory");
+			simple_error(126, command -> name, "is a directory");
 			clean_shell_exit(shell, get_status());
 		}
-			pathname = ft_strdup(shell -> command -> name);
+			pathname = ft_strdup(command -> name);
+			//printf("%s\n",pathname);
 	}
-	if (shell->command->name[0] == '/' || (shell->command->name[0] == '.' && shell->command->name[1] == '/') )
+	if (command -> name[0] == '/' || (command -> name[0] == '.' && command -> name[1] == '/') )
 	{
-		if (access(shell->command->name, F_OK) != 0)
+		if (access(command -> name, F_OK) != 0)
 		{
-			simple_error(127, shell->command->name, "No such file or directory");
+			simple_error(127, command -> name, "No such file or directory");
 			clean_shell_exit(shell, get_status());
 		}
-			pathname = ft_strdup(shell -> command -> name);
+			pathname = ft_strdup(command -> name);
 	}
-		if (pathname ) 
+		if (pathname)
 			run_execve(shell, &pathname);
 	else {
-        pathname = find_path(shell, shell->command->name);
+        pathname = find_path(shell, command -> name);
         if (!pathname ) {
-            simple_error(127, shell->command->name, "command not found");
-            clean_shell_exit(shell, 127);
+			//error_message(127, command -> name);
+            simple_error(127, command -> name, "command -> name not found");
+            clean_shell_exit(shell, get_status());
         }
         run_execve(shell, &pathname);
     }
