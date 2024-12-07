@@ -1,8 +1,5 @@
 #ifndef BUILTINS_H
 # define BUILTINS_H
-# define INT_MAX_8 "9223372036854775807"
-# define INT_MIN_8 "-9223372036854775808"
-
 
 int		my_pwd(t_shell *shell);
 void	my_echo_helper_one(int argc, char **input, int i);
