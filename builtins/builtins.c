@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 14:32:26 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/05 19:51:40 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/07 17:24:53 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	builtins(t_shell *shell)
 	t_commands *cmd;
 
 	cmd = shell -> command;
+	set_status(0);
 	if (cmd && ft_strcmp(cmd -> name, "pwd") == 0)
 	{
 		if(my_pwd(shell))
@@ -25,7 +26,9 @@ int	builtins(t_shell *shell)
 	else if (cmd && ham_strcmp(cmd -> name, "echo") == 0)
 		my_echo(shell -> token_count, cmd -> args);
 	else if (cmd && ft_strcmp(cmd -> name, "exit") == 0)
+	{
 		execute_exit(shell);
+	}
 	else if (cmd && ft_strcmp(cmd -> name, "env") == 0)
 	{
 		if(my_env(shell -> token_count, shell, cmd->args))

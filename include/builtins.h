@@ -1,5 +1,8 @@
 #ifndef BUILTINS_H
 # define BUILTINS_H
+# define INT_MAX_8 "9223372036854775807"
+# define INT_MIN_8 "-9223372036854775808"
+
 
 int		my_pwd(t_shell *shell);
 void	my_echo_helper_one(int argc, char **input, int i);
@@ -14,13 +17,13 @@ void	changes_in_list(env_list *list, char *pwd,char *oldpwd);
 //void	changes_in_exp(t_shell *shell, char *pwd,char *oldpwd);
 char	*get_value(t_shell *shell, char *key);
 int		is_digit_unset(char *arg);
-int		my_exit(int args, char **argv, t_shell *shell);
+int		my_exit(int args, char **argv);
 //int		check_int(char *arg);
 void	execute_exit(t_shell *shell);
 void	ft_putendl_fd(char *s, int fd);
 int		is_alpha(char *arg);
 int		is_digit_unset(char *arg);
-int		my_strchr(const char *s, int c);
+int		my_strchr(char *s, int c);
 int		my_unset(int size, char **arg, t_shell *shell);
 int		del_from_lst(env_list *env, char *nv);
 int		del_one(env_list *env);

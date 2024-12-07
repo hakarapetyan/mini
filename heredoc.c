@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:52:37 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/03 18:48:26 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/05 19:06:05 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int heredoc_handle(t_shell *shell)
 		fd = open("tmp_file", O_WRONLY | O_CREAT | O_TRUNC, 0600);
 		while (1)
 		{
-			delimiter = readline("< ");
+			delimiter = readline("> ");
 			if (ft_strcmp(delimiter, cmd -> r_heredoc) == 0)
 			{
 				free(delimiter);
@@ -41,12 +41,6 @@ int heredoc_handle(t_shell *shell)
 			delimiter = NULL;
 		}
 		close(fd);
-		// fd = open("tmp_file", O_RDONLY);
-		// if (fd < 0)
-		// {
-		// 	perror("");
-		// }
-		// cmd -> fd_in = fd;
 	}
 	return (0);
 }

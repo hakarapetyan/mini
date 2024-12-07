@@ -6,13 +6,13 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 14:33:37 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/05 16:53:54 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/07 17:06:52 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	  my_strchr(const char *s, int c)
+int	  my_strchr(char *s, int c)
 {
 	int	i;
 
@@ -71,8 +71,8 @@ int is_digit_unset(char *arg)
 }
 void write_print(char *arg, char * msg, int fd)
 {
-	ft_putendl_fd(msg, 2);
-	write(2, "`", 1);
-	ft_putendl_fd(arg, 2);
-	write(2, "'", 1);
+	ft_putendl_fd(msg, fd);
+	write(fd, "`", 1);
+	ft_putendl_fd(arg, fd);
+	write(fd, "'", 1);
 }

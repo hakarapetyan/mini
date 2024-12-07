@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:32:14 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/05 19:12:32 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/07 17:08:38 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,22 +72,28 @@ int	main(int argc, char **argv, char **env)
 			add_history(shell.input);
 		get_environment(&shell, env);
 		lexical_analyzer(&shell);
-		if (check_redir_errors(&shell) != -1)
+		if (check_redir_errors(&shell) >= 0)
 		{
-			create_commands(&shell);
-			heredoc_handle(&shell);
-			// print_tokens(&shell);
-			//print_commands(&shell);
-			// builtins(&shell);
-			//if (shell.command)
-			execute_command(&shell);
+				//print_tokens(&shell);
+			if (create_commands(&shell) >= 0)
+			{
+				//free_tokens(shell.token);
+				//print_commands(&shell);
+				prepare_redirections(&shell);
+				execute(&shell);
+				dup2(shell.command -> stdin_original, STDIN_FILENO);
+   				dup2(shell.command -> stdout_original, STDOUT_FILENO);
+				//if (shell.command)
+
+			}
 		}
 		free_shell(&shell);
 		//system("leaks minishell");
 	}
 	free_env(shell.env);
-	free_env(shell.exp);
 	shell.env = NULL;
+	free_env(shell.exp);
+	shell.exp = NULL;
 	free_shell(&shell);
 	//system("leaks minishell");
 	return (0);

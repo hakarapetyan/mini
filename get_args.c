@@ -47,7 +47,7 @@ static void add_args_helper(t_commands **tmp, int *i)
 
 
 
-static void	add_args(t_token **token,t_commands **tmp,  t_shell *shell)
+static int	add_args(t_token **token,t_commands **tmp,  t_shell *shell)
 {
 	int	i;
 
@@ -55,7 +55,8 @@ static void	add_args(t_token **token,t_commands **tmp,  t_shell *shell)
 	while ((*token) && (*token) -> type != PIPE)
 	{
 		if (is_redirection((*token) -> type))
-			get_redir(token, tmp, shell);
+			if(get_redir(token, tmp, shell) < 0)
+				return (-1);
 		if ((*token) && (!is_redirection((*token) -> type) && (*token) -> type != PIPE))
 		{
 			if (*((*token) -> value) == '\0' && (*token) -> state == 2)
@@ -69,21 +70,28 @@ static void	add_args(t_token **token,t_commands **tmp,  t_shell *shell)
 		}
 	}
     add_args_helper(tmp, &i);
+	return (0);
 }
 
-void get_args(t_token **token, t_shell *shell)
+int get_args(t_token **token, t_shell *shell)
 {
 	t_commands	*tmp;
 
 	tmp = shell -> command;
     if (!token || !*token || !shell || !shell->token)
-        return;
+	{
+        return (-1);
+	}
 	if (!tmp)
-		return ;
+	{
+		return (-1);
+	}
 	while (tmp -> next)
 		tmp = tmp -> next;
 	if (tmp -> args)
-		return ;
+		return (-1);
 	allocate_args(&tmp, args_count(token), shell);
-	add_args(token,&tmp, shell);
+	if (add_args(token,&tmp, shell) < 0)
+		return (-1);
+	return (0);
 }

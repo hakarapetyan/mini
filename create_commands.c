@@ -6,23 +6,29 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:43:58 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/02 18:58:13 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/05 16:25:10 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "./include/minishell.h"
 
-static void	create_first_command(t_token **tkn, t_commands **tmp, t_shell *shell)
+static int	create_first_command(t_token **tkn, t_commands **tmp, t_shell *shell)
 {
-	*tmp = create_command((*tkn) -> value);
-	shell -> command = *tmp;
-	if (!(shell -> command))
-		error(ALLOCATION_ERR, shell);
-	shell -> command_count++;
+	if (((*tkn) -> value && (*(*tkn) -> value) != '\0') || ((*tkn) -> state != DEFAULT
+		&& (*tkn) -> value && (*(*tkn) -> value) == '\0'))
+	{
+		*tmp = create_command((*tkn) -> value);
+		shell -> command = *tmp;
+		if (!(shell -> command))
+			error(ALLOCATION_ERR, shell);
+		shell -> command_count++;
+		return (0);
+	}
+	return (-1);
 }
 
-void	create_commands(t_shell *shell)
+int	create_commands(t_shell *shell)
 {
 	t_token		*tkn;
 	t_commands	*tmp;
@@ -36,12 +42,17 @@ void	create_commands(t_shell *shell)
 		while (tkn)
 		{
 			if (!tmp)
-				create_first_command(&tkn, &tmp, shell);
+			{
+				if	(create_first_command(&tkn, &tmp, shell) < 0)
+					return (-1);
+			}
 			else
 				add_command(&tkn, &tmp, shell);
-			get_args(&tkn, shell);
+			if (get_args(&tkn, shell) < 0)
+				return (-1);
 		}
 	}
+	return (0);
 }
 
 
@@ -71,7 +82,6 @@ t_commands	*create_command(char *value)
 	command = malloc(sizeof(t_commands));
 	if (!command)//allocation failed;
 		return (NULL);
-	//create_command_helper(tkn, &command);
 	command -> r_in = NULL;
 	command -> r_out = NULL;
 	command -> r_heredoc = NULL;
@@ -81,6 +91,9 @@ t_commands	*create_command(char *value)
 	command -> next = NULL;
 	command -> prev = NULL;
 	command -> state = DEFAULT;
+	command -> heredoc_count = 0;
+	command -> stdin_original = dup(STDIN_FILENO);
+	command -> stdout_original = dup(STDOUT_FILENO);
 	if (!command)
 	{
 		free_commands(command);

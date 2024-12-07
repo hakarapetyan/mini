@@ -8,4 +8,5 @@ void	free_shell(t_shell *shell);
 void	free_str(char	*str);
 void	free_arr(char **arr);
 void	free_args(char **args);
+void	clean_shell_exit(t_shell *shell, int status);
 #endif

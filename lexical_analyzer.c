@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:53:12 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/02 15:16:35 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/05 14:38:03 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ void  lexical_analyzer(t_shell *shell)
 
 	status = tokenization(shell);
 	if (status == -2)
+	{
 		error("quote error", shell);
+		return ;
+	}
 }
 
 
@@ -86,9 +89,9 @@ static void token_list_without_spaces(t_shell *shell)
 
     while (tkn)
     {
-        if (tkn -> type == TK_SPACE)
+        if (tkn -> type == TK_SPACE ||( *tkn -> value == '\0' && tkn -> state == DEFAULT))
 			tk_space_remove(shell, &tkn, &tmp, &prev);
-        //else if (tkn -> next && tkn -> next -> type != TK_SPACE )
+        //else if (tkn -> next && tkn -> next -> type != TK_SPACE)
         else if ((tkn -> type == WORD || tkn -> type == ENV_VAR) && tkn -> next && (tkn -> next -> type == WORD || tkn -> next -> type == ENV_VAR))
 		{
             new_value = ft_strjoin(tkn -> value, tkn -> next -> value);
@@ -116,8 +119,6 @@ int	tokenization(t_shell *shell)
 
 	current = shell -> input;
 	handle_special_chars(shell, current);
-	// print_tokens(shell);
-	// printf("\n");
 	token_list_without_spaces(shell);
 	token_count(shell);
 	//expand_heredoc(shell);

@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:52:08 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/02 16:30:13 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/03 20:40:18 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 void	error(char	*err, t_shell *shell)
 {
 	printf("%s\n", err);
-	free_shell(shell);
+	(void)shell;
+	//free_shell(shell);
 	// system("leaks minishell");
 	//exit(1);
 }
@@ -79,6 +80,6 @@ void	syntax_error(char *message)
 	write(STDERR_FILENO, str, ft_strlen(str));
 	write(STDERR_FILENO, message, ft_strlen(message));
 	write(STDERR_FILENO, "'\n", 2);
-	set_status(258);
+	set_status(2);
 	return ;
 }

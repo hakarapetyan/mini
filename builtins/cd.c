@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:48:42 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/03 20:52:26 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/07 16:57:56 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	cd_errors_checking(char *oldpwd, char *home)
 	return (0);
 }
 
-static int	my_cd_norm(int argc, char **argv, t_shell *shell)
+static int	my_cd_norm(char **argv, t_shell *shell)
 {
 	int i;
 
@@ -84,7 +84,6 @@ int	my_cd(int argc, char **argv, t_shell *shell)
 {
 	char	*pwd;
 	char	*home;
-	char	*oldpwd;
 	
 	env_list *env=shell->env;
 	env_list *exp = shell->exp;
@@ -98,7 +97,7 @@ int	my_cd(int argc, char **argv, t_shell *shell)
 	home = get_value(shell, "HOME=");
 	if (argc > 1)
 	{
-		if(my_cd_norm(argc, argv, shell))
+		if(my_cd_norm( argv, shell))
 			return(1);
 	}
 	// if (cd_errors_checking(oldpwd, "OLDPWD not set"))

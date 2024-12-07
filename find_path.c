@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:51:46 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/11/24 15:51:54 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/05 15:35:05 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static char	**find_path_from_env(t_shell *shell)
 
 	if (!(shell -> env))
 		return (NULL);
-	key = is_key(shell -> env, "PATH");
+	key = is_key(shell, "PATH");
 	if (!key)
 		return (NULL);
 	path = ft_split(key, ':');

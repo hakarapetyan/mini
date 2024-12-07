@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_environment.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 14:31:04 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/05 18:47:43 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/03 20:33:37 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,66 +39,33 @@ char	*get_the_key(char *str)
 	return (key);
 }
 
-// char	*get_the_value(char *str)
-// {
-// 	char *value;
-// 	int	i;
-
-// 	value = NULL;
-// 	i = 0;
-// 	if (!str || !ft_strchr(str, '='))
-// 		return (NULL);
-// 	while (*str)
-// 		str++;
-// 	while (*str != '=')
-// 	{
-// 		str--;
-// 		i++;
-// 	}
-// 	value = malloc (sizeof(char) * (i + 1));
-// 	if (!value)
-// 		return (NULL);
-// 	i = 0;
-// 	while (str[i])
-// 	{
-// 		value[i] = str[i + 1];
-// 		i++;
-// 	}
-// 	value[i] = '\0';
-// 	//printf("vaue=\n", value);
-// 	return (value);
-// }
-
 char	*get_the_value(char *str)
 {
 	char *value;
-	char	*tmp;
 	int	i;
 
 	value = NULL;
 	i = 0;
 	if (!str || !ft_strchr(str, '='))
 		return (NULL);
-	while (*str != '=' && *str)
+	while (*str)
 		str++;
-	if (*str == '=')
-		tmp = str;
-	str++;
-	while(*str)
+	while (*str != '=')
 	{
+		str--;
 		i++;
-		str++;
 	}
 	value = malloc (sizeof(char) * (i + 1));
 	if (!value)
 		return (NULL);
 	i = 0;
-	while (tmp[i + 1])
+	while (str[i])
 	{
-		value[i] = tmp[i + 1];
+		value[i] = str[i + 1];
 		i++;
 	}
 	value[i] = '\0';
+	//printf("vaue=\n", value);
 	return (value);
 }
 
@@ -147,7 +114,7 @@ static void norm_get_env(char *env, t_shell *shell, int *i)
 }
 void	get_environment(t_shell *shell, char **env)
 {
-	char **envir;
+	// char **envir;
 	int	i;
 
 	i = 0;

@@ -10,6 +10,7 @@
 # include <fcntl.h>
 # include <errno.h>
 # include <sys/wait.h>
+#include <dirent.h>
 # include "tokenization.h"
 # include "env.h"
 # include "builtins.h"
@@ -27,9 +28,13 @@
 
 
 
-int prepare_redirections(t_shell *shell, char **pathname);
+int handle_output_redirection(t_shell *shell);
+int handle_input_redirection(t_shell *shell);
+int single_redir_file(t_commands *command);
 
-void	get_redir(t_token **token,t_commands **tmp,  t_shell *shell);
+int prepare_redirections(t_shell *shell);
+
+int	get_redir(t_token **token,t_commands **tmp,  t_shell *shell);
 
 char	*ft_itoa(int n);
 void	print_commands(t_shell *shell);
@@ -38,7 +43,8 @@ void	print_commands(t_shell *shell);
 char	*find_path(t_shell *shell, char	*command_name);
 
 //execute
-void	execute_command(t_shell *shell);
+int execute(t_shell *shell);
+int	execute_command(t_shell *shell);
 int		is_builtin(char *name);
 
 //ft_split
@@ -102,7 +108,7 @@ int		is_sep(char c);
 
 
 ///utils2
-char	*is_key(env_list	*node, char *need_to_be_find);
+char	*is_key(t_shell *shell, char *need_to_be_find);
 char	*ft_strjoin(char *s1, char *s2);
 char	*another_strjoin(char *s1, char *s2);
 int		ft_strchr(char *str, char c);

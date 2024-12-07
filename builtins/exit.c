@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 14:33:04 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/07 16:21:49 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/07 19:32:11 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ static int exit_status(char *argv)
 	    return (tmp);
 	return (tmp);
 	}
+	return (0);
 }
 static int is_digit(char *arg)
 {
@@ -136,7 +137,7 @@ static int	norm_my_exit(int args,char **argv, int i)
 		return (2);
 	}
 }
-int my_exit(int args, char **argv, t_shell *shell)
+int my_exit(int args, char **argv)
 {
 	int	i;
 	int	exit;
@@ -163,12 +164,13 @@ void execute_exit(t_shell *shell)
 
 	cmd = shell -> command;
 
-	func = my_exit(shell -> token_count, cmd -> args, shell);
+	func = my_exit(shell -> token_count, cmd -> args);
 	if(func == 1)
 	{
 		free_env(shell->env);
 		free_env(shell->exp);
 		free_shell(shell);
+		//printf("gnac\n");
 		exit(get_status());
 	}
 	else if (func == 2)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:43:43 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/02 15:26:25 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/07 17:28:36 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,142 +14,105 @@
 #include "./include/minishell.h"
 
 
-static int ft_open(char *redir, int flag, int permission)
-{
-	int fd;
-
-	fd = open(redir, flag, permission);
-	if (fd < 0)
-	{
-	if (errno == EACCES)
-		printf("permission denied\n");
-		return (-1);
-	}
-	return (fd);
-	//__err_msg_prmt__(path, ": Permission denied", INV_ARG);
-	// else if (errno == ENOENT)
-	// __err_msg_prmt__(path, ": No such file or directory", INV_ARG);
-	// else if (errno == EISDIR)
-	// __err_msg_prmt__(path, ": is a directory", INV_ARG);
-}
-
 static void run_execve(t_shell *shell, char **pathname)
 {
-	if (execve(*pathname, shell->command->args, NULL) == -1)
+	if (execve(*pathname, shell->command->args,list_to_arr(shell -> env)) == -1)
 	{
-		perror("execve failed");
-		if (*pathname)
-			free(*pathname);
-		//free_path
-		exit(EXIT_FAILURE);
+		simple_error(127, shell->command->name, "command not found");
+		clean_shell_exit(shell, get_status());
 	}
 }
-static void execute_execve(t_shell *shell, char **pathname)
+
+static void handle_builtin(t_shell *shell)
+{
+    builtins(shell);
+    dup2(shell -> command -> stdin_original, STDIN_FILENO);
+    dup2(shell -> command -> stdout_original, STDOUT_FILENO);
+}
+int execute(t_shell *shell)
 {
     pid_t pid;
 	int status;
 
-    pid = fork();
-    if (pid == 0)
-    {
-    	if (prepare_redirections(shell, pathname) >= 0)
-			run_execve(shell, pathname);
-			if(*pathname)
-				free(*pathname);
-    }
-    else if (pid > 0)
-	{
-        waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-			set_status(WEXITSTATUS(status));
-	}
-    else
-	{
-		if (*pathname)
-			free(*pathname);
-        error_message(1, "fork failed");
-	}
-}
-
-
-
-static void single_redir_file(t_shell *shell)
-{
-	if (shell->command->r_in || shell -> command ->r_heredoc)
-	{
-		shell->command->fd_in = open(shell->command->r_in, O_RDONLY);
-		if (shell->command->fd_in < 0)
+	if (is_builtin(shell->command->name))
 		{
-			error_message(1, shell -> command -> r_in);
+			handle_builtin(shell);
+			return (0);
+		// clean_shell_exit(shell, get_status());
 		}
-		close(shell->command->fd_in);
-	}
-	if (shell->command->is_append)
-		shell->command->fd_out = open(shell->command->r_out, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	else if (shell->command->r_out)
+	else
 	{
-		shell->command->fd_out = ft_open(shell->command->r_out, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (shell->command->fd_out < 0)
+		pid = fork();
+		if (pid == 0)
+			execute_command(shell);
+		else if (pid > 0)
 		{
-			error_message(1, shell -> command -> r_out);
+			waitpid(pid, &status, 0);
+			if (WIFEXITED(status))
+				set_status(WEXITSTATUS(status));
 		}
-		close(shell->command->fd_out);
+		else
+		{
+			error_message(1, "fork failed");
+		}
 	}
+	return(0);
 }
 
 
-static void handle_builtin(t_shell *shell)
-{
-    int original_stdin = dup(STDIN_FILENO);
-    int original_stdout = dup(STDOUT_FILENO);
 
-    if (original_stdin < 0 || original_stdout < 0)
-    {
-       error_message(1, "dup error");
-        return;
-    }
-    if (prepare_redirections(shell, NULL) < 0)
-    {
-		error_message(1, "redir error");
-	    return;
-    }
-    builtins(shell);
-    dup2(original_stdin, STDIN_FILENO);
-    dup2(original_stdout, STDOUT_FILENO);
-    close(original_stdin);
-    close(original_stdout);
+
+
+static int is_directory(char *path) {
+    DIR *dir = opendir(path);
+	if (path && ((path[0] == '.'&&  path[1] == '/') || path[ft_strlen(path) - 1] == '/'))
+	{
+		if (dir) {
+			closedir(dir);
+			return 1;
+		}
+	}
+    return 0;
 }
 
-void execute_command(t_shell *shell)
-{
+
+int execute_command(t_shell *shell)
+ {
     char *pathname = NULL;
 
-    if (!(shell->command->name))
-    {
-        single_redir_file(shell);
-        return;
-    }
-    if (is_builtin(shell->command->name))
-    {
-        handle_builtin(shell);
-        return;
-    }
-    if (access(shell->command->name, X_OK || F_OK) == 0)
-        pathname = ft_strdup(shell->command->name);
-    else
-    {
+    
+	if (access(shell->command->name, X_OK | F_OK) == 0)
+	{
+		if (is_directory(shell->command->name)) 
+		{
+			simple_error(126, shell->command->name, "is a directory");
+			clean_shell_exit(shell, get_status());
+		}
+			pathname = ft_strdup(shell -> command -> name);
+	}
+	if (shell->command->name[0] == '/' || (shell->command->name[0] == '.' && shell->command->name[1] == '/') )
+	{
+		if (access(shell->command->name, F_OK) != 0)
+		{
+			simple_error(127, shell->command->name, "No such file or directory");
+			clean_shell_exit(shell, get_status());
+		}
+			pathname = ft_strdup(shell -> command -> name);
+	}
+		if (pathname ) 
+			run_execve(shell, &pathname);
+	else {
         pathname = find_path(shell, shell->command->name);
-        if (!pathname)
-        {
-            simple_error(CMD_NOT_FOUND, shell->command->name, "command not found");
-            return;
+        if (!pathname ) {
+            simple_error(127, shell->command->name, "command not found");
+            clean_shell_exit(shell, 127);
         }
+        run_execve(shell, &pathname);
     }
-    execute_execve(shell, &pathname);
-    if (pathname)
-        free(pathname);
+	free(pathname);
+	pathname = NULL;
+	return (0);
 }
-
 
 int	is_builtin(char *name)
 {

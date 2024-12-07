@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:42:31 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/02 15:16:50 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/05 14:02:40 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ t_token *get_the_token_i_want(t_shell *shell)
 		t_token	*tkn;
 
 		tkn = shell -> token;
-		while (tkn -> next -> next)
+		while (tkn && tkn -> next && tkn -> next -> next)
 		{
 			tkn = tkn -> next;
 		}
