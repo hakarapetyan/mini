@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:43:43 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/07 17:28:36 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/07 22:49:48 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int execute(t_shell *shell)
 		}
 	else
 	{
+		signals(NINTERACTIVE);
 		pid = fork();
 		if (pid == 0)
 			execute_command(shell);

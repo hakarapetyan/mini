@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:32:14 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/07 17:08:38 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/07 22:47:53 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,11 @@ int	main(int argc, char **argv, char **env)
 	{
 		// rl_replace_line("", 0);
 		// rl_on_new_line();
+		signals(INTERACTIVE);
 		shell.input = readline("\033[1;35m.minishell \033[0m");
 		//	system("leaks minishell");
 		if (!shell.input)
-			break;
+			break;//free anel
 		// error(READLINE_ERR, &shell);
 		if (shell.input[0] != '\0')
 			add_history(shell.input);

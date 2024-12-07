@@ -48,8 +48,7 @@ SRCS =  main.c\
 		./builtins/pwd.c\
 		./builtins/unset_helper.c\
 		./builtins/unset.c\
-
-
+		signal.c\
 
 OBJS = $(SRCS:.c=.o)
 

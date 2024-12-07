@@ -1,6 +1,8 @@
-exit.c /exit 999999999999999
+exit.c /exit 999999999999999/messg ughel
 cd.c/ mkdir -p a/b
 cd a/b
 rm -rf ../../a
 cd ../
 metsatar-poqratar
+signalner
+leaker
