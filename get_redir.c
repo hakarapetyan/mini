@@ -94,12 +94,12 @@ static int handle_heredoc_redirection_case(t_token **token, t_commands **tmp, t_
     if ((*token)->next)
         (*tmp)->state = (*token)->next->state;
     (*tmp)->heredoc_count += 1;
-    handle_input_redirection(shell);
     if ((*tmp)->heredoc_count > 16)
     {
         write(STDERR_FILENO, "minishell: maximum here-document count exceeded\n", 49);
         clean_shell_exit(shell, 1);
     }
+    handle_input_redirection(shell);
     return 0;
 }
 

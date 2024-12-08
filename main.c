@@ -82,13 +82,10 @@ int	main(int argc, char **argv, char **env)
 				//print_commands(&shell);
 				if (prepare_redirections(&shell) >= 0)
 				{
-				execute(&shell);
-				dup2(shell.command -> stdin_original, STDIN_FILENO);
-   				dup2(shell.command -> stdout_original, STDOUT_FILENO);
-					
+					execute(&shell);
+					dup2(shell.command -> stdin_original, STDIN_FILENO);
+					dup2(shell.command -> stdout_original, STDOUT_FILENO);
 				}
-				//if (shell.command)
-
 			}
 		}
 		free_shell(&shell);

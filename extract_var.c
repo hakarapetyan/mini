@@ -73,8 +73,8 @@ static void extract_var_helper(char **str, int *i, char **res, char **tmp)
 	*res = ft_strjoin(*res, *tmp);
 	free(*tmp);
 	*tmp = NULL;
-
 }
+
 char	*extract_var_from_quoted_str(char *str, t_shell *shell)
 {
 	char	*res;
@@ -100,9 +100,3 @@ char	*extract_var_from_quoted_str(char *str, t_shell *shell)
 	}
 	return (res);
 }
-
-
-// char	*parse_line_heredoc(char *str,t_shell *shell)
-// {
-
-// }

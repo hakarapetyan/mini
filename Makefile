@@ -2,7 +2,7 @@ NAME = minishell
 
 RM = rm -f
 
-CFLAGS = -Wall -I ./readline_local/include -Wextra -Werror -fsanitize=address  -g3
+CFLAGS = -Wall -I ./readline_local/include -Wextra -Werror #-fsanitize=address  -g3
 
 INCLUDE = ./include/minishell.h\
 			./include/env.h\

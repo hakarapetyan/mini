@@ -44,7 +44,7 @@ char	*ft_strjoin(char *s1, char *s2)
 		return (NULL);
 	if (!s1)
 		return (ft_strdup(s2));
-	str = (char *)malloc(sizeof(*s1) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	str = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!str)
 		return (NULL);
 	while (i < ft_strlen(s1))
@@ -73,7 +73,7 @@ char	*another_strjoin(char *s1, char *s2)
 		return (NULL);
 	if (!s1)
 		return (ft_strdup(s2));
-	str = (char *)malloc(sizeof(*s1) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	str = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!str)
 		return (NULL);
 	while (i < ft_strlen(s1))

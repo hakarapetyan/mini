@@ -35,10 +35,11 @@ static void h_ctrl(int num)
 {
 	(void)num;
 	ioctl(STDIN_FILENO, TIOCSTI, "\n");
-	write(STDIN_FILENO, "\n", 1);
+	if (get_status() == 222)
+		write(STDIN_FILENO, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
-	set_status(FAILURE);
+	set_status(222);
 }
 
 void signals(int num)

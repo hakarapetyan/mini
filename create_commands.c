@@ -92,6 +92,8 @@ t_commands	*create_command(char *value)
 	command -> prev = NULL;
 	command -> state = DEFAULT;
 	command -> heredoc_count = 0;
+	command -> fd_in = 0;
+	command -> fd_out = 0;
 	command -> stdin_original = dup(STDIN_FILENO);
 	command -> stdout_original = dup(STDOUT_FILENO);
 	if (!command)

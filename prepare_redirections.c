@@ -47,8 +47,9 @@ static int setup_input_fd(t_shell *shell)
     if (shell->command->fd_in >= 0)
     {
              //   printf("am i in input dup\n");
-		if (shell -> command -> r_heredoc)
+		if (shell -> command -> r_heredoc && get_status() == 222)
 		{
+            set_status(1);
 			close(shell->command->fd_in);
 			return (-1);
 		}
@@ -86,6 +87,7 @@ static int setup_output_fd(t_shell *shell)
     {
      //shell -> original_stdout = dup(STDOUT_FILENO);
        // printf("am i in output dup\n");
+       shell -> heredoc_flag = 1;
         if (dup2(shell->command->fd_out, STDOUT_FILENO) < 0)
         {
             error_message(1, shell->command->r_out);
