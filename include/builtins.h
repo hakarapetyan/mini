@@ -4,8 +4,9 @@
 # define NINTERACTIVE	2
 # define HEREDOC		3
 
-// # define INT_MAX_8 "9223372036854775807"
-// # define INT_MIN_8 "-9223372036854775808"
+# define LLONG_MAX 9223372036854775807
+# define LLONG_MIN (-9223372036854775807LL - 1)
+
 
 
 int		my_pwd(t_shell *shell);

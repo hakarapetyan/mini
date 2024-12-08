@@ -6,19 +6,19 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 21:36:16 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/07 23:05:37 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/08 15:13:09 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./include/minishell.h"
-#include <readline/readline.h>
-#include <readline/history.h>
 
 static void in_ctrl(int num)
 {
 	set_status(FAILURE);
 	write(1, "\n", 1);
 	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
 	(void)num;
 }
 static void nonin_ctrl(int num)
@@ -33,9 +33,12 @@ static void b_slash(int num)
 }
 static void h_ctrl(int num)
 {
-	ioctl(STDIN_FILENO, TIOCSTI, "\n");
-	set_status(FAILURE);
 	(void)num;
+	ioctl(STDIN_FILENO, TIOCSTI, "\n");
+	write(STDIN_FILENO, "\n", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	set_status(FAILURE);
 }
 
 void signals(int num)

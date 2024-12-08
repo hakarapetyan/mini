@@ -16,6 +16,7 @@ typedef struct s_shell
 	int				shlvl;
 	int				token_count;
 	int				command_count;
+	int				heredoc_flag;
 	int				flag;
 	t_token			*token;
 	env_list		*env;

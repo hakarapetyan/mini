@@ -47,7 +47,11 @@ static int setup_input_fd(t_shell *shell)
     if (shell->command->fd_in >= 0)
     {
              //   printf("am i in input dup\n");
-
+		if (shell -> command -> r_heredoc)
+		{
+			close(shell->command->fd_in);
+			return (-1);
+		}
         if (dup2(shell->command->fd_in, STDIN_FILENO) < 0)
         {
             error_message(1, shell->command->r_in);

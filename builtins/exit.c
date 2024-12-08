@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 14:33:04 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/07 19:45:53 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/08 14:38:32 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@
 // 	}
 // 	return (0);
 // }
-static int	ft_nbr(const char *str)
+static long	long ft_nbr(const char *str)
 {
 	int	i;
-	int	n;
+	long long n;
 
 	n = 0;
 	i = 0;
@@ -42,7 +42,28 @@ static int	ft_nbr(const char *str)
 	}
 	return (n);
 }
-long	ft_atoi(const char *str)
+
+// long long ft_atoi(const char *str) {
+//     long long result = 0;
+//     int sign = 1;
+//     while (*str == ' ' || *str == '\t' || *str == '\n' || *str == '\r' || *str == '\v' || *str == '\f')
+//         str++;
+//     if (*str == '-' || *str == '+') {
+//         if (*str == '-') sign = -1;
+//         str++;
+//     }
+//     while (*str >= '0' && *str <= '9') {
+//         if (result > LLONG_MAX / 10 || (result == LLONG_MAX / 10 && *str - '0' > LLONG_MAX % 10)) {
+//             // Overflow case: Return max or min value depending on sign
+//             return result * sign;
+//         }
+//         result = result * 10 + (*str - '0');
+//         str++;
+//     }
+//     return sign * result;
+// }
+
+long long	ft_atoi(const char *str)
 {
 	int	i;
 	int	sign;
@@ -88,11 +109,23 @@ static int exit_status(char *argv)
 	}
 	return (0);
 }
+// static int max_min(char *argv)
+// {
+//     long long num;
+    
+//     num = ft_atoi(argv);
+//     if (num > LLONG_MAX || num < LLONG_MIN)
+//         return (1);  // Overflow or underflow occurred
+//     return (0); // Valid number within range
+// }
+
 static int is_digit(char *arg)
 {
     int i;
 
     i = 0;
+	// if (max_min(arg))
+	// return (1);
     if (arg[i] == '+' || arg[i] == '-')
 		i++;
     while (arg[i])

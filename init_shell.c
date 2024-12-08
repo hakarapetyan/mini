@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:53:04 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/07 16:56:25 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/08 15:59:16 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	init_shell(t_shell *shell)
 	shell -> shlvl = 0;
 	shell -> token_count = 0;
 	shell -> flag = 0;
+	shell -> heredoc_flag = 0;
 	shell -> next = NULL;
 	shell -> token = NULL;
 	shell -> command = NULL;

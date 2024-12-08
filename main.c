@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:32:14 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/07 22:47:53 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/08 16:10:15 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	init_shell(&shell);
-	//rl_catch_signals = 0;
+	rl_catch_signals = 0;
 	while (1)
 	{
 		// rl_replace_line("", 0);
@@ -80,10 +80,13 @@ int	main(int argc, char **argv, char **env)
 			{
 				//free_tokens(shell.token);
 				//print_commands(&shell);
-				prepare_redirections(&shell);
+				if (prepare_redirections(&shell) >= 0)
+				{
 				execute(&shell);
 				dup2(shell.command -> stdin_original, STDIN_FILENO);
    				dup2(shell.command -> stdout_original, STDOUT_FILENO);
+					
+				}
 				//if (shell.command)
 
 			}
