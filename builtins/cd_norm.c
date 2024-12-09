@@ -33,7 +33,7 @@ static int	cd_minus(t_shell *shell)
 
 	tmp = get_value(shell, "OLDPWD=");
 	cmd = get_value(shell, "PWD=");
-	
+
 	if ((ft_strcmp(tmp, "\0") == 0 || !tmp) && !cmd)
 	{
 		simple_error(EXIT_FAILURE, "cd", "OLDPWD not set");
@@ -66,7 +66,7 @@ static int my_cd_helper_norm(t_shell *shell, char *argv, char *tmp, char *cmd)
 			{
 				if(only_cd(shell, tmp, cmd))
 				{
-					error(GETCWDERROR, shell);
+					error("GETCWDERROR", shell);
 					free(cmd);
 					return (1);
 				}
@@ -99,7 +99,7 @@ int	my_cd_helper(char *argv, t_shell *shell)//cd -
 		}
 		else
 		{
-			error(GETCWDERROR, shell);
+			error("GETCWDERROR", shell);
 			//ft_putendl_fd("path not found\n", 2);
 			free(cmd);
 			return(1);

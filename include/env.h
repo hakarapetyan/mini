@@ -10,14 +10,15 @@ typedef struct s_env_list
 
 typedef struct s_shell
 {
-	char			*pwd;
-	char			*oldpwd;
 	char			*input;
 	int				shlvl;
 	int				*pid;
+	int				flag;
 	int				pipe_count;
 	int				token_count;
 	int				command_count;
+	int				pipe_index;
+	int				(*fd)[2];
 	t_token			*token;
 	env_list		*env;
 	env_list		*exp;

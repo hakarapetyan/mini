@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:32:14 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/07 19:26:25 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/09 20:47:41 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,81 +50,89 @@ static int	check_redir_errors(t_shell *shell)
 	}
 	return (0);
 }
-static void execute_piped_commands(t_shell *shell)
-{
-    t_commands *cmd = shell->command;
-    int pipefd[2];
-    int prev_fd = STDIN_FILENO;
 
-    while (cmd)
-    {
-        if (cmd->next)
-        {
-            if (pipe(pipefd) == -1)
-                perror("pipe error");
-        }
-
-        // pid_t pid = fork();
-        // if (pid == -1)
-        // {
-        //     perror("fork error");
-        //     exit(EXIT_FAILURE);
-        // }
-
-        // if (pid == 0) // Child process
-        // {
-        //     // Redirect input
-            if (prev_fd != STDIN_FILENO)
-            {
-                dup2(prev_fd, STDIN_FILENO);
-                close(prev_fd);
-            }
-
-            // Redirect output
-            if (cmd->next)
-            {
-                dup2(pipefd[1], STDOUT_FILENO);
-                close(pipefd[1]);
-                close(pipefd[0]);
-            }
-
-         execute(shell, cmd); // Your existing function to exec the command
-          //  exit(EXIT_SUCCESS);
-     //   }
-        // else // Parent process
-        // {
-        //     waitpid(pid, NULL, 0); // Wait for the child process
-        //     if (prev_fd != STDIN_FILENO)
-        //         close(prev_fd);
-        //     if (cmd->next)
-        //         close(pipefd[1]);
-
-            prev_fd = pipefd[0]; // Pass read end for next command
-        // }
-
-        cmd = cmd->next; // Move to the next command
-    }
-}
 
 static int create_pipes(t_shell *shell)
 {
-	int	pipe_index;
 	int	i;
 	int	(*fd)[2];
 
-	pipe_index = 0;
+	fd = malloc(sizeof(int[2]) * (shell -> pipe_count));
+	if (!fd)
+		error(ALLOCATION_ERR, shell);
 	i = 0;
-	while (pipe_index < shell -> pipe_count)
+	while (i < shell -> pipe_count)
 	{
-
+		if (pipe(fd[i]) == -1)
+		{
+			while (i > 0)
+			{
+				//i--;
+				i--;
+				close(fd[i][0]);//read data from
+				close(fd[i][1]);//write data to
+			}
+			free(fd);
+			return (-1);
+		}
+		// printf("the 0 %d\n", fd[i][0]);
+		// printf("the 1 %d\n", fd[i][1]);
+		i++;
 	}
+	shell -> fd = fd;
+	return (0);
+}
+
+
+int close_pipes(t_shell *shell)
+{
+	int i;
+
+	i = 0;
+	while (i < shell -> pipe_count)
+	{
+		close(shell -> fd[i][0]);
+		close(shell -> fd[i][1]);
+		i++;
+	}
+	return (0);
+}
+
+static void	wait_and_status(pid_t pid, int *status)
+{
+	waitpid(pid, status, 0);
+	if (WIFSIGNALED(*status))
+	{
+		*status = WTERMSIG(*status) + 128;
+		if (*status == 131)
+			write(1, "Quit: 3\n", 9);
+		return (set_status(*status));
+	}
+	set_status(WEXITSTATUS(*status));
 }
 static int	execution(t_shell *shell)
 {
-	shell -> pid = malloc(sizeof(int) * ((shell -> pipe_count) + 1));
-	if(!(shell -> pid))
-		//freeee
+	t_commands *cmd;
+
+	cmd = shell -> command;
+	shell -> pid = malloc(sizeof(int) * (shell -> pipe_count + 1));
+		//if (!shell -> pid) freee
 	create_pipes(shell);
+	while (shell -> pipe_index <= shell -> pipe_count)
+	{
+		execute(shell, cmd);
+		cmd = cmd -> next;
+		shell -> pipe_index++;
+	}
+	close_pipes(shell);
+	int k = 0;
+	int st;
+	while (k < shell->command_count)
+	{
+		wait_and_status(shell->pid[k], &st);
+		k++;
+	}
+	return ( 0);
 }
 
 
@@ -140,7 +148,7 @@ int	main(int argc, char **argv, char **env)
 	{
 		// rl_replace_line("", 0);
 		// rl_on_new_line();
-		shell.input = readline("\033[1;37m.minishell \033[0m");
+		shell.input = readline("\033[1;35m.minishell \033[0m");
 		//	system("leaks minishell");
 		if (!shell.input)
 			break;
@@ -157,9 +165,9 @@ int	main(int argc, char **argv, char **env)
 				//free_tokens(shell.token);
 				//print_commands(&shell);
 				//create_pipes(&shell);
-				prepare_redirections(&shell);
+				 prepare_redirections(&shell);
 			//	if (contains_pipes(shell.command)) // Implement this function
-					execute_piped_commands(&shell); // Handles piped commands
+					execution(&shell); // Handles piped commands
               //  else
                //     execute(&shell); // Handles regular commands
 

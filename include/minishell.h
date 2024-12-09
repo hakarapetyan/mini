@@ -29,6 +29,8 @@
 
 
 
+int close_pipes(t_shell *shell);
+
 int handle_output_redirection(t_shell *shell);
 int handle_input_redirection(t_shell *shell);
 int single_redir_file(t_commands *command);

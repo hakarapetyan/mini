@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:43:43 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/07 17:39:14 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/09 20:55:32 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,25 +31,34 @@ static void run_execve(t_shell *shell, char **pathname)
 // }
 int execute(t_shell *shell, t_commands *command)
 {
-    pid_t pid;
-	int status;
-
-    pid = fork();
-    if (pid == 0)
+    // pid_t pid;
+	// int status;
+	int i = 0;
+	shell -> pid[i] = fork();
+	if (shell -> pid[i] == 0)
 	{
-		// increment_shlvl(shell);
+		//prepare_redirections(&shell);
+		printf("%d\n",shell->fd[shell->pipe_index][1]);
+		if (shell->pipe_index == 0  && dup2(shell->fd[shell->pipe_index][1], 1) == -1)
+		printf("dup crashed\n");
+		// if (dup2(shell->fd[shell->pipe_index][1], 1) == -1)
+		// printf("dup crashed1\n");
 		execute_command(shell, command);
+		close_pipes(shell);
+		i++;
 	}
-    else if (pid > 0)
-	{
-        waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-			set_status(WEXITSTATUS(status));
-	}
-    else
-	{
-        error_message(1, "fork failed");
-	}
+		// pid = fork();
+		// if (pid == 0)
+		// {
+		// 	// increment_shlvl(shell);
+		// 	execute_command(shell, command);
+		// }
+		// else if (pid > 0)
+		// {
+		// 	waitpid(pid, &status, 0);
+		// 	if (WIFEXITED(status))
+		// 		set_status(WEXITSTATUS(status));
+		// }
 	return(0);
 }
 
