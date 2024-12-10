@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:52:37 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/05 19:06:05 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/10 14:22:11 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int heredoc_handle(t_shell *shell)
 				break;
 			}
 			if (cmd -> state == DEFAULT)
-				delimiter = extract_var_from_quoted_str(delimiter, shell);
+				delimiter = extract_var(delimiter, shell);
 			write(fd, delimiter, ft_strlen(delimiter));
 			write(fd, "\n", 1);
 			free(delimiter);

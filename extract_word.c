@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:43:28 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/05 14:09:32 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/10 15:45:53 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,23 @@ static char	*another_substr(char *s, unsigned int start, size_t len)
 	copy_str(s, &str, &i, len);
 	return (str);
 }
-
+static void handle_quote_helper(char *quote)
+{
+	if (*quote == '"')
+		syntax_error("\"");
+	if (*quote == '\'')
+		syntax_error("'");
+}
 static int	handle_quote(t_shell *shell, char **current, char *quote, int *i)
 {
 	int	len;
 
 	len = 0;
+	(void)shell;
 	(*i)++;
 	if (((*current)[(*i)] && (*current)[(*i)] == '\0') || !((*current)[(*i)]))
 	{
-		//error("minishell: expected quote", shell);
-		syntax_error("\"");
+		handle_quote_helper(quote);
 		return (-1);
 	}
 	while ((*current)[(*i)] && (*current)[(*i)] != *quote )
@@ -74,7 +80,7 @@ static int	handle_quote(t_shell *shell, char **current, char *quote, int *i)
 	}
 	if ((*current)[(*i)] != *quote)
 	{
-		error("minishell: expected quote", shell);
+		handle_quote_helper(quote);
 		return (-1);
 	}
 	if ((*current)[(*i)] == *quote)
@@ -128,7 +134,7 @@ char	*extract_word(char **current, t_shell *shell)
 	{
 		if (get_the_token_i_want(shell) &&  get_the_token_i_want(shell)-> type == R_HEREDOC)
 			return (var);
-		res = extract_var_from_quoted_str(var,shell);
+		res = extract_var(var,shell);
 		free_arr(&var);
 		return (res);
 	}

@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:32:14 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/09 20:47:41 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/10 20:08:07 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ static int create_pipes(t_shell *shell)
 		{
 			while (i > 0)
 			{
-				//i--;
 				i--;
 				close(fd[i][0]);//read data from
 				close(fd[i][1]);//write data to
@@ -113,6 +112,7 @@ static void	wait_and_status(pid_t pid, int *status)
 static int	execution(t_shell *shell)
 {
 	t_commands *cmd;
+	int i = 0;
 
 	cmd = shell -> command;
 	shell -> pid = malloc(sizeof(int) * (shell -> pipe_count + 1));
@@ -120,9 +120,41 @@ static int	execution(t_shell *shell)
 	create_pipes(shell);
 	while (shell -> pipe_index <= shell -> pipe_count)
 	{
-		execute(shell, cmd);
-		cmd = cmd -> next;
+		shell -> pid[i] = fork();
+		if (shell -> pid[i] == 0)
+		{
+			if (shell->pipe_index == 0)
+			{
+				//printf("first\n");
+				dup2(shell->fd[0][1], 1);
+				close_pipes(shell);
+				prepare_redirections(shell);
+				execute_command(shell, cmd);
+				exit (0);
+			}
+			else if (shell->pipe_index == shell->pipe_count)
+			{
+				//printf("last\n");
+				dup2(shell->fd[shell->pipe_index - 1][0], 0);
+				close_pipes(shell);
+				prepare_redirections(shell);
+				execute_command(shell, cmd);
+				exit (0);
+			}
+			else
+			{
+				//printf("middle\n");
+				dup2(shell->fd[shell->pipe_index - 1][0], 0);
+				dup2(shell->fd[shell->pipe_index][1], 1);
+				close_pipes(shell);
+				prepare_redirections(shell);
+				execute_command(shell, cmd);
+				exit(0);
+			}
+		}
+		i++;
 		shell -> pipe_index++;
+		cmd = cmd -> next;
 	}
 	close_pipes(shell);
 	int k = 0;
@@ -165,15 +197,10 @@ int	main(int argc, char **argv, char **env)
 				//free_tokens(shell.token);
 				//print_commands(&shell);
 				//create_pipes(&shell);
-				 prepare_redirections(&shell);
-			//	if (contains_pipes(shell.command)) // Implement this function
-					execution(&shell); // Handles piped commands
-              //  else
-               //     execute(&shell); // Handles regular commands
-
-				//execute(&shell);
-				dup2(shell.command -> stdin_original, STDIN_FILENO);
-   				dup2(shell.command -> stdout_original, STDOUT_FILENO);
+				// prepare_redirections(&shell);
+				execution(&shell);
+				// dup2(shell.command -> stdin_original, STDIN_FILENO);
+   				// dup2(shell.command -> stdout_original, STDOUT_FILENO);
 			}
 		}
 		free_shell(&shell);

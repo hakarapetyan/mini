@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:05:24 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/05 15:34:04 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/10 15:47:28 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,23 @@ static	char *var_in_quotes_helper(char **str, int *len)
 	(*str) += (*len);
 	return (tmp);
 }
+static int only_dollar(char **str, char **res, int *len)
+{
+	int flag;
 
+	flag = 0;
+	while ((*str)[*len] && (*str)[*len] == '$')
+	{
+		(*len)++;
+	}
+	if ((*str)[*len] == '\0')
+	{
+		*res = ft_substr(*str, 0, *len);
+		(*str)+= *len;
+		flag = 1;
+	}
+	return (flag);
+}
 static char	*var_in_quotes(t_shell *shell, char **str)
 {
 	int		len;
@@ -44,10 +60,10 @@ static char	*var_in_quotes(t_shell *shell, char **str)
 	len = 0;
 	tmp = NULL;
 	res = NULL;
-	if ((*str)[len] == '$' && !((*str)[len + 1]))//dzel
+	if ((*str)[len] == '$')
 	{
-		(*str)++;
-		return (ft_strdup("$"));
+		if (only_dollar(str, &res, &len) == 1)
+			return (res);
 	}
 	if ((*str)[len] == '$' && ((*str)[len + 1]) && ((*str)[len + 1]) == '?')
 	{
@@ -75,7 +91,7 @@ static void extract_var_helper(char **str, int *i, char **res, char **tmp)
 	*tmp = NULL;
 
 }
-char	*extract_var_from_quoted_str(char *str, t_shell *shell)
+char	*extract_var(char *str, t_shell *shell)
 {
 	char	*res;
 	char	*tmp;
@@ -100,9 +116,3 @@ char	*extract_var_from_quoted_str(char *str, t_shell *shell)
 	}
 	return (res);
 }
-
-
-// char	*parse_line_heredoc(char *str,t_shell *shell)
-// {
-
-// }

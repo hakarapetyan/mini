@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:00:55 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/05 15:35:14 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/10 14:06:26 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,12 @@ int	 var_search(char	*str, t_shell *shell)
 		return (0);
 	if(ft_strchr(str, '$'))
 	{
+		if (str[i] && str[i] == '$')
+		{
+			while (str[i] && str[i] == '$')
+				i++;
+			return (2);
+		}
 		val = is_valid_var(&str, shell, i);
 		if (val == 1)
 			return (1);

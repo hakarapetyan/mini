@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:43:43 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/09 20:55:32 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/10 19:29:21 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,38 +14,54 @@
 #include "./include/minishell.h"
 
 
-static void run_execve(t_shell *shell, char **pathname)
+static void run_execve(t_shell *shell, char **pathname, t_commands *cmd)
 {
-	if (execve(*pathname, shell->command->args,list_to_arr(shell -> env)) == -1)
+	// int i = 0;
+	// while (cmd -> args[i])
+	// {
+	// 	printf("%s\n",cmd -> args[i]);
+	// 	i++;
+	// }
+	if (execve(*pathname, cmd->args,list_to_arr(shell -> env)) == -1)
 	{
 		//error_message(1, shell -> command -> name);
-		simple_error(127, shell->command->name, "command not found");
+		simple_error(127, cmd->name, "command not found");
 		clean_shell_exit(shell, get_status());
 	}
 }
 
-// static void increment_shlvl(t_shell *shell)
-// {
 
-// 	shell -> shlvl++;
-// }
+
 int execute(t_shell *shell, t_commands *command)
 {
     // pid_t pid;
 	// int status;
 	int i = 0;
+
 	shell -> pid[i] = fork();
 	if (shell -> pid[i] == 0)
 	{
-		//prepare_redirections(&shell);
-		printf("%d\n",shell->fd[shell->pipe_index][1]);
-		if (shell->pipe_index == 0  && dup2(shell->fd[shell->pipe_index][1], 1) == -1)
-		printf("dup crashed\n");
-		// if (dup2(shell->fd[shell->pipe_index][1], 1) == -1)
-		// printf("dup crashed1\n");
-		execute_command(shell, command);
-		close_pipes(shell);
+		printf("%d\n",shell -> pipe_index);
+		if (shell -> pipe_index == 0)
+		{
+			printf("jhsdf\n");
+			close(shell -> fd[0][0]);
+			dup2(shell -> fd[0][1],1);
+			close(shell -> fd[0][1]);
+			execute_command(shell, command);
+			exit(1);
+		}
+		else
+		{
+			printf("hello\n");
+			close(shell -> fd[0][1]);
+			dup2(shell -> fd[0][0], 0);
+			close(shell -> fd[0][0]);
+			execute_command(shell, command);
+			exit(1);
+		}
 		i++;
+		printf("isssss\n");
 	}
 		// pid = fork();
 		// if (pid == 0)
@@ -114,7 +130,7 @@ int execute_command(t_shell *shell, t_commands *command)
 			pathname = ft_strdup(command -> name);
 	}
 		if (pathname)
-			run_execve(shell, &pathname);
+			run_execve(shell, &pathname, command);
 	else {
         pathname = find_path(shell, command -> name);
         if (!pathname ) {
@@ -122,7 +138,7 @@ int execute_command(t_shell *shell, t_commands *command)
             simple_error(127, command -> name, "command -> name not found");
             clean_shell_exit(shell, get_status());
         }
-        run_execve(shell, &pathname);
+        run_execve(shell, &pathname, command);
     }
 	free(pathname);
 	pathname = NULL;

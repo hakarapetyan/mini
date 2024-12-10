@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 17:54:50 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/09 13:14:57 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/10 17:34:51 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ void	free_shell(t_shell *shell)
 	free_commands(shell -> command);
 	shell -> token_count = 0;
 	shell -> command_count = 0;
+	shell -> pipe_count = 0;
+	shell -> pipe_index = 0;
 	shell -> token = NULL;
 	shell -> command = NULL;
 }

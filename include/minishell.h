@@ -134,7 +134,7 @@ t_token *get_the_token_i_want(t_shell *shell);
 
 //extract_word
 char	*extract_word(char **current, t_shell *shell);
-char	*extract_var_from_quoted_str(char *str, t_shell *shell);
+char	*extract_var(char *str, t_shell *shell);
 //char	*var_in_quotes(t_shell *shell, char **str);
 
 int		var_search(char	*str, t_shell *shell);
