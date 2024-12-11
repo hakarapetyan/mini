@@ -1,6 +1,0 @@
-exit.c /exit 999999999999999
-cd.c/ mkdir -p a/b
-cd a/b
-rm -rf ../../a
-cd ../
-metsatar-poqratar
