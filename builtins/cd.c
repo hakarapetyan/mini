@@ -6,18 +6,26 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:48:42 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/07 16:57:56 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/11 20:59:37 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-static int check_oldpwd(env_list *env, char *key)
+int check_key(env_list *list, char *key)
 {
-	while (env)
+	env_list *env;
+
+	env = list;
+	if (env)
 	{
-		if (ft_strcmp(env->key, key) == 0)
-			return (1);
-		env = env->next;
+		while (env)
+		{
+			if (spec_strcmp(env->key, key) == 0)
+			{
+				return (1);
+			}
+			env = env->next;
+		}
 	}
 	return (0);
 }
@@ -26,7 +34,7 @@ static void  add_oldpwd_to_env(env_list *list, char *pwd, t_shell *shell)
 	// if (!list || (*pwd))
 	// 	return ;
 	env_list *tmp = list;
-	if (!check_oldpwd(tmp, "OLDPWD="))
+	if (!check_key(tmp, "OLDPWD="))
 	{
 		shell->flag = 1;
 		add_node_to_list(list, "OLDPWD=");

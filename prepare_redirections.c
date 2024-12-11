@@ -49,7 +49,7 @@ static int setup_input_fd(t_shell *shell)
              //   printf("am i in input dup\n");
 		if (shell -> command -> r_heredoc && get_status() == 222)
 		{
-            set_status(1);
+        	set_status(1);
 			close(shell->command->fd_in);
 			return (-1);
 		}
@@ -60,6 +60,7 @@ static int setup_input_fd(t_shell *shell)
             return (-1);
         }
         close(shell->command->fd_in);
+			printf("sjfod\n");
     }
     return (0);
 }
@@ -92,6 +93,7 @@ static int setup_output_fd(t_shell *shell)
         {
             error_message(1, shell->command->r_out);
             close(shell->command->fd_out);
+	printf("gna\n");
             return (-1);
         }
         close(shell->command->fd_out);

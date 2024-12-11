@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:32:14 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/08 16:10:15 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/11 20:51:30 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,11 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
-	init_shell(&shell);
+	(void)env;
+	//init_shell(&shell);
 	rl_catch_signals = 0;
+		get_environment(&shell, env);
+		chang_shlvl(&shell);
 	while (1)
 	{
 		// rl_replace_line("", 0);
@@ -71,7 +74,6 @@ int	main(int argc, char **argv, char **env)
 		// error(READLINE_ERR, &shell);
 		if (shell.input[0] != '\0')
 			add_history(shell.input);
-		get_environment(&shell, env);
 		lexical_analyzer(&shell);
 		if (check_redir_errors(&shell) >= 0)
 		{
@@ -83,9 +85,11 @@ int	main(int argc, char **argv, char **env)
 				if (prepare_redirections(&shell) >= 0)
 				{
 					execute(&shell);
+					
+				}
 					dup2(shell.command -> stdin_original, STDIN_FILENO);
 					dup2(shell.command -> stdout_original, STDOUT_FILENO);
-				}
+				
 			}
 		}
 		free_shell(&shell);
@@ -97,5 +101,9 @@ int	main(int argc, char **argv, char **env)
 	shell.exp = NULL;
 	free_shell(&shell);
 	//system("leaks minishell");
+	// printf("%lld\n",ft_atoi("999"));
+	// printf("%lld\n",ft_atoi("1"));
+	// printf("%lld\n",ft_atoi("0"));
+	// printf("%lld\n",ft_atoi("9223372036854775809"));
 	return (0);
 }

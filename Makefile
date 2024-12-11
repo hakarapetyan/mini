@@ -2,7 +2,7 @@ NAME = minishell
 
 RM = rm -f
 
-CFLAGS = -Wall -I ./readline_local/include -Wextra -Werror #-fsanitize=address  -g3
+CFLAGS = -Wall -I ./readline_local/include -Wextra  -fsanitize=address  -g3
 
 INCLUDE = ./include/minishell.h\
 			./include/env.h\
@@ -43,11 +43,13 @@ SRCS =  main.c\
 		./builtins/echo.c\
 		./builtins/env.c\
 		./builtins/exit.c\
+		./builtins/exit_helper.c\
 		./builtins/export_helper.c\
 		./builtins/export.c\
 		./builtins/pwd.c\
 		./builtins/unset_helper.c\
 		./builtins/unset.c\
+		./builtins/shlvl.c\
 		signal.c\
 
 OBJS = $(SRCS:.c=.o)

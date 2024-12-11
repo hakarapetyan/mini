@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 14:33:23 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/05 16:43:31 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/11 16:16:41 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ int	add_node_to_list(env_list *list, char *argv)
 		tmp = add_node(argv);
 		while (list && list->next)
 			list = list->next;
-		if (!check_key(cmp, tmp))
+		if (!check_two_keies(cmp, tmp))
 			list ->next = add_node(argv);
 		free_env(tmp);
 	}
 	return(0);
 }
 
-int check_key(env_list *list, env_list *new)
+int check_two_keies(env_list *list, env_list *new)
 {
 	while (list)
 	{
@@ -72,7 +72,8 @@ int	my_export_helper(char **arg, env_list *env, env_list *exp)
 		{
 			if (!is_alpha(arg[i]) /*|| !my_strchr(arg[i], '_')*/)
 			{
-				simple_error(EXIT_FAILURE, arg[i],"not a valid identifier");
+				another_simple_error(EXIT_FAILURE, "export: ", arg[1], "numeric argument required");
+				//simple_error(EXIT_FAILURE, arg[i],"not a valid identifier");
 				// write_print(arg[i], "minishell: export:", 2);
 				// ft_putendl_fd(" not a valid identifier", 2);
 				// write(2, "\n", 1);

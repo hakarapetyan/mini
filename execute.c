@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:43:43 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/07 22:49:48 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/10 17:37:02 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void handle_builtin(t_shell *shell)
     dup2(shell -> command -> stdin_original, STDIN_FILENO);
     dup2(shell -> command -> stdout_original, STDOUT_FILENO);
 }
-int execute(t_shell *shell)
+int  execute(t_shell *shell)
 {
     pid_t pid;
 	int status;

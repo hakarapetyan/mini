@@ -25,7 +25,6 @@ static int  only_cd(t_shell *shell, char *tmp, char *cmd)
 	free(cmd);
 	return (0);
 }
-
 static int	cd_minus(t_shell *shell)
 {
 	char *tmp;
@@ -74,13 +73,14 @@ static int my_cd_helper_norm(t_shell *shell, char *argv, char *tmp, char *cmd)
 			else
 			{
 				error_message(EXIT_FAILURE, argv);
+				another_simple_error(EXIT_FAILURE, "cd: ", argv[1], "numeric argument required");
 				//simple_error(127, argv, )
 				//printf("cd: %s: No such file or directory\n", argv);
 				return(1);
 			}
 	return (0);
 }
-int	my_cd_helper(char *argv, t_shell *shell)//cd -
+int	my_cd_helper(char *argv, t_shell *shell)//en apushutyuny
 {
 	char	*cmd;
 	char	*tmp;
@@ -100,7 +100,6 @@ int	my_cd_helper(char *argv, t_shell *shell)//cd -
 		else
 		{
 			error(GETCWDERROR, shell);
-			//ft_putendl_fd("path not found\n", 2);
 			free(cmd);
 			return(1);
 		}

@@ -6,32 +6,16 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 14:33:04 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/08 14:38:32 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/11 17:46:35 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../include/minishell.h"
 
-
-// static int	check_int(char *arg)
-// {
-// 	printf("arg=%c\n", *arg);
-// 	printf("argum=%s\n", arg);
-// 	if (ft_strcmp(arg, INT_MAX_8) > 0 || (ft_strcmp(arg, INT_MIN_8) > 0 && *arg == '-'))
-// 	{
-// 		printf("good\n");
-// 		//printf("exit\nminishell: exit: %s: numeric argument required\n", arg);
-// 		write(STDERR_FILENO, "exit\n", 5);
-// 		simple_error(255, arg, "numeric argument required");
-// 		return (1);
-// 	}
-// 	return (0);
-// }
-static long	long ft_nbr(const char *str)
+static unsigned	long ft_number(const char *str)
 {
 	int	i;
-	long long n;
+	unsigned long n;
 
 	n = 0;
 	i = 0;
@@ -42,28 +26,30 @@ static long	long ft_nbr(const char *str)
 	}
 	return (n);
 }
+int max_min(char *str, int sign, int *flag)
+{
+	unsigned long n;
 
-// long long ft_atoi(const char *str) {
-//     long long result = 0;
-//     int sign = 1;
-//     while (*str == ' ' || *str == '\t' || *str == '\n' || *str == '\r' || *str == '\v' || *str == '\f')
-//         str++;
-//     if (*str == '-' || *str == '+') {
-//         if (*str == '-') sign = -1;
-//         str++;
-//     }
-//     while (*str >= '0' && *str <= '9') {
-//         if (result > LLONG_MAX / 10 || (result == LLONG_MAX / 10 && *str - '0' > LLONG_MAX % 10)) {
-//             // Overflow case: Return max or min value depending on sign
-//             return result * sign;
-//         }
-//         result = result * 10 + (*str - '0');
-//         str++;
-//     }
-//     return sign * result;
-// }
-
-long long	ft_atoi(const char *str)
+	n = ft_number(str);
+	
+	if (sign == -1)
+	{
+		if (n > MAX_MIN)
+		{
+			*flag = 1;
+			return (1);
+		}
+	}
+	else
+		if (n > 9223372036854775807)
+		{
+			*flag = 1;
+			return (1);
+		}
+	return (0);
+	
+}
+unsigned long	long_atoi(const char *str, int *flag)
 {
 	int	i;
 	int	sign;
@@ -85,47 +71,24 @@ long long	ft_atoi(const char *str)
 			count++;
 		i++;
 	}
+	if (max_min(&str[i], sign, flag))
+		return(1);	
 	if (count > 1)
 		return (0);
-	return (ft_nbr(&str[i]) * sign);
+	return (ft_number(&str[i]) * sign);
 }
-static int exit_status(char *argv)
-{
-	long num;
-	int tmp;
-	if (!argv)
-		return (0);
-	num = ft_atoi(argv);
-	if (num >= 0)
-		return (num % 256);
-	else if (num < 0)
-	{
-	    tmp = num % 256;
-	   if (tmp)
-	    tmp = tmp + 256;
-	   else
-	    return (tmp);
-	return (tmp);
-	}
-	return (0);
-}
-// static int max_min(char *argv)
-// {
-//     long long num;
-    
-//     num = ft_atoi(argv);
-//     if (num > LLONG_MAX || num < LLONG_MIN)
-//         return (1);  // Overflow or underflow occurred
-//     return (0); // Valid number within range
-// }
 
 static int is_digit(char *arg)
 {
     int i;
+	int	flag;
 
     i = 0;
-	// if (max_min(arg))
-	// return (1);
+	flag = 0;
+	if (ft_strlen(arg) > 20)
+		return (1);
+	if (long_atoi(arg, &flag) == 1 && flag)
+		return (1);
     if (arg[i] == '+' || arg[i] == '-')
 		i++;
     while (arg[i])
@@ -182,7 +145,8 @@ int my_exit(int args, char **argv)
 	if (exit == 1)
 	{
 		write(STDERR_FILENO, "exit\n", 5);
-		simple_error(255, "exit", "numeric argument required");
+		//simple_error(255, "exit", "numeric argument required");
+		another_simple_error(EXIT_FAILURE, "exit: ", argv[1], "numeric argument required");
 		return (1);
 	}
 	else if (exit == 2)
@@ -208,7 +172,7 @@ void execute_exit(t_shell *shell)
 	else if (func == 2)
 		{
 			write(STDERR_FILENO, "exit\n", 5);
-			simple_error(EXIT_FAILURE, "exit", "too many arguments");
+			another_simple_error(EXIT_FAILURE, "exit: ", cmd -> args[1], "too many arguments");
 		}
 	else
 	{

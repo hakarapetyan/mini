@@ -23,6 +23,7 @@ void	syntax_error(char *message);
 
 void	error_message(int status, char *command_name);
 void	simple_error(int status, char *command_name, char *message);
+void	another_simple_error(int status, char *command_name, char *argv, char *message);
 
 void set_status(int status);
 int get_status(void);

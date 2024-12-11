@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_commands.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:43:58 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/05 16:25:10 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/09 15:10:07 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,8 @@ t_commands	*create_command(char *value)
 	command -> prev = NULL;
 	command -> state = DEFAULT;
 	command -> heredoc_count = 0;
-	command -> fd_in = 0;
-	command -> fd_out = 0;
+	command -> fd_in = -1;
+	command -> fd_out = -1;
 	command -> stdin_original = dup(STDIN_FILENO);
 	command -> stdout_original = dup(STDOUT_FILENO);
 	if (!command)

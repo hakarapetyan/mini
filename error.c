@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:52:08 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/03 20:40:18 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/09 15:35:59 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,24 @@ void	simple_error(int status, char *command_name, char *message)
 		if (command_name)
 		{
 			write(STDERR_FILENO, command_name, ft_strlen(command_name));
+			write(STDERR_FILENO, ": ", 2);
+		}
+		write(STDERR_FILENO, message, ft_strlen(message));
+	}
+	write(STDERR_FILENO, "\n", 1);
+	return ;
+}
+
+void	another_simple_error(int status, char *command_name, char *argv, char *message)
+{
+	set_status(status);
+	if (command_name)
+	{
+		write(STDERR_FILENO, "minishell: ", 11);
+		if (command_name)
+		{
+			write(STDERR_FILENO, command_name, ft_strlen(command_name));
+			write(STDERR_FILENO, argv, ft_strlen(argv));
 			write(STDERR_FILENO, ": ", 2);
 		}
 		write(STDERR_FILENO, message, ft_strlen(message));
