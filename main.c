@@ -163,7 +163,8 @@ static int	execution(t_shell *shell)
 	}
 	shell -> pid = malloc(sizeof(int) * (shell -> pipe_count + 1));
 		//if (!shell -> pid) freee
-	create_pipes(shell);
+	if (shell -> command > 1)
+		create_pipes(shell);
 	while (shell -> pipe_index <= shell -> pipe_count)
 	{
 		shell -> pid[i] = fork();
@@ -171,6 +172,7 @@ static int	execution(t_shell *shell)
 		{
 			if (shell -> command_count == 1)
 			{
+				prepare_redirections(shell, cmd);
 				execute_command(shell, cmd);
 				exit(0);
 			}
@@ -185,7 +187,8 @@ static int	execution(t_shell *shell)
 		shell -> pipe_index++;
 		cmd = cmd -> next;
 	}
-	close_pipes(shell);
+	if (shell -> command > 1)
+		close_pipes(shell);
 	int k = 0;
 	int st;
 	while (k < shell->command_count)
