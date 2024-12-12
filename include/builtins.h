@@ -23,7 +23,7 @@ int		is_digit_unset(char *arg);
 int		my_exit(int args, char **argv);
 int		exit_status(char *argv);
 int		max_min(char *str, int sign, int *flag);
-unsigned long	long_atoi(const char *str, int *flag);
+unsigned long	l_atoi(char *str, int *flag);
 //int		check_int(char *arg);
 int		ft_atoi(const char *str);
 void	execute_exit(t_shell *shell);
@@ -46,6 +46,7 @@ int		builtins(t_shell *shell);
 void	signals(int num);
 int		check_key(env_list *env, char *key);
 char	*inc_shlvl(t_shell *shell);
-void	chang_shlvl(t_shell *shell);
+void	chang_shlvl_in_env(t_shell *shell);
+void	chang_shlvl_in_exp(t_shell *shell);
 
 #endif

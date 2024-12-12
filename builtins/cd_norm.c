@@ -73,7 +73,7 @@ static int my_cd_helper_norm(t_shell *shell, char *argv, char *tmp, char *cmd)
 			else
 			{
 				error_message(EXIT_FAILURE, argv);
-				another_simple_error(EXIT_FAILURE, "cd: ", argv[1], "numeric argument required");
+				another_simple_error(EXIT_FAILURE, "cd: ", argv, "numeric argument required");
 				//simple_error(127, argv, )
 				//printf("cd: %s: No such file or directory\n", argv);
 				return(1);

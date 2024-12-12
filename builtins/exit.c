@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 14:33:04 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/11 17:46:35 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/12 16:47:11 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int max_min(char *str, int sign, int *flag)
 	return (0);
 	
 }
-unsigned long	long_atoi(const char *str, int *flag)
+unsigned long	l_atoi(char *str, int *flag)
 {
 	int	i;
 	int	sign;
@@ -87,7 +87,7 @@ static int is_digit(char *arg)
 	flag = 0;
 	if (ft_strlen(arg) > 20)
 		return (1);
-	if (long_atoi(arg, &flag) == 1 && flag)
+	if (l_atoi(arg, &flag) == 1 && flag)
 		return (1);
     if (arg[i] == '+' || arg[i] == '-')
 		i++;

@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:48:42 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/11 20:59:37 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/12 15:56:42 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,7 @@ int check_key(env_list *list, char *key)
 		while (env)
 		{
 			if (spec_strcmp(env->key, key) == 0)
-			{
 				return (1);
-			}
 			env = env->next;
 		}
 	}
