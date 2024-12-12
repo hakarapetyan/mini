@@ -43,7 +43,7 @@ static int only_dollar(char **str, char **res, int *len)
 	{
 		(*len)++;
 	}
-	if ((*str)[*len] == '\0')
+	if ((*str)[*len] == '\0' || is_space((*str)[*len]))
 	{
 		*res = ft_substr(*str, 0, *len);
 		(*str)+= *len;
