@@ -157,6 +157,7 @@ static int	execution(t_shell *shell)
 	//printf("%s\n",cmd -> name);
 	if (is_builtin(cmd -> name) && shell -> command_count == 1)
 	{
+		prepare_redirections(shell, cmd);
 		handle_builtin(shell, cmd);
 		return (0);
 	}
