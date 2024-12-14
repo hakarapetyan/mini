@@ -60,15 +60,15 @@ static char	*var_in_quotes(t_shell *shell, char **str)
 	len = 0;
 	tmp = NULL;
 	res = NULL;
-	if ((*str)[len] == '$')
-	{
-		if (only_dollar(str, &res, &len) == 1)
-			return (res);
-	}
 	if ((*str)[len] == '$' && ((*str)[len + 1]) && ((*str)[len + 1]) == '?')
 	{
 		(*str) += 2;
 		return (ft_itoa(get_status()));//freeeee itoa
+	}
+	if ((*str)[len] == '$')
+	{
+		if (only_dollar(str, &res, &len) == 1)
+			return (res);
 	}
 	tmp = var_in_quotes_helper(str, &len);
 	if (!tmp)
