@@ -10,18 +10,22 @@ typedef struct s_env_list
 
 typedef struct s_shell
 {
-	char			*pwd;
-	char			*oldpwd;
 	char			*input;
 	int				shlvl;
-	int				token_count;
+	int				*pid;
 	int				flag;
+	int				pipe_count;
+	int				token_count;
+	int				command_count;
+	int				pipe_index;
+	int				(*fd)[2];
 	t_token			*token;
 	env_list		*env;
 	env_list		*exp;
 	t_commands		*command;
 	struct s_shell	*next;
 } t_shell;
+
 
 
 
@@ -35,5 +39,4 @@ env_list	*add_node(char *str);
 int			ft_lstsize(env_list *lst);
 char		**list_to_arr(env_list *env);
 char		**sorting_for_export(env_list *list);
-//void		add_oldpwd(env_list *list, char *pwd);
 #endif

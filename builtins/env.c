@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/16 14:14:20 by hakarape          #+#    #+#             */
-/*   Updated: 2024/11/24 16:12:51 by hakarape         ###   ########.fr       */
+/*   Created: 2024/12/05 14:32:56 by hakarape          #+#    #+#             */
+/*   Updated: 2024/12/14 16:16:45 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,23 @@ int my_env(int argc,t_shell *shell, char **argv)
 	int	i;
 
 	i = 0;
+	int k = 0;
+			while (argv[k])
+			{
+				printf("%s\n",argv[k]);
+				k++;
+			}
 	if (argc == 1)
 		 print_env(shell);
 	if (argc > 1)
 	{
 		if (argv[i] && (!ft_strcmp(argv[i], "env")))
 			i++;
-		ft_putendl_fd("env: setenv ", 2);
-		ft_putendl_fd(argv[i], 2);
-		ft_putendl_fd(": Invalid argument\n", 2);
+		error_message(127, argv[i]);
+		//simple_error(EXIT_FAILURE, argv[i], "Invalid argument");
+		// ft_putendl_fd("env: ", 2);
+		// ft_putendl_fd(argv[i], 2);
+		// ft_putendl_fd(": Invalid argument\n", 2);
 		return (1);
 	}
 	return (0);

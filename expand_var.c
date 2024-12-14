@@ -1,3 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand_var.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/24 16:43:36 by ashahbaz          #+#    #+#             */
+/*   Updated: 2024/12/14 16:11:45 by ashahbaz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 #include "./include/minishell.h"
 
 void	expand_var(t_shell *shell)
@@ -6,7 +19,7 @@ void	expand_var(t_shell *shell)
 	//char	*tmp;
     char	*key;
 
-	if (!shell -> env)
+	if (!(shell -> env))
 		return ;
     current = shell->token;
     key = NULL;
@@ -15,7 +28,7 @@ void	expand_var(t_shell *shell)
         if (current->type == ENV_VAR)
         {
 			//printf("{%s}\n",current -> value);
-			key = is_key(shell->env, current->value);
+			key = is_key(shell, current->value);
             if (key)
 			{
 				current -> var_value = ft_strdup(getenv(key));
@@ -24,76 +37,4 @@ void	expand_var(t_shell *shell)
         }
         current = current->next;
     }
-}
-
-char	*generate_spaces(int count)
-{
-	char	*s;
-	int		i;
-
-	i = 0;
-	s = (char *)malloc((count + 1) * sizeof(char));
-    if (!s) {
-        return NULL;
-    }
-	while (count)
-	{
-		s[i] = ' ';
-		i++;
-	}
-	return (s);
-}
-
-char	*add_space_to_env_var(char *str, char *tmp)
-{
-	int	i;
-	int	count;
-	char	*var;
-
-	i = 0;
-	count = 0;
-	printf("str[%s]\n",str);
-	while (str[i])
-	{
-		if (str[i] && str[i] == ' ')
-			count++;
-		i++;
-	}
-	printf("cnt%d\n",count);
-	printf("tmp%s\n",generate_spaces(count));
-	var = ft_strjoin(tmp, generate_spaces(count));
-	return(var);
-	if(!var)
-		return (NULL);
-}
-
-int	is_word(char *str)
-{
-	while (*str)
-	{
-		if (is_separator(*str))
-			return (0);
-		str++;
-	}
-	return (1);
-}
-
-void	expand_heredoc(t_shell *shell)
-{
-	t_token	*current;
-
-	current = shell -> token;
-	while (current)
-	{
-		if (current -> type == R_HEREDOC)
-		{
-			current = current -> next;
-			if (current -> next)
-			{
-				error(SYNTAX_ERR, shell);
-				free_tokens(shell -> token);
-			}
-		}
-		current = current -> next;
-	}
 }

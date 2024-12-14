@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_environment.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 14:31:04 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/02 14:31:06 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:14:21 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ static void norm_get_env(char *env, t_shell *shell, int *i)
 }
 void	get_environment(t_shell *shell, char **env)
 {
-	char **envir;
+	// char **envir;
 	int	i;
 
 	i = 0;

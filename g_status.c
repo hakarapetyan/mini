@@ -1,33 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   g_status.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/05 14:33:30 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/14 16:18:04 by ashahbaz         ###   ########.fr       */
+/*   Created: 2024/11/24 15:52:20 by ashahbaz          #+#    #+#             */
+/*   Updated: 2024/11/24 15:52:21 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
 
-int my_pwd(t_shell *shell)
+#include "./include/minishell.h"
+
+
+int	g_exit_status;
+
+
+void set_status(int status)
 {
-	char *cmd;
-
-	cmd = getcwd(NULL, 0);
-	if(cmd != NULL)
-	{
-		printf("%s\n", cmd);
-		free(cmd);
-		return (0);
-	}
-	else
-	{
-		free(cmd);
-		error("GETCWDERROR", shell);
-		//printf("error with memory allocation\n");
-		return (1);
-	}
+	g_exit_status = status;
+}
+int get_status(void)
+{
+	return (g_exit_status);
 }

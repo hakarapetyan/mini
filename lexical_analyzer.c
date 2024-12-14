@@ -1,24 +1,37 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexical_analyzer.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/24 15:53:12 by ashahbaz          #+#    #+#             */
+/*   Updated: 2024/12/14 16:14:46 by ashahbaz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "./include/minishell.h"
 
-void lexical_analyzer(t_shell *shell)
+void   lexical_analyzer(t_shell *shell)
 {
 	int	status;
 
 	status = tokenization(shell);
 	if (status == -2)
-		error(QUOTE_ERR, shell);
+	{
+		error("quote error", shell);
+		return ;
+	}
 }
 
 
 void	handle_special_chars(t_shell *shell, char *current)
 {
 	t_lexer_state	state;
-	int				flag;
 
-	flag = 0;
 	while (*current)
 	{
-		//printf("[%s]\n", current);
+	//	printf("%s\n", current);
 		state = DEFAULT;
 		state = set_state(*current, state);
 		if (*current == '|')
@@ -31,9 +44,7 @@ void	handle_special_chars(t_shell *shell, char *current)
 			add_token(shell, R_IN, state, extract_separator(&(current)));
 		else if (*current == '>')
 			add_token(shell, R_OUT, state, extract_separator(&(current)));
-		else if (*current == '$')
-			add_token(shell, ENV_VAR, state, extract_word(&(current),shell));
-		else if (!(is_separator(*current)) && !(is_space(*current)))
+		else if (!(is_sep(*current)) && !(is_space(*current)))
 			add_token(shell, WORD, state, extract_word(&(current),shell));
 		else if (is_space(*current))
 			add_token(shell, TK_SPACE, state, extract_whitespace(&current));
@@ -77,10 +88,11 @@ static void token_list_without_spaces(t_shell *shell)
 
     while (tkn)
     {
-        if (tkn -> type == TK_SPACE)
+        if (tkn -> type == TK_SPACE ||( *tkn -> value == '\0' && tkn -> state == DEFAULT))
 			tk_space_remove(shell, &tkn, &tmp, &prev);
+        //else if (tkn -> next && tkn -> next -> type != TK_SPACE)
         else if ((tkn -> type == WORD || tkn -> type == ENV_VAR) && tkn -> next && (tkn -> next -> type == WORD || tkn -> next -> type == ENV_VAR))
-        {
+		{
             new_value = ft_strjoin(tkn -> value, tkn -> next -> value);
             tkn -> value = new_value;
             tmp = tkn -> next;
@@ -98,17 +110,7 @@ static void token_list_without_spaces(t_shell *shell)
 }
 
 
-static void token_count(t_shell *shell)
-{
-	t_token	*tkn;
 
-	tkn = shell -> token;
-	while (tkn)
-	{
-		tkn = tkn -> next;
-		(shell -> token_count)++;		
-	}
-}
 
 int	tokenization(t_shell *shell)
 {

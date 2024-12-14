@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 14:12:18 by hakarape          #+#    #+#             */
-/*   Updated: 2024/11/24 16:25:10 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:16:37 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ void my_echo_helper_one(int count, char **input, int i)
 			i++;
 		else
 		{
-			printf("%s",input[i]);
+			if (i == count - 1)
+				printf("%s",input[i]);
+			else
+				printf("%s ",input[i]);
 			i++;
 		}
 	}
@@ -40,7 +43,10 @@ void	my_echo_helper_two(int count, char **input, int i)
 		}
 		while (i < count && input[i])
 		{
-				printf("%s ",input[i]);
+				if (i == count - 1)
+					printf("%s",input[i]);
+				else
+					printf("%s",input[i]);
 				i++;
 		}
 	}
@@ -48,7 +54,10 @@ void	my_echo_helper_two(int count, char **input, int i)
 	{
 		while (i < count && input[i])
 		{
-			printf("%s ",input[i]);
+			if (i == count - 1)
+				printf("%s",input[i]);
+			else
+				printf("%s ",input[i]);
 			i++;
 		}
 		printf("\n");
