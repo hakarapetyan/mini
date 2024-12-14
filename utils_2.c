@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:42:41 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/14 16:15:25 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/14 17:03:14 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,17 @@
 
 
 char	*is_key(t_shell *shell, char *need_to_be_find)
+char	*is_key(t_shell *shell, char *need_to_be_find)
 {
+	env_list *node;
+
+	node = shell -> env;
 	env_list *node;
 
 	node = shell -> env;
 	if (!need_to_be_find || !node)
 		return (NULL);
+	while (node)
 	while (node)
 	{
 		if (spec_strcmp(node -> key, need_to_be_find) == 0)
@@ -44,7 +49,7 @@ char	*ft_strjoin(char *s1, char *s2)
 		return (NULL);
 	if (!s1)
 		return (ft_strdup(s2));
-	str = (char *)malloc(sizeof(*s1) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	str = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!str)
 		return (NULL);
 	while (i < ft_strlen(s1))
@@ -53,6 +58,11 @@ char	*ft_strjoin(char *s1, char *s2)
 	while (i < ft_strlen(s2))
 		str[j++] = s2[i++];
 	str[j] = '\0';
+	if (s1)
+	{
+		free(s1);
+		s1 = NULL;
+	}
 	if (s1)
 	{
 		free(s1);

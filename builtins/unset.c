@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 20:18:16 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/14 16:19:26 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/14 17:24:17 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,14 @@ int my_unset_helper(char **arg, env_list *env, env_list *exp)
 	{
 		if (arg[i] && ft_strcmp(arg[i], "unset") == 0)
 			i++;
-		if (is_alpha(arg[i]) && my_strchr(arg[i], '?') && my_strchr(arg[i], '_'))
+		if (!is_alpha(arg[i]) /*|| !my_strchr(arg[i], '_')*/)
 		{
-			simple_error(EXIT_FAILURE, arg[i], "not a valid identifier");
-			// write_print(arg[i], "minishell: unset:", 2);
+			another_simple_error(EXIT_FAILURE, "unset: ", arg[1], "numeric argument required");
+			// simple_error(EXIT_FAILURE, arg[i],"not a valid identifier");
+			// write_print(arg[i], "minishell: export:", 2);
 			// ft_putendl_fd(" not a valid identifier", 2);
 			// write(2, "\n", 1);
-			return(1);
+			return (1);
 		}
 		if (!del_from_lst(env, arg[i]))
 			del_from_lst(exp, arg[i]);

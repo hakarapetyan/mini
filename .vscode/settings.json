@@ -24,6 +24,11 @@
 		"string": "c",
 		"ostream": "c",
 		"minishell.h": "c",
-		"unordered_map": "c"
+		"unordered_map": "c",
+		"sstream": "cpp",
+		"__locale": "c",
+		"readline.h": "c",
+		"history.h": "c",
+		"stdio.h": "c"
 	}
 }

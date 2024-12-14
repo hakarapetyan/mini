@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 14:33:10 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/14 16:17:39 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/14 17:16:58 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,7 @@ void	print_exp(t_shell *shell)
 }
 void	print_exp_helper(char *exp)
 {
-	int	i;
 
-	i = 0;
 	if(ft_strchr(exp, '='))
 	{
 		printf("declare -x ");

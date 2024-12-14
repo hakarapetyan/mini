@@ -6,13 +6,29 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:43:58 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/14 16:10:12 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:40:43 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "./include/minishell.h"
 
+static int	create_first_command(t_token **tkn, t_commands **tmp, t_shell *shell)
+{
+	if (((*tkn) -> value && (*(*tkn) -> value) != '\0') || ((*tkn) -> state != DEFAULT
+		&& (*tkn) -> value && (*(*tkn) -> value) == '\0'))
+	{
+		*tmp = create_command((*tkn) -> value);
+		shell -> command = *tmp;
+		if (!(shell -> command))
+			error(ALLOCATION_ERR, shell);
+		shell -> command_count++;
+		return (0);
+	}
+	return (-1);
+}
+
+int	create_commands(t_shell *shell)
 static int	create_first_command(t_token **tkn, t_commands **tmp, t_shell *shell)
 {
 	if (((*tkn) -> value && (*(*tkn) -> value) != '\0') || ((*tkn) -> state != DEFAULT
@@ -41,6 +57,7 @@ int	create_commands(t_shell *shell)
 	{
 		while (tkn)
 		{
+			if (!tmp)
 			if (!tmp)
 			{
 				create_first_command(&tkn, &tmp, shell);
@@ -75,6 +92,8 @@ void	add_command(t_token **tkn, t_commands **tmp, t_shell *shell)
 
 
 t_commands	*create_command(char *value)
+
+t_commands	*create_command(char *value)
 {
 	t_commands	*command;
 
@@ -86,7 +105,10 @@ t_commands	*create_command(char *value)
 	command -> r_in = NULL;
 	command -> r_out = NULL;
 	command -> r_heredoc = NULL;
+	command -> r_heredoc = NULL;
 	command -> is_append = 0;
+	command -> name = NULL;
+	command -> args = NULL;
 	command -> name = NULL;
 	command -> args = NULL;
 	command -> next = NULL;
@@ -107,4 +129,5 @@ t_commands	*create_command(char *value)
 	command -> next = NULL;
 	return (command);
 }
+
 

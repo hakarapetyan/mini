@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:52:08 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/14 16:11:21 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:48:09 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,33 +29,20 @@ static void which_errno(void)
 
 	// status = 127;
 	if (errno == ENOENT)
-	{
 		write(STDERR_FILENO, NO_SUCH_FILE_MSG, ft_strlen(NO_SUCH_FILE_MSG));
-		set_status(127);
-	}
 	else if (errno == EACCES)
-	{
 		write(STDERR_FILENO, PERMISSION_DENIED_MSG, ft_strlen(PERMISSION_DENIED_MSG));
-		set_status(126);
-	}
 	else if (errno == EISDIR)
-	{
 		write(STDERR_FILENO, IS_DIRECTORY_MSG, ft_strlen(IS_DIRECTORY_MSG));
-		set_status(126);
-	}
 	else if (errno == ENOTDIR)
-	{
 		write(STDERR_FILENO, NOT_DIRECTORY_MSG, ft_strlen(NOT_DIRECTORY_MSG));
-		set_status(1);
-	}
 	//set_status(status);
 }
 
 
 void	error_message(int status, char *command_name)
 {
-	// set_status(status);
-	(void)status;
+	set_status(status);
 	if (command_name)
 	{
 		write(STDERR_FILENO, "minishell: ", 11);
@@ -76,6 +63,24 @@ void	simple_error(int status, char *command_name, char *message)
 		if (command_name)
 		{
 			write(STDERR_FILENO, command_name, ft_strlen(command_name));
+			write(STDERR_FILENO, ": ", 2);
+		}
+		write(STDERR_FILENO, message, ft_strlen(message));
+	}
+	write(STDERR_FILENO, "\n", 1);
+	return ;
+}
+
+void	another_simple_error(int status, char *command_name, char *argv, char *message)
+{
+	set_status(status);
+	if (command_name)
+	{
+		write(STDERR_FILENO, "minishell: ", 11);
+		if (command_name)
+		{
+			write(STDERR_FILENO, command_name, ft_strlen(command_name));
+			write(STDERR_FILENO, argv, ft_strlen(argv));
 			write(STDERR_FILENO, ": ", 2);
 		}
 		write(STDERR_FILENO, message, ft_strlen(message));

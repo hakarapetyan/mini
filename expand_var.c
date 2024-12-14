@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:43:36 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/14 16:11:45 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:44:50 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	expand_var(t_shell *shell)
     char	*key;
 
 	if (!(shell -> env))
+	if (!(shell -> env))
 		return ;
     current = shell->token;
     key = NULL;
@@ -29,6 +30,7 @@ void	expand_var(t_shell *shell)
         {
 			//printf("{%s}\n",current -> value);
 			key = is_key(shell, current->value);
+			key = is_key(shell, current->value);
             if (key)
 			{
 				current -> var_value = ft_strdup(getenv(key));
@@ -36,5 +38,6 @@ void	expand_var(t_shell *shell)
 			}
         }
         current = current->next;
+    }
     }
 }

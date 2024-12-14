@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:43:28 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/14 16:13:38 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:49:42 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,21 @@ static void	copy_str(char *s, char **str, size_t *i, size_t len)
 				(*str)[j++] = s[(*i)++];
 		}
 		(*str)[j] = '\0';
+		//printf("%d\n", ft_strlen(s));
+		while (*i < ft_strlen(s) && j < len)
+		{
+			if (s[*i] && is_quote(s[*i]))
+			{
+				quote = s[*i];
+				(*i)++;
+				while (s[*i] && s[*i] != quote)
+					(*str)[(j)++] = s[(*i)++];
+				(*i)++;
+			}
+			else
+				(*str)[j++] = s[(*i)++];
+		}
+		(*str)[j] = '\0';
 	}
 }
 
@@ -46,6 +61,7 @@ static char	*another_substr(char *s, unsigned int start, size_t len)
 	size_t	i;
 
 	i = start;
+	if (!s)
 	if (!s)
 		return (NULL);
 	str = (char *)malloc(sizeof(*s) * (len + 1));
@@ -91,8 +107,10 @@ static	char *check_quote(t_shell *shell,char **current, int *i, char *quote)
 {
 	int	len;
 	int n;
+	int n;
 
 	len = 0;
+	n = 0;
 	n = 0;
 	if ((*current)[*i] && is_quote((*current)[(*i)]))
 	{
@@ -102,8 +120,14 @@ static	char *check_quote(t_shell *shell,char **current, int *i, char *quote)
 			len += n;
 		else
 			return (NULL);
+		n = handle_quote(shell, current, quote, i);
+		if (n >= 0)
+			len += n;
+		else
+			return (NULL);
 		return (another_substr(*current, 0, len));
 	}
+	while ((*current)[(*i)] && !is_space((*current)[*i]) && !is_quote((*current)[(*i)]) && !is_sep((*current)[*i]))
 	while ((*current)[(*i)] && !is_space((*current)[*i]) && !is_quote((*current)[(*i)]) && !is_sep((*current)[*i]))
 	{
 		(*i)++;
@@ -111,6 +135,9 @@ static	char *check_quote(t_shell *shell,char **current, int *i, char *quote)
 	}
 	return (another_substr(*current, 0, len));
 }
+
+
+
 
 
 
@@ -141,6 +168,15 @@ char	*extract_word(char **current, t_shell *shell)
 	else
 		return (var);
 }
+
+
+
+
+
+
+
+
+
 
 
 

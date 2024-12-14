@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 14:33:30 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/14 16:18:04 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/14 17:23:52 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int my_pwd(t_shell *shell)
 	else
 	{
 		free(cmd);
-		error("GETCWDERROR", shell);
+		error(GETCWDERROR, shell);
 		//printf("error with memory allocation\n");
 		return (1);
 	}

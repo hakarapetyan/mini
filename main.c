@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:32:14 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/14 16:10:33 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:40:11 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,15 +206,23 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
+	(void)env;
 	init_shell(&shell);
+	rl_catch_signals = 0;
+	get_environment(&shell, env);
+	chang_shlvl_in_env(&shell);
+	chang_shlvl_in_exp(&shell);
 	while (1)
 	{
+		// rl_replace_line("", 0);
+		// rl_on_new_line();
+		signals(INTERACTIVE);
 		shell.input = readline("\033[1;35m.minishell \033[0m");
 		if (!shell.input)
 			break;
 		if (shell.input[0] != '\0')
 			add_history(shell.input);
-		get_environment(&shell, env);
+		//print_env(&shell);
 		lexical_analyzer(&shell);
 		if (check_redir_errors(&shell) >= 0)
 		{
@@ -234,5 +242,6 @@ int	main(int argc, char **argv, char **env)
 	shell.exp = NULL;
 	free_shell(&shell);
 	//system("leaks minishell");
+
 	return (0);
 }

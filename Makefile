@@ -2,7 +2,7 @@ NAME = minishell
 
 RM = rm -f
 
-CFLAGS = -Wall  -Wextra  -fsanitize=address  -g3
+CFLAGS = -Wall -I ./readline_local/include -Wextra -Werror  -fsanitize=address  -g3
 
 INCLUDE = ./include/minishell.h\
 			./include/env.h\
@@ -47,26 +47,31 @@ SRCS =  main.c\
 		./builtins/echo.c\
 		./builtins/env.c\
 		./builtins/exit.c\
+		./builtins/exit_helper.c\
 		./builtins/export_helper.c\
 		./builtins/export.c\
 		./builtins/pwd.c\
 		./builtins/unset_helper.c\
 		./builtins/unset.c\
-
-
+		./builtins/shlvl.c\
+		signal.c\
 
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
 
 $(NAME): $(OBJS) $(INCLUDE) Makefile
-	cc $(CFLAGS) $(OBJS) -lreadline -o $(NAME)
+	cc $(CFLAGS) $(OBJS) -L./readline_local/lib -lreadline -o $(NAME)
 
 clean:
 	$(RM) $(OBJS)
 
 fclean: clean
 	$(RM) $(NAME)
+
+config:
+	mkdir -p readline_local
+	./readline_config.sh readline_local
 
 re: fclean all
 

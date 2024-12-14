@@ -29,6 +29,7 @@ typedef struct s_shell
 
 
 
+
 char		*get_the_key(char *str);
 char		*get_the_value(char *str);
 void		get_env_list(t_shell **shell, char *str);
