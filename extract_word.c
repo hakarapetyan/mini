@@ -130,7 +130,7 @@ char	*extract_word(char **current, t_shell *shell)
 		return (NULL);
 	}
 	*current += i;
-	if ((var_search(var,shell)) && (quote == '"' || !quote))
+	if (ft_strchr(var, '$') && (quote == '"' || !quote))
 	{
 		if (get_the_token_i_want(shell) &&  get_the_token_i_want(shell)-> type == R_HEREDOC)
 			return (var);
