@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 14:33:04 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/11 14:35:43 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/14 15:49:58 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,14 +109,15 @@ static int is_digit(char *arg)
     }
     return (0);
 }
-static int	norm_my_exit(int args,char **argv, int i)
+static int	norm_my_exit(int pipe_count, int args,char **argv, int i)
 {
 	int	status;
 
 	status = exit_status(argv[i]);
 	if (args == 1)
 	{
-		printf("exit\n");
+		if (pipe_count == 0)
+			printf("exit\n");
 		return (set_status(SUCCESS), 0);
 	}
 	else if (args == 2)
@@ -125,7 +126,8 @@ static int	norm_my_exit(int args,char **argv, int i)
 			return(1);
 		else
 		{
-			printf("exit\n");
+			if (pipe_count == 0)
+				printf("exit\n");
 			set_status(status);
 			return (0);
 		}
@@ -137,7 +139,7 @@ static int	norm_my_exit(int args,char **argv, int i)
 		return (2);
 	}
 }
-int my_exit(int args, char **argv)
+int my_exit(int pipe_count, int args, char **argv)
 {
 	int	i;
 	int	exit;
@@ -145,10 +147,11 @@ int my_exit(int args, char **argv)
 	i = 0;
 	if (argv[i] && ft_strcmp(argv[i], "exit") == 0)
 		i++;
-	exit = norm_my_exit(args, argv, i);
+	exit = norm_my_exit(pipe_count, args, argv, i);
 	if (exit == 1)
 	{
-		write(STDERR_FILENO, "exit\n", 5);
+		if (pipe_count == 0)
+			write(STDERR_FILENO, "exit\n", 5);
 		simple_error(255, "exit", "numeric argument required");
 		return (1);
 	}
@@ -164,7 +167,7 @@ void execute_exit(t_shell *shell, t_commands *command)
 
 	//cmd = shell -> command;
 
-	func = my_exit(shell -> token_count, command -> args);
+	func = my_exit(shell -> pipe_count, command -> arg_count, command -> args);
 	if(func == 1)
 	{
 		free_env(shell->env);
@@ -175,7 +178,8 @@ void execute_exit(t_shell *shell, t_commands *command)
 	}
 	else if (func == 2)
 		{
-			write(STDERR_FILENO, "exit\n", 5);
+			if (shell -> pipe_count == 0)
+				write(STDERR_FILENO, "exit\n", 5);
 			simple_error(EXIT_FAILURE, "exit", "too many arguments");
 		}
 	else

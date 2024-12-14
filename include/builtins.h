@@ -22,7 +22,7 @@ void	changes_in_list(env_list *list, char *pwd,char *oldpwd);
 //void	changes_in_exp(t_shell *shell, char *pwd,char *oldpwd);
 char	*get_value(t_shell *shell, char *key);
 int		is_digit_unset(char *arg);
-int		my_exit(int args, char **argv);
+int		my_exit(int pipe_count, int args, char **argv);
 //int		check_int(char *arg);
 void	execute_exit(t_shell *shell, t_commands * command);
 void	ft_putendl_fd(char *s, int fd);

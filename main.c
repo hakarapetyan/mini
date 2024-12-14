@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:32:14 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/11 18:24:12 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/14 15:55:37 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ static int	execution(t_shell *shell)
 	}
 	shell -> pid = malloc(sizeof(int) * (shell -> pipe_count + 1));
 		//if (!shell -> pid) freee
-	if (shell -> command > 1)
+	if (shell -> command_count > 1)
 		create_pipes(shell);
 	while (shell -> pipe_index <= shell -> pipe_count)
 	{
@@ -187,7 +187,7 @@ static int	execution(t_shell *shell)
 		shell -> pipe_index++;
 		cmd = cmd -> next;
 	}
-	if (shell -> command > 1)
+	if (shell -> command_count > 1)
 		close_pipes(shell);
 	int k = 0;
 	int st;

@@ -7,6 +7,10 @@ CFLAGS = -Wall  -Wextra  -fsanitize=address  -g3
 INCLUDE = ./include/minishell.h\
 			./include/env.h\
 			./include/tokenization.h\
+			./include/parse.h\
+			./include/errors.h\
+			./include/builtins.h\
+			./include/free.h\
 
 SRCS =  main.c\
 		get_environment.c\
