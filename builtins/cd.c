@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:48:42 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/12 15:56:42 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/15 15:05:42 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,6 @@ static int	my_cd_norm(char **argv, t_shell *shell)
 	int i;
 
 	i = 0;
-	// if	(argc > 2)
-	// {
-	// 	ft_putendl_fd("minishell: cd: too many arguments\n", 2);
-	// 	return (1);
-	// }
 	if (argv[i] && (!ft_strcmp(argv[i], "cd")))
 		i++;
 	if (my_cd_helper(argv[i], shell))
@@ -94,26 +89,37 @@ int	my_cd(int argc, char **argv, t_shell *shell)
 	env_list *env=shell->env;
 	env_list *exp = shell->exp;
 	pwd = get_value(shell, "PWD=");
-	//oldpwd = get_value(shell, "OLDPWD=");
-	if (shell -> flag != 1)
-	{
-		add_oldpwd_to_env(env, pwd, shell);//shell taluc segv
-		add_oldpwd_to_exp(exp, pwd, shell);
-	}
 	home = get_value(shell, "HOME=");
 	if (argc > 1)
 	{
 		if(my_cd_norm( argv, shell))
 			return(1);
 	}
-	// if (cd_errors_checking(oldpwd, "OLDPWD not set"))
-	// 	return (1);
-	else
+	if (argc == 1)
 	{
-		chdir(home);
-		changes_in_list(shell->env, home, pwd);
-		changes_in_list(shell->exp, home, pwd);
+		if(!chdir(home))
+		{	
+			changes_in_list(shell->env, home, "PWD=");
+			changes_in_list(shell->exp, home, "PWD=");
+			changes_in_list(shell->env, pwd, "OLDPWD=");
+			changes_in_list(shell->exp, pwd, "OLDPWD=");
+		}
+		else
+			simple_error(EXIT_FAILURE, "cd", "HOME not set");		
 	}
+	char *new = getcwd(NULL, 0);
+	if (shell -> flag != 1 && ft_strcmp(pwd, new) != 0)
+	{
+		printf("boo\n");
+		add_oldpwd_to_env(env, pwd, shell);
+		add_oldpwd_to_exp(exp, pwd, shell);
+	}
+	else if (ft_strcmp(pwd, new) != 0)
+	{
+		printf("gooo\n");
+		changes_in_list(shell->env, pwd, "OLDPWD=");
+		changes_in_list(shell->exp, pwd, "OLDPWD=");
+	}	
 	return (0);
 }
 

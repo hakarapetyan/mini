@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 17:54:50 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/08 16:45:11 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/14 21:11:45 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void	free_shell(t_shell *shell)
 	free(shell -> oldpwd);
 	shell -> token_count = 0;
 	shell -> command_count = 0;
-	shell -> flag = 0;
+	//shell -> flag = 0;
 	shell -> heredoc_flag = 0;
 	shell -> token = NULL;
 	shell -> command = NULL;

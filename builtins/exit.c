@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 14:33:04 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/12 16:47:11 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/14 17:03:18 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,7 @@ void execute_exit(t_shell *shell)
 		free_env(shell->env);
 		free_env(shell->exp);
 		free_shell(shell);
+		// system("leaks minishell");
 		exit(get_status());
 	}
 	else if (func == 2)
@@ -179,6 +180,7 @@ void execute_exit(t_shell *shell)
 		free_env(shell->env);
 		free_env(shell->exp);
 		free_shell(shell);
+		// system("leaks minishell");
 		exit(get_status());
 	}
 }

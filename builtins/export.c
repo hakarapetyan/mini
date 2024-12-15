@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 14:33:23 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/11 16:16:41 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/15 14:38:00 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	my_export_helper(char **arg, env_list *env, env_list *exp)
 		{
 			if (!is_alpha(arg[i]) /*|| !my_strchr(arg[i], '_')*/)
 			{
-				another_simple_error(EXIT_FAILURE, "export: ", arg[1], "numeric argument required");
+				another_simple_error(EXIT_FAILURE, "export: ", arg[1], " not a valid identifier");
 				//simple_error(EXIT_FAILURE, arg[i],"not a valid identifier");
 				// write_print(arg[i], "minishell: export:", 2);
 				// ft_putendl_fd(" not a valid identifier", 2);

@@ -12,49 +12,47 @@
 
 #include "../include/minishell.h"
 
-static int  only_cd(t_shell *shell, char *tmp, char *cmd)
+static int  only_cd(t_shell *shell)
 {
-	cmd = getcwd(NULL, 0);
-	if (cmd != NULL)
+	char	*pwd;
+
+	pwd = getcwd(NULL, 0);
+	if (pwd != NULL)
 	{
-		changes_in_list(shell->env, cmd, tmp);
-		changes_in_list(shell->exp, cmd, tmp);
+		changes_in_list(shell->env, pwd, "PWD=");
+		changes_in_list(shell->exp, pwd, "PWD=");
 	}
 	else
 		return (1);
-	free(cmd);
+	free(pwd);
 	return (0);
 }
 static int	cd_minus(t_shell *shell)
 {
-	char *tmp;
-	char *cmd;
+	 char *oldpwd;
+	char *pwd;
 
-	tmp = get_value(shell, "OLDPWD=");
-	cmd = get_value(shell, "PWD=");
-	
-	if ((ft_strcmp(tmp, "\0") == 0 || !tmp) && !cmd)
+	oldpwd = get_value(shell, "OLDPWD=");
+	pwd = get_value(shell, "PWD=");
+	if (!pwd && oldpwd && ft_strcmp(oldpwd, "\0") != 0)
 	{
-		simple_error(EXIT_FAILURE, "cd", "OLDPWD not set");
-		//ft_putendl_fd("bash: cd: OLDPWD not set\n", 2);
-		return(1);
+		chdir(oldpwd);
+		printf("%s\n", oldpwd);
+		return (0);	
 	}
-	changes_in_list(shell->env, tmp, cmd);
-	changes_in_list(shell->exp, tmp, cmd);
-	chdir(tmp);
-	cmd = get_value(shell, "PWD=");
-	if ((!cmd && tmp))
-		printf("%s\n", tmp);
+	if (oldpwd && pwd)
+	{
+		chdir(oldpwd);
+		changes_in_list(shell->env, oldpwd, "PWD=");
+		changes_in_list(shell->exp, oldpwd, "PWD=");
+		printf("%s\n", oldpwd);
+	}
 	else
-	{
 		simple_error(EXIT_FAILURE, "cd", "OLDPWD not set");
-		//ft_putendl_fd("bash: cd: OLDPWD not set\n", 2);
-		return(1);
-	}
 	return (0);
 }
 
-static int my_cd_helper_norm(t_shell *shell, char *argv, char *tmp, char *cmd)
+static int my_cd_helper_norm(t_shell *shell, char *argv, char *oldpwd)
 {
 			if (ft_strcmp(argv, "-") == 0)
 			{
@@ -63,17 +61,18 @@ static int my_cd_helper_norm(t_shell *shell, char *argv, char *tmp, char *cmd)
 			}
 			else if (!chdir(argv))
 			{
-				if(only_cd(shell, tmp, cmd))
+				if(only_cd(shell))
 				{
+					pwd_error(shell);
 					error(GETCWDERROR, shell);
-					free(cmd);
+					free(oldpwd);
 					return (1);
 				}
 			}
 			else
 			{
-				error_message(EXIT_FAILURE, argv);
-				another_simple_error(EXIT_FAILURE, "cd: ", argv, "numeric argument required");
+				//error_message(EXIT_FAILURE, argv);
+				another_simple_error(EXIT_FAILURE, "cd: ", argv, "No such file or directory");
 				//simple_error(127, argv, )
 				//printf("cd: %s: No such file or directory\n", argv);
 				return(1);
@@ -82,29 +81,28 @@ static int my_cd_helper_norm(t_shell *shell, char *argv, char *tmp, char *cmd)
 }
 int	my_cd_helper(char *argv, t_shell *shell)//en apushutyuny
 {
-	char	*cmd;
-	char	*tmp;
+	char	*oldpwd;
 
-	cmd = getcwd(NULL, 0);
-	tmp = cmd;
+	oldpwd = getcwd(NULL, 0);
 	if (argv)
 	{
-		if (cmd != NULL)
+		if (oldpwd != NULL)
 		{
-			if(my_cd_helper_norm(shell, argv, tmp, cmd))
+			if(my_cd_helper_norm(shell, argv, oldpwd))
 			{
-				free(cmd);
+				free(oldpwd);
 				return (1);
 			}
 		}
 		else
 		{
+			pwd_error(shell);
 			error(GETCWDERROR, shell);
-			free(cmd);
+			free(oldpwd);
 			return(1);
 		}
 	}
-	free(cmd);
+	free(oldpwd);
 	return (0);
 }
 

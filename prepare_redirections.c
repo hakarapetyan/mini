@@ -60,7 +60,7 @@ static int setup_input_fd(t_shell *shell)
             return (-1);
         }
         close(shell->command->fd_in);
-			printf("sjfod\n");
+			// printf("sjfod\n");
     }
     return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:32:14 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/12 17:51:44 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/15 11:58:21 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ int	main(int argc, char **argv, char **env)
 	free_env(shell.exp);
 	shell.exp = NULL;
 	free_shell(&shell);
+	//system("leaks minishell");
 	//system("leaks minishell");
 	// printf("%lld\n",ft_atoi("999"));
 	// printf("%lld\n",ft_atoi("1"));

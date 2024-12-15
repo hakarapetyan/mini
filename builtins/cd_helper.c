@@ -12,15 +12,15 @@
 
 #include "../include/minishell.h"
 
-void changes_in_list(env_list *list, char *pwd,char *oldpwd)
+void changes_in_list(env_list *list, char *pwd, const char *key)
 {
 	while (list)
 	{
-		if (ft_strcmp(list ->key, "OLDPWD=") == 0)
-		{
-			list -> value = ft_strdup(oldpwd);
-		}
-		else if (ft_strcmp(list ->key, "PWD=") == 0)
+		// if (ft_strcmp(list ->key, "OLDPWD=") == 0)
+		// {
+		// 	list -> value = ft_strdup(oldpwd);
+		// }
+		if (ft_strcmp(list ->key, key) == 0)
 		{	
 			list -> value = ft_strdup(pwd);
 		}
@@ -45,4 +45,24 @@ char *get_value(t_shell *shell, char *key)
 		env = env->next;
 	}
 	return (NULL);
+}
+
+void pwd_error(t_shell *shell)
+{
+	env_list *env;
+	char *pwd;
+	char *oldpwd;
+
+	env = shell->env;
+	pwd = get_value(shell, "PWD=");
+	oldpwd=get_value(shell,"OLDPWD=");
+	pwd=ft_strjoin(pwd, "/..");
+	printf("pwd=%s\n", pwd);
+	chdir("/..");
+	char *new=getcwd(NULL,0);
+	printf("new=%s\n", new);
+	changes_in_list(env, pwd, "PWD=");
+	free(pwd);
+	// printf("pwd=%s\n", pwd);
+	// printf("oldpwd=%s\n", oldpwd);
 }
