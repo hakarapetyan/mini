@@ -50,6 +50,7 @@ static int check(t_shell *shell, t_token **token, t_commands **tmp)
 {
 	if(get_redir(token, tmp, shell) < 0)
 	{
+		(*tmp) -> help = 1;
 		while ((*token) && (*token) -> type != PIPE)
 		{
 			if ((*token) -> type == R_HEREDOC)

@@ -46,6 +46,7 @@ typedef struct s_commands
 	int					stdout_original;
 	int					heredoc_count;
 	int					arg_count;
+	int					help;
 	t_lexer_state		state;
 	struct s_commands	*next;
 	struct s_commands	*prev;

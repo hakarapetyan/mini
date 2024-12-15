@@ -2,7 +2,7 @@
 # define PARSE_H
 
 
-int heredoc_handle(t_shell *shell, t_commands *cmd);
+int heredoc_handle(t_shell *shell,t_commands **cmd);
 
 
 int		create_commands(t_shell *shell);

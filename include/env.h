@@ -11,9 +11,9 @@ typedef struct s_env_list
 typedef struct s_shell
 {
 	char			*input;
-	int				shlvl;
 	int				*pid;
 	int				flag;
+	int				heredoc_flag;
 	int				pipe_count;
 	int				token_count;
 	int				command_count;

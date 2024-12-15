@@ -6,14 +6,13 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:43:52 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/14 16:40:59 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/14 17:39:34 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "./include/minishell.h"
 
-static t_token	*create_token(t_shell *shell, t_token_type type, t_lexer_state state, char *value)
 static t_token	*create_token(t_shell *shell, t_token_type type, t_lexer_state state, char *value)
 {
 	t_token	*token;

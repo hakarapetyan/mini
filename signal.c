@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 21:36:16 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/09 14:58:47 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/15 19:43:55 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,13 @@ static void in_ctrl(int num)
 }
 static void nonin_ctrl(int num)
 {
-	write(1, "\n", 1);
+	//write(1, "\n", 1);
 	(void)num;
 }
 static void b_slash(int num)
 {
+	// if (isatty(STDERR_FILENO))
+    //     ft_putendl_fd("Quit: 3\n", 2);
 	ft_putendl_fd("Quit: 3\n", 2);
 	(void)num;
 }

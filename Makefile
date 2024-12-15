@@ -2,7 +2,7 @@ NAME = minishell
 
 RM = rm -f
 
-CFLAGS = -Wall -I ./readline_local/include -Wextra -Werror  -fsanitize=address  -g3
+CFLAGS = -Wall -I ./readline_local/include -Wextra  -fsanitize=address  -g3
 
 INCLUDE = ./include/minishell.h\
 			./include/env.h\
@@ -72,6 +72,10 @@ fclean: clean
 config:
 	mkdir -p readline_local
 	./readline_config.sh readline_local
+
+rmconf:
+	$(RM) -r readline_local
+	$(RM) -r readline-8.2
 
 re: fclean all
 

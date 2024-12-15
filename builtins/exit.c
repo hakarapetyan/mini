@@ -6,78 +6,13 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 17:24:31 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/14 17:16:32 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/15 13:20:08 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../include/minishell.h"
 
-static unsigned	long ft_number(const char *str)
-{
-	int	i;
-	unsigned long n;
-
-	n = 0;
-	i = 0;
-	while ((str[i] >= '0' && str[i] <= '9') && str[i])
-	{
-		n = n * 10 + (str[i] - '0');
-		i++;
-	}
-	return (n);
-}
-int max_min(char *str, int sign, int *flag)
-{
-	unsigned long n;
-
-	n = ft_number(str);
-
-	if (sign == -1)
-	{
-		if (n > MAX_MIN)
-		{
-			*flag = 1;
-			return (1);
-		}
-	}
-	else
-		if (n > 9223372036854775807)
-		{
-			*flag = 1;
-			return (1);
-		}
-	return (0);
-
-}
-unsigned long	l_atoi(char *str, int *flag)
-{
-	int	i;
-	int	sign;
-	int	count;
-
-	sign = 1;
-	i = 0;
-	count = 0;
-	while (((str[i] >= 9 && str[i] <= 13) || str[i] == 32))
-		i++;
-	while (str[i] == '-' || str[i] == '+')
-	{
-		if (str[i] == '-')
-		{
-			sign = -1;
-			count++;
-		}
-		else if (str[i] == '+')
-			count++;
-		i++;
-	}
-	if (max_min(&str[i], sign, flag))
-		return(1);
-	if (count > 1)
-		return (0);
-	return (ft_number(&str[i]) * sign);
-}
 
 static unsigned	long ft_number(const char *str)
 {
@@ -145,81 +80,6 @@ unsigned long	l_atoi(char *str, int *flag)
 	return (ft_number(&str[i]) * sign);
 }
 
-
-// static int	check_int(char *arg)
-// {
-// 	printf("arg=%c\n", *arg);
-// 	printf("argum=%s\n", arg);
-// 	if (ft_strcmp(arg, INT_MAX_8) > 0 || (ft_strcmp(arg, INT_MIN_8) > 0 && *arg == '-'))
-// 	{
-// 		printf("good\n");
-// 		//printf("exit\nminishell: exit: %s: numeric argument required\n", arg);
-// 		write(STDERR_FILENO, "exit\n", 5);
-// 		simple_error(255, arg, "numeric argument required");
-// 		return (1);
-// 	}
-// 	return (0);
-// }
-static int	ft_nbr(const char *str)
-{
-	int	i;
-	int	n;
-
-	n = 0;
-	i = 0;
-	while ((str[i] >= '0' && str[i] <= '9') && str[i])
-	{
-		n = n * 10 + (str[i] - '0');
-		i++;
-	}
-	return (n);
-}
-long	ft_atoi(const char *str)
-{
-	int	i;
-	int	sign;
-	int	count;
-
-	sign = 1;
-	i = 0;
-	count = 0;
-	while (((str[i] >= 9 && str[i] <= 13) || str[i] == 32))
-		i++;
-	while (str[i] == '-' || str[i] == '+')
-	{
-		if (str[i] == '-')
-		{
-			sign = -1;
-			count++;
-		}
-		else if (str[i] == '+')
-			count++;
-		i++;
-	}
-	if (count > 1)
-		return (0);
-	return (ft_nbr(&str[i]) * sign);
-}
-static int exit_status(char *argv)
-{
-	long num;
-	int tmp;
-	if (!argv)
-		return (0);
-	num = ft_atoi(argv);
-	if (num >= 0)
-		return (num % 256);
-	else if (num < 0)
-	{
-	    tmp = num % 256;
-	   if (tmp)
-	    tmp = tmp + 256;
-	   else
-	    return (tmp);
-	return (tmp);
-	}
-	return (0);
-}
 static int is_digit(char *arg)
 {
     int i;
@@ -288,7 +148,8 @@ int my_exit(int pipe_count, int args, char **argv)
 	exit = norm_my_exit(pipe_count, args, argv, i);
 	if (exit == 1)
 	{
-		write(STDERR_FILENO, "exit\n", 5);
+		if (pipe_count == 0)
+			write(STDERR_FILENO, "exit\n", 5);
 		//simple_error(255, "exit", "numeric argument required");
 		another_simple_error(EXIT_FAILURE, "exit: ", argv[1], "numeric argument required");
 		return (1);
@@ -298,14 +159,14 @@ int my_exit(int pipe_count, int args, char **argv)
 	else
 		return (0);
 }
-void execute_exit(t_shell *shell, t_commands *command)
+void execute_exit(t_shell *shell, t_commands *cmd)
 {
-	t_commands *cmd;
+	//t_commands *cmd;
 	int	func;
 
-	cmd = shell -> command;
+//	cmd = shell -> command;
 
-	func = my_exit(shell -> token_count, cmd -> args);
+	func = my_exit(shell -> pipe_count, cmd -> arg_count, cmd -> args);
 	if(func == 1)
 	{
 		free_env(shell->env);
@@ -317,7 +178,7 @@ void execute_exit(t_shell *shell, t_commands *command)
 		{
 			if (shell -> pipe_count == 0)
 				write(STDERR_FILENO, "exit\n", 5);
-			another_simple_error(EXIT_FAILURE, "exit", "too many arguments");
+			simple_error(EXIT_FAILURE, "exit: "," too many arguments");
 		}
 	else
 	{

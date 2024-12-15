@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:42:31 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/14 17:03:52 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/14 18:57:40 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,26 +41,11 @@ int	args_count(t_token **token)
 				tmp = tmp -> next;
 			else
 				break;
-		if (is_redirection(tmp -> type))
-		{
-			if (tmp -> next)
-				tmp = tmp -> next;
-			else
-				break;
-			if (tmp -> next)
-				tmp = tmp -> next;
-			else
-				break;
 		}
-		else
-		{
-			count++;
 		else
 		{
 			count++;
 			tmp = tmp -> next;
-		}
-	}
 		}
 	}
 	return (count);

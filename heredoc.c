@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:52:37 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/14 16:55:50 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/15 12:35:22 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ static void heredoc_helper(t_shell *shell, t_commands *cmd, char *delimiter, int
 			delimiter = NULL;
 			break;
 		}
-		if (ft_strcmp(delimiter, cmd -> r_heredoc) == 0 || (!(delimiter) && get_status() == 1))
+		if (ft_strcmp(delimiter, (*cmd).r_heredoc) == 0 || (!(delimiter) && get_status() == 1))
 		{
 			free(delimiter);
 			delimiter = NULL;
 			break;
 		}
 		if (cmd -> state == DEFAULT)
-			delimiter = extract_var_from_quoted_str(delimiter, shell);
+			delimiter = extract_var(delimiter, shell);
 		write(fd, delimiter, ft_strlen(delimiter));
 		write(fd, "\n", 1);
 		free(delimiter);
@@ -40,18 +40,18 @@ static void heredoc_helper(t_shell *shell, t_commands *cmd, char *delimiter, int
 	}
 }
 
-int heredoc_handle(t_shell *shell)
+int heredoc_handle(t_shell *shell, t_commands **cmd)
 {
-	t_commands *cmd = shell -> command;
+	//t_commands *cmd = shell -> command;
 	char	*delimiter;
 	int fd = 0;
 
 	delimiter = NULL;
-	if (cmd -> r_heredoc)
+	if ((*cmd) -> r_heredoc)
 	{
 		fd = open("tmp_file", O_WRONLY | O_CREAT | O_TRUNC, 0600);
 		signals(HEREDOC);
-		heredoc_helper(shell, cmd, delimiter , fd);
+		heredoc_helper(shell, *cmd, delimiter , fd);
 		close(fd);
 	}
 	return (0);

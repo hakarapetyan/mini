@@ -6,29 +6,15 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:43:58 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/14 16:40:43 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/15 14:55:57 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "./include/minishell.h"
 
-static int	create_first_command(t_token **tkn, t_commands **tmp, t_shell *shell)
-{
-	if (((*tkn) -> value && (*(*tkn) -> value) != '\0') || ((*tkn) -> state != DEFAULT
-		&& (*tkn) -> value && (*(*tkn) -> value) == '\0'))
-	{
-		*tmp = create_command((*tkn) -> value);
-		shell -> command = *tmp;
-		if (!(shell -> command))
-			error(ALLOCATION_ERR, shell);
-		shell -> command_count++;
-		return (0);
-	}
-	return (-1);
-}
 
-int	create_commands(t_shell *shell)
+
 static int	create_first_command(t_token **tkn, t_commands **tmp, t_shell *shell)
 {
 	if (((*tkn) -> value && (*(*tkn) -> value) != '\0') || ((*tkn) -> state != DEFAULT
@@ -58,7 +44,6 @@ int	create_commands(t_shell *shell)
 		while (tkn)
 		{
 			if (!tmp)
-			if (!tmp)
 			{
 				create_first_command(&tkn, &tmp, shell);
 					//return (-1);
@@ -66,8 +51,9 @@ int	create_commands(t_shell *shell)
 			else
 				add_command(&tkn, &tmp, shell);
 			get_args(&tkn, shell);
-				// return (-1);
+				//return (-1);
 		}
+
 	}
 	return (0);
 }
@@ -89,9 +75,6 @@ void	add_command(t_token **tkn, t_commands **tmp, t_shell *shell)
 		shell -> pipe_count++;
 	}
 }
-
-
-t_commands	*create_command(char *value)
 
 t_commands	*create_command(char *value)
 {
@@ -117,6 +100,7 @@ t_commands	*create_command(char *value)
 	command -> state = DEFAULT;
 	command -> heredoc_count = 0;
 	command -> arg_count = 0;
+	command -> help = 0;
 	command -> fd_in = -1;
 	command -> fd_out = -1;
 	command -> stdin_original = dup(STDIN_FILENO);

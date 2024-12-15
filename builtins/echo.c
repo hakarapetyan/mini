@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 14:12:18 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/14 16:16:37 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/15 19:18:00 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	my_echo_helper_two(int count, char **input, int i)
 				if (i == count - 1)
 					printf("%s",input[i]);
 				else
-					printf("%s",input[i]);
+					printf("%s ",input[i]);
 				i++;
 		}
 	}

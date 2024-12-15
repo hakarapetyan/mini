@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:42:41 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/14 17:03:14 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/14 17:46:07 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,7 @@
 
 
 char	*is_key(t_shell *shell, char *need_to_be_find)
-char	*is_key(t_shell *shell, char *need_to_be_find)
 {
-	env_list *node;
-
-	node = shell -> env;
 	env_list *node;
 
 	node = shell -> env;

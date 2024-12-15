@@ -22,7 +22,7 @@ topdir = ..
 srcdir = .
 
 
-prefix = /Users/hakarape/Desktop/ay_shell/readline_local
+prefix = /Users/ashahbaz/Desktop/minin/readline_local
 
 datarootdir = ${prefix}/share
 
@@ -49,7 +49,7 @@ RM = rm -f
 INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
 
-BUILD_DIR = /Users/hakarape/Desktop/ay_shell/readline-8.2
+BUILD_DIR = /Users/ashahbaz/Desktop/minin/readline-8.2
 TEXINPUTDIR = $(srcdir)
 
 MAKEINFO    = LANGUAGE= makeinfo

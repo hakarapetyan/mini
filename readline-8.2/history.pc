@@ -1,4 +1,4 @@
-prefix=/Users/hakarape/Desktop/ay_shell/readline_local
+prefix=/Users/ashahbaz/Desktop/minin/readline_local
 exec_prefix=${prefix}
 libdir=${exec_prefix}/lib
 includedir=${prefix}/include

@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:32:14 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/14 16:40:11 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/15 19:01:02 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,12 +99,7 @@ static void	wait_and_status(pid_t pid, int *status)
 {
 	waitpid(pid, status, 0);
 	if (WIFSIGNALED(*status))
-	{
-		*status = WTERMSIG(*status) + 128;
-		if (*status == 131)
-			write(1, "Quit: 3\n", 9);
-		return (set_status(*status));
-	}
+		return (set_status(WTERMSIG(*status) + 128));
 	set_status(WEXITSTATUS(*status));
 }
 
@@ -154,9 +149,9 @@ static int	execution(t_shell *shell)
 	int i = 0;
 
 	cmd = shell -> command;
-	//printf("%s\n",cmd -> name);
-	if (is_builtin(cmd -> name) && shell -> command_count == 1)
+	if (cmd -> help == 0 && is_builtin(cmd -> name) && shell -> command_count == 1)
 	{
+	//printf("%s\n",cmd -> name);
 		prepare_redirections(shell, cmd);
 		handle_builtin(shell, cmd);
 		return (0);
@@ -167,23 +162,31 @@ static int	execution(t_shell *shell)
 		create_pipes(shell);
 	while (shell -> pipe_index <= shell -> pipe_count)
 	{
-		shell -> pid[i] = fork();
-		if (shell -> pid[i] == 0)
+		// printf("command->%s\n", cmd -> name);
+		// printf("help->%d\n",cmd ->help);
+		if (cmd -> help == 0)
 		{
-			if (shell -> command_count == 1)
+			signals(NINTERACTIVE);
+			shell -> pid[i] = fork();
+			if (shell -> pid[i] == 0)
 			{
+				if (shell -> command_count == 1)
+				{
+					prepare_redirections(shell, cmd);
+					execute_command(shell, cmd);
+					exit(0);
+				}
+
+				dups(shell);
+				//printf("hello\n");
 				prepare_redirections(shell, cmd);
 				execute_command(shell, cmd);
 				exit(0);
 			}
-			dups(shell);
-			prepare_redirections(shell, cmd);
-			execute_command(shell, cmd);
-			exit(0);
+			dup2(cmd -> stdin_original, STDIN_FILENO);
+			dup2(cmd -> stdout_original, STDOUT_FILENO);
+			i++;
 		}
-		dup2(cmd -> stdin_original, STDIN_FILENO);
-		dup2(cmd -> stdout_original, STDOUT_FILENO);
-		i++;
 		shell -> pipe_index++;
 		cmd = cmd -> next;
 	}
@@ -214,8 +217,6 @@ int	main(int argc, char **argv, char **env)
 	chang_shlvl_in_exp(&shell);
 	while (1)
 	{
-		// rl_replace_line("", 0);
-		// rl_on_new_line();
 		signals(INTERACTIVE);
 		shell.input = readline("\033[1;35m.minishell \033[0m");
 		if (!shell.input)
@@ -226,12 +227,13 @@ int	main(int argc, char **argv, char **env)
 		lexical_analyzer(&shell);
 		if (check_redir_errors(&shell) >= 0)
 		{
+
 			//print_tokens(&shell);
 			create_commands(&shell);
+			execution(&shell);
 			//free_tokens(shell.token);
 			//print_commands(&shell);
 			// prepare_redirections(&shell);
-			execution(&shell);
 		}
 		free_shell(&shell);
 		//system("leaks minishell");

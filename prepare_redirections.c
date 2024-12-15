@@ -20,7 +20,7 @@ int handle_input_redirection(t_shell *shell, t_commands **cmd)
     if ((*cmd)->r_heredoc)
     {
 
-		heredoc_handle(shell,*cmd);
+		heredoc_handle(shell,cmd);
         (*cmd)->fd_in = open("tmp_file", O_RDONLY);
         if ((*cmd)->fd_in < 0)
         {
@@ -38,7 +38,7 @@ int handle_input_redirection(t_shell *shell, t_commands **cmd)
             //free(*pathname);
 			(*cmd) -> error = ft_strdup((*cmd) -> r_in);
 			//printf("%s\n",(*cmd) -> r_in);
-            //error_message(1, (*cmd)->r_in);
+            error_message(1, (*cmd)->r_in);
             return (-1);
         }
     }
@@ -50,7 +50,12 @@ static int setup_input_fd(t_shell *shell, t_commands  *cmd)
     if (cmd->fd_in >= 0)
     {
              //   printf("am i in input dup\n");
-
+		if (shell -> command -> r_heredoc && get_status() == 222)
+		{
+        	set_status(1);
+			close(shell->command->fd_in);
+			return (-1);
+		}
         if (dup2(cmd->fd_in, STDIN_FILENO) < 0)
         {
             error_message(1, cmd->r_in);
@@ -65,7 +70,14 @@ static int setup_input_fd(t_shell *shell, t_commands  *cmd)
 int handle_output_redirection(t_shell *shell, t_commands **cmd)
 {
     if ((*cmd)->is_append)
+	{
         (*cmd)->fd_out = open((*cmd)->r_out, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if ((*cmd)->fd_out < 0)
+        {
+            error_message(1, (*cmd)->r_out);
+            return (-1);
+        }
+	}
     else if ((*cmd)->r_out)
     {
         (*cmd)->fd_out = open((*cmd)->r_out, O_WRONLY | O_CREAT | O_TRUNC, 0644);

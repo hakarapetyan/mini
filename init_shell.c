@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:53:04 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/14 16:57:51 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/15 14:43:12 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	init_shell(t_shell *shell)
 	shell -> input = NULL;
 	shell -> env = NULL;
 	shell -> exp = NULL;
-	shell -> shlvl = 0;
 	shell -> pid = NULL;
 	shell -> pipe_count = 0;
 	shell -> token_count = 0;

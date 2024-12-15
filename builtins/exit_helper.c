@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   exit_helper.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 14:03:53 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/11 18:36:30 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/14 18:12:28 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
 
 static int	ft_nbr(const char *str)
 {
@@ -26,8 +27,7 @@ static int	ft_nbr(const char *str)
 	}
 	return (n);
 }
-
-int	ft_atoi(const char *str)
+long	ft_atoi(const char *str)
 {
 	int	i;
 	int	sign;
@@ -53,7 +53,6 @@ int	ft_atoi(const char *str)
 		return (0);
 	return (ft_nbr(&str[i]) * sign);
 }
-
 int exit_status(char *argv)
 {
 	long num;

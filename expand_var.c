@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:43:36 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/14 16:44:50 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/15 13:46:26 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,5 @@ void	expand_var(t_shell *shell)
 			}
         }
         current = current->next;
-    }
     }
 }
