@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:43:43 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/15 13:00:06 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/16 16:41:42 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ static int is_directory(char *path) {
 int execute_command(t_shell *shell, t_commands *command)
  {
     char *pathname = NULL;
-
+	
     if (is_builtin(command -> name))
 	{
         handle_builtin(shell, command);
@@ -135,7 +135,6 @@ int execute_command(t_shell *shell, t_commands *command)
 	else {
         pathname = find_path(shell, command -> name);
         if (!pathname ) {
-			//error_message(127, command -> name);
             simple_error(127, command -> name, "command not found");
             clean_shell_exit(shell, get_status());
         }
@@ -143,7 +142,7 @@ int execute_command(t_shell *shell, t_commands *command)
     }
 	free(pathname);
 	pathname = NULL;
-	return (0);
+	return (get_status());
 }
 
 int	is_builtin(char *name)

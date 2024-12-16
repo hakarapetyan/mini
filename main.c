@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:32:14 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/15 19:01:02 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/16 17:15:59 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,12 +149,15 @@ static int	execution(t_shell *shell)
 	int i = 0;
 
 	cmd = shell -> command;
-	if (cmd -> help == 0 && is_builtin(cmd -> name) && shell -> command_count == 1)
+	if (cmd -> help == 1 && cmd -> name == NULL && shell -> command_count == 1)
+		return (get_status());
+	if (is_builtin(cmd -> name) && shell -> command_count == 1)
 	{
-	//printf("%s\n",cmd -> name);
+		if (cmd -> help == 1)
+			return (get_status());
 		prepare_redirections(shell, cmd);
 		handle_builtin(shell, cmd);
-		return (0);
+		return (get_status());
 	}
 	shell -> pid = malloc(sizeof(int) * (shell -> pipe_count + 1));
 		//if (!shell -> pid) freee
@@ -162,31 +165,27 @@ static int	execution(t_shell *shell)
 		create_pipes(shell);
 	while (shell -> pipe_index <= shell -> pipe_count)
 	{
-		// printf("command->%s\n", cmd -> name);
-		// printf("help->%d\n",cmd ->help);
-		if (cmd -> help == 0)
+		signals(NINTERACTIVE);
+		shell -> pid[i] = fork();
+		if (shell -> pid[i] == 0)
 		{
-			signals(NINTERACTIVE);
-			shell -> pid[i] = fork();
-			if (shell -> pid[i] == 0)
+			if (cmd -> help == 1)
+				clean_shell_exit(shell, get_status());
+			if (shell -> command_count == 1)
 			{
-				if (shell -> command_count == 1)
-				{
-					prepare_redirections(shell, cmd);
-					execute_command(shell, cmd);
-					exit(0);
-				}
-
-				dups(shell);
-				//printf("hello\n");
 				prepare_redirections(shell, cmd);
 				execute_command(shell, cmd);
-				exit(0);
+				exit(get_status());
 			}
-			dup2(cmd -> stdin_original, STDIN_FILENO);
-			dup2(cmd -> stdout_original, STDOUT_FILENO);
-			i++;
+
+			dups(shell);
+			prepare_redirections(shell, cmd);
+			execute_command(shell, cmd);
+			exit(get_status());
 		}
+		dup2(cmd -> stdin_original, STDIN_FILENO);
+		dup2(cmd -> stdout_original, STDOUT_FILENO);
+		i++;
 		shell -> pipe_index++;
 		cmd = cmd -> next;
 	}
@@ -199,7 +198,7 @@ static int	execution(t_shell *shell)
 		wait_and_status(shell->pid[k], &st);
 		k++;
 	}
-	return ( 0);
+	return (get_status());
 }
 
 
@@ -220,10 +219,9 @@ int	main(int argc, char **argv, char **env)
 		signals(INTERACTIVE);
 		shell.input = readline("\033[1;35m.minishell \033[0m");
 		if (!shell.input)
-			break;
+			clean_shell_exit(&shell,get_status());
 		if (shell.input[0] != '\0')
 			add_history(shell.input);
-		//print_env(&shell);
 		lexical_analyzer(&shell);
 		if (check_redir_errors(&shell) >= 0)
 		{
@@ -233,7 +231,6 @@ int	main(int argc, char **argv, char **env)
 			execution(&shell);
 			//free_tokens(shell.token);
 			//print_commands(&shell);
-			// prepare_redirections(&shell);
 		}
 		free_shell(&shell);
 		//system("leaks minishell");
@@ -244,6 +241,5 @@ int	main(int argc, char **argv, char **env)
 	shell.exp = NULL;
 	free_shell(&shell);
 	//system("leaks minishell");
-
 	return (0);
 }

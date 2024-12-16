@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 17:24:31 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/15 13:20:08 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/16 13:28:31 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ int my_exit(int pipe_count, int args, char **argv)
 		if (pipe_count == 0)
 			write(STDERR_FILENO, "exit\n", 5);
 		//simple_error(255, "exit", "numeric argument required");
-		another_simple_error(EXIT_FAILURE, "exit: ", argv[1], "numeric argument required");
+		another_simple_error(255, "exit: ", argv[1], "numeric argument required");
 		return (1);
 	}
 	else if (exit == 2)

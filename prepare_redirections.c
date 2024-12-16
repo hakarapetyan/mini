@@ -24,6 +24,7 @@ int handle_input_redirection(t_shell *shell, t_commands **cmd)
         (*cmd)->fd_in = open("tmp_file", O_RDONLY);
         if ((*cmd)->fd_in < 0)
         {
+			//(*cmd) -> error_message = ft_strdup()
             error_message(1, "tmp_file");
             return (-1);
         }
@@ -34,10 +35,7 @@ int handle_input_redirection(t_shell *shell, t_commands **cmd)
 
         if ((*cmd)->fd_in < 0)
         {
-              // printf("am i in input\n");
-            //free(*pathname);
-			(*cmd) -> error = ft_strdup((*cmd) -> r_in);
-			//printf("%s\n",(*cmd) -> r_in);
+		//	(*cmd) -> error = ft_strdup((*cmd) -> r_in);
             error_message(1, (*cmd)->r_in);
             return (-1);
         }
@@ -49,7 +47,6 @@ static int setup_input_fd(t_shell *shell, t_commands  *cmd)
 {
     if (cmd->fd_in >= 0)
     {
-             //   printf("am i in input dup\n");
 		if (shell -> command -> r_heredoc && get_status() == 222)
 		{
         	set_status(1);
@@ -95,8 +92,6 @@ static int setup_output_fd(t_shell *shell, t_commands *cmd)
 
     if (cmd->fd_out >= 0)
     {
-     //shell -> original_stdout = dup(STDOUT_FILENO);
-       // printf("am i in output dup\n");
         if (dup2(cmd->fd_out, STDOUT_FILENO) < 0)
         {
             error_message(1, cmd->r_out);
@@ -110,14 +105,8 @@ static int setup_output_fd(t_shell *shell, t_commands *cmd)
 
 int prepare_redirections(t_shell *shell, t_commands *cmd)
 {
-    // if (handle_input_redirection(shell) < 0)
-	// {
-    //     return (-1);
-	// }
     if (setup_input_fd(shell, cmd) < 0)
         return (-1);
-    // if (handle_output_redirection(shell) < 0)
-    //     return (-1);
     if (setup_output_fd(shell, cmd) < 0)
         return (-1);
     return (0);
