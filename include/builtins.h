@@ -39,7 +39,7 @@ int		my_env(int argc,t_shell *shell, char **arg);
 int		add_node_to_list(env_list *env, char *argv);
 int		my_export(int size, char **arg, t_shell *shell);
 int		my_isalnum(int c);
-int		check_two_keies(env_list *list, env_list *new);
+int		check_two_keys(env_list *list, env_list *new);
 void	print_exp_helper(char *exp);
 int		my_export_helper(char **arg, env_list *env, env_list *exp);
 int		builtins(t_shell *shell);
