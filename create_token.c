@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_token.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:43:52 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/14 17:39:34 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/17 16:16:33 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,18 +45,14 @@ void	add_token(t_shell *shell, t_token_type type, t_lexer_state state,
 	t_token	*current;
 
 	if (!value)
-	if (!value)
 		return ;
 	if (!((shell)->token))
 	{
 		(shell)->token = create_token(shell, type, state, value);
-		(shell)->token = create_token(shell, type, state, value);
 		if (!((shell)->token))
 			error(ALLOCATION_ERR, shell);
-		//(shell)->token_count++;
 		expand_var(shell);
-		//(shell)->token_count++;
-		expand_var(shell);
+		free(value);
 	}
 	else
 	{
@@ -64,12 +60,8 @@ void	add_token(t_shell *shell, t_token_type type, t_lexer_state state,
 		while (current->next)
 			current = current->next;
 		current->next = create_token(shell, type, state, value);
-		current->next = create_token(shell, type, state, value);
 		if (!(current->next))
 			error(ALLOCATION_ERR, shell);
-		//shell)->token_count++;
-		expand_var(shell);
-		//shell)->token_count++;
 		expand_var(shell);
 	}
 }

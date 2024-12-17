@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 17:24:31 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/16 13:28:31 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/17 14:09:57 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,8 +170,11 @@ void execute_exit(t_shell *shell, t_commands *cmd)
 	if(func == 1)
 	{
 		free_env(shell->env);
+		shell -> env = NULL;
 		free_env(shell->exp);
+		shell -> exp = NULL;
 		free_shell(shell);
+		//system("leaks minishell");
 		exit(get_status());
 	}
 	else if (func == 2)
@@ -183,8 +186,11 @@ void execute_exit(t_shell *shell, t_commands *cmd)
 	else
 	{
 		free_env(shell->env);
+		shell -> env = NULL;
 		free_env(shell->exp);
+		shell -> exp = NULL;
 		free_shell(shell);
+		//system("leaks minishell");
 		exit(get_status());
 	}
 

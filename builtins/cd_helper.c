@@ -12,19 +12,15 @@
 
 #include "../include/minishell.h"
 
-void changes_in_list(env_list *list, char *pwd,char *oldpwd)
+void changes_in_list(env_list *list, char *pwd, const char *key)
 {
 	while (list)
 	{
-		if (ft_strcmp(list ->key, "OLDPWD=") == 0)
-		{
-			list -> value = ft_strdup(oldpwd);
-		}
-		else if (ft_strcmp(list ->key, "PWD=") == 0)
-		{
+		if (ft_strcmp(list ->key, key) == 0)
+		{	
 			list -> value = ft_strdup(pwd);
 		}
-		list = list -> next;
+		list = list -> next;	
 	}
 }
 char *get_value(t_shell *shell, char *key)

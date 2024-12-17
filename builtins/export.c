@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 14:33:23 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/14 17:23:34 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/17 13:03:47 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ int	add_node_to_list(env_list *list, char *argv)
 		tmp = add_node(argv);
 		while (list && list->next)
 			list = list->next;
-		if (!check_two_keies(cmp, tmp))
+		if (!check_two_keys(cmp, tmp))
 			list ->next = add_node(argv);
 		free_env(tmp);
 	}
 	return(0);
 }
 
-int check_two_keies(env_list *list, env_list *new)
+int check_two_keys(env_list *list, env_list *new)
 {
 	while (list)
 	{

@@ -275,8 +275,7 @@ hist_inittime (void)
 
 /* Place STRING at the end of the history list.  The data field
    is  set to NULL. */
-void
-add_history (const char *string)
+void add_history (const char *string)
 {
   HIST_ENTRY *temp;
   int new_length;

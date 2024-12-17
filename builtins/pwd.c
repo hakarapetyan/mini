@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 14:33:30 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/14 17:23:52 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/17 13:37:15 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int my_pwd(t_shell *shell)
 	else
 	{
 		free(cmd);
-		error(GETCWDERROR, shell);
+		//error(GET_CWD_ERROR, shell);
 		//printf("error with memory allocation\n");
 		return (1);
 	}
