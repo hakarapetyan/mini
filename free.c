@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 17:54:50 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/17 16:46:28 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/16 16:50:50 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	free_shell(t_shell *shell)
 {
 	free(shell -> input);
 	shell -> input = NULL;
-	//free_tokens(shell -> token);
+	free_tokens(shell -> token);
 	free_commands(shell -> command);
 	shell -> token_count = 0;
 	shell -> command_count = 0;

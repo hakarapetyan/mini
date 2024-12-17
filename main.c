@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:32:14 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/17 16:48:20 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/16 17:15:59 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ static int	execution(t_shell *shell)
 		create_pipes(shell);
 	while (shell -> pipe_index <= shell -> pipe_count)
 	{
-		//signals(NINTERACTIVE);
+		signals(NINTERACTIVE);
 		shell -> pid[i] = fork();
 		if (shell -> pid[i] == 0)
 		{
@@ -210,13 +210,13 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	(void)env;
 	init_shell(&shell);
-	//rl_catch_signals = 0;
+	rl_catch_signals = 0;
 	get_environment(&shell, env);
 	chang_shlvl_in_env(&shell);
 	chang_shlvl_in_exp(&shell);
 	while (1)
 	{
-		//signals(INTERACTIVE);
+		signals(INTERACTIVE);
 		shell.input = readline("\033[1;35m.minishell \033[0m");
 		if (!shell.input)
 			clean_shell_exit(&shell,get_status());
@@ -240,6 +240,6 @@ int	main(int argc, char **argv, char **env)
 	free_env(shell.exp);
 	shell.exp = NULL;
 	free_shell(&shell);
-	system("leaks minishell");
+	//system("leaks minishell");
 	return (0);
 }

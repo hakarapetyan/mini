@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexical_analyzer.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:53:12 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/17 16:48:58 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/14 17:02:12 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	handle_special_chars(t_shell *shell, char *current)
 
 	while (*current)
 	{
+	//	printf("%s\n", current);
 		state = DEFAULT;
 		state = set_state(*current, state);
 		if (*current == '|')
@@ -107,6 +108,9 @@ static void token_list_without_spaces(t_shell *shell)
         }
     }
 }
+
+
+
 
 int	tokenization(t_shell *shell)
 {

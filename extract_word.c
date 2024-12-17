@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extract_word.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:43:28 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/17 16:35:06 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/14 17:40:35 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,21 @@ static void	copy_str(char *s, char **str, size_t *i, size_t len)
 				(*str)[j++] = s[(*i)++];
 		}
 		(*str)[j] = '\0';
+		//printf("%d\n", ft_strlen(s));
+		while (*i < ft_strlen(s) && j < len)
+		{
+			if (s[*i] && is_quote(s[*i]))
+			{
+				quote = s[*i];
+				(*i)++;
+				while (s[*i] && s[*i] != quote)
+					(*str)[(j)++] = s[(*i)++];
+				(*i)++;
+			}
+			else
+				(*str)[j++] = s[(*i)++];
+		}
+		(*str)[j] = '\0';
 	}
 }
 
@@ -46,7 +61,7 @@ static char	*another_substr(char *s, unsigned int start, size_t len)
 	size_t	i;
 
 	i = start;
-	
+	if (!s)
 	if (!s)
 		return (NULL);
 	str = (char *)malloc(sizeof(*s) * (len + 1));
@@ -145,3 +160,21 @@ char	*extract_word(char **current, t_shell *shell)
 	else
 		return (var);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

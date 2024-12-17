@@ -16,7 +16,7 @@ int		ham_strcmp(char *s1, char *s2);
 int		my_cd_helper(char *argv,t_shell *shell);
 int		my_cd(int argc, char **argv, t_shell *shell);
 int		cd_errors_checking(char *oldpwd, char *home);
-void	changes_in_list(env_list *list, char *pwd, const char *key);
+void	changes_in_list(env_list *list, char *pwd,const char *key);
 //void	changes_in_exp(t_shell *shell, char *pwd,char *oldpwd);
 char	*get_value(t_shell *shell, char *key);
 int		is_digit_unset(char *arg);

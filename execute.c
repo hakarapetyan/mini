@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:43:43 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/16 16:41:42 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/17 15:24:23 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,51 +99,6 @@ static int is_directory(char *path) {
 	}
     return 0;
 }
-
-
-// int execute_command(t_shell *shell, t_commands *command)
-//  {
-//     char *pathname = NULL;
-	
-//     if (is_builtin(command -> name))
-// 	{
-//         handle_builtin(shell, command);
-// 		return (0);
-//         // clean_shell_exit(shell, get_status());
-//     }
-// 	if (access(command -> name, X_OK | F_OK) == 0)
-// 	{
-// 		if (is_directory(command -> name))
-// 		{
-// 			simple_error(126, command -> name, "is a directory");
-// 			clean_shell_exit(shell, get_status());
-// 		}
-// 			pathname = ft_strdup(command -> name);
-// 			//printf("%s\n",pathname);
-// 	}
-// 	if (command -> name[0] == '/' || (command -> name[0] == '.' && command -> name[1] == '/') )
-// 	{
-// 		if (access(command -> name, F_OK) != 0)
-// 		{
-// 			simple_error(127, command -> name, "No such file or directory");
-// 			clean_shell_exit(shell, get_status());
-// 		}
-// 			pathname = ft_strdup(command -> name);
-// 	}
-// 		if (pathname)
-// 			run_execve(shell, &pathname, command);
-// 	else {
-//         pathname = find_path(shell, command -> name);
-//         if (!pathname ) {
-//             simple_error(127, command -> name, "command not found");
-//             clean_shell_exit(shell, get_status());
-//         }
-//         run_execve(shell, &pathname, command);
-//     }
-// 	free(pathname);
-// 	pathname = NULL;
-// 	return (get_status());
-// }
 int	check_command_access(t_shell *shell,char *name)
 {
 	if (access(name, F_OK) == 0)
@@ -220,6 +175,7 @@ int execute_command(t_shell *shell, t_commands *command)
 	pathname = NULL;
 	return (get_status());
 }
+
 int	is_builtin(char *name)
 {
 	if (!ft_strcmp(name, "echo"))
