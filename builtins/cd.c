@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:48:42 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/16 13:56:56 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/17 12:51:20 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
 int check_key(env_list *list, char *key)
 {
 	env_list *env;
@@ -75,45 +76,87 @@ static int	my_cd_norm(char **argv, t_shell *shell)
 	int i;
 
 	i = 0;
-	// if	(argc > 2)
-	// {
-	// 	ft_putendl_fd("minishell: cd: too many arguments\n", 2);
-	// 	return (1);
-	// }
 	if (argv[i] && (!ft_strcmp(argv[i], "cd")))
 		i++;
 	if (my_cd_helper(argv[i], shell))
 		return (1);
 	return (0);
 }
+static void list_changes(env_list *list, char *pwd, char *oldpwd)
+{
+	while (list)
+	{
+		if (ft_strcmp(list ->key, "OLDPWD=") == 0)
+		{
+			list -> value = ft_strdup(oldpwd);
+		}
+		if (ft_strcmp(list ->key, "PWD=") == 0)
+		{	
+			list -> value = ft_strdup(pwd);
+		}
+		list = list -> next;	
+	}
+}
+static int list_changes_norm(t_shell *shell, char *pwd)
+{
+	char *new;
+	env_list *env;
+	env_list *exp;
+
+	env = shell->env;
+	exp = shell->exp;
+	new = getcwd(NULL, 0);
+	if (shell -> flag != 1 && ft_strcmp(pwd, new) != 0)
+	{
+		add_oldpwd_to_env(env, pwd, shell);
+		add_oldpwd_to_exp(exp, pwd, shell);
+	}
+	else if (ft_strcmp(pwd, new) != 0)
+	{
+		changes_in_list(shell->env, pwd, "OLDPWD=");
+		changes_in_list(shell->exp, pwd, "OLDPWD=");
+	}
+	return (0);
+}
 int	my_cd(int argc, char **argv, t_shell *shell)
 {
 	char	*pwd;
 	char	*home;
-
-	env_list *env=shell->env;
-	env_list *exp = shell->exp;
+	
+	// env_list *env=shell->env;
+	// env_list *exp = shell->exp;
 	pwd = get_value(shell, "PWD=");
-	//oldpwd = get_value(shell, "OLDPWD=");
-	if (shell -> flag != 1)
-	{
-		add_oldpwd_to_env(env, pwd, shell);//shell taluc segv
-		add_oldpwd_to_exp(exp, pwd, shell);
-	}
 	home = get_value(shell, "HOME=");
 	if (argc > 1)
 	{
 		if(my_cd_norm( argv, shell))
 			return(1);
 	}
-	// if (cd_errors_checking(oldpwd, "OLDPWD not set"))
-	// 	return (1);
-	else
+	if (argc == 1)
 	{
-		chdir(home);
-		changes_in_list(shell->env, home, pwd);
-		changes_in_list(shell->exp, home, pwd);
+		if(!chdir(home))
+		{
+			list_changes(shell->env, home, pwd);
+			list_changes(shell->exp, home, pwd);
+			// changes_in_list(shell->env, home, "PWD=");
+			// changes_in_list(shell->exp, home, "PWD=");
+			// changes_in_list(shell->env, pwd, "OLDPWD=");
+			// changes_in_list(shell->exp, pwd, "OLDPWD=");
+		}
+		else
+			simple_error(EXIT_FAILURE, "cd", "HOME not set");		
 	}
+	list_changes_norm(shell, pwd);
+	// new = getcwd(NULL, 0);
+	// if (shell -> flag != 1 && ft_strcmp(pwd, new) != 0)
+	// {
+	// 	add_oldpwd_to_env(env, pwd, shell);
+	// 	add_oldpwd_to_exp(exp, pwd, shell);
+	// }
+	// else if (ft_strcmp(pwd, new) != 0)
+	// {
+	// 	changes_in_list(shell->env, pwd, "OLDPWD=");
+	// 	changes_in_list(shell->exp, pwd, "OLDPWD=");
+	// }	
 	return (0);
 }
-

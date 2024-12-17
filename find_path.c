@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:51:46 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/05 15:35:05 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/17 14:19:14 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,9 @@ char	*find_path(t_shell *shell, char	*command_name)
 	{
 		tmp = another_strjoin(path[i], "/");
 		tmp2 = ft_strjoin(tmp,command_name);
-		if (access(tmp2,X_OK || F_OK) == 0)
+		// if (access(tmp2, W_OK) != 0)
+		// 	printf("araaa\n");
+		 if (access(tmp2,X_OK | F_OK) == 0)
 		{
 			free_path(&path);
 			return (tmp2);

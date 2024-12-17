@@ -31,6 +31,7 @@
 
 
 int close_pipes(t_shell *shell);
+int	check_command_access(t_shell *shell,char *name);
 
 int handle_output_redirection(t_shell *shell, t_commands **cmd);
 int handle_input_redirection(t_shell *shell, t_commands **cmd);

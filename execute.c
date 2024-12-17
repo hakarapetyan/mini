@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:43:43 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/16 16:41:42 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/17 15:24:23 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,16 +99,43 @@ static int is_directory(char *path) {
 	}
     return 0;
 }
-
+int	check_command_access(t_shell *shell,char *name)
+{
+	if (access(name, F_OK) == 0)
+	{
+		if (is_directory(name))
+		{
+			simple_error(126, name, "is a directory");
+			clean_shell_exit(shell, get_status());
+			return (1);
+		}
+	}
+	// else if (access(name, W_OK) != 0 &&  access(name, X_OK) != 0)
+	// {
+	// 	simple_error(126, name, "Permission denied");
+	// 	clean_shell_exit(shell, get_status());
+	// 	return (1);
+	// }
+	else if (name[0] == '/' || (name[0] == '.' && name[1] == '/') )
+	{
+		if (access(name, F_OK) != 0)
+		{
+			simple_error(127, name, "No such file or directory");
+			clean_shell_exit(shell, get_status());
+			return (1);
+		}
+	}
+	return (0);
+}
 
 int execute_command(t_shell *shell, t_commands *command)
  {
     char *pathname = NULL;
-	
+
     if (is_builtin(command -> name))
 	{
         handle_builtin(shell, command);
-		return (0);
+		return (get_status());
         // clean_shell_exit(shell, get_status());
     }
 	if (access(command -> name, X_OK | F_OK) == 0)
@@ -119,13 +146,17 @@ int execute_command(t_shell *shell, t_commands *command)
 			clean_shell_exit(shell, get_status());
 		}
 			pathname = ft_strdup(command -> name);
-			//printf("%s\n",pathname);
 	}
 	if (command -> name[0] == '/' || (command -> name[0] == '.' && command -> name[1] == '/') )
 	{
 		if (access(command -> name, F_OK) != 0)
 		{
 			simple_error(127, command -> name, "No such file or directory");
+			clean_shell_exit(shell, get_status());
+		}
+		if (access(command -> name, X_OK) != 0)
+		{
+			error_message(126, command -> name);
 			clean_shell_exit(shell, get_status());
 		}
 			pathname = ft_strdup(command -> name);
