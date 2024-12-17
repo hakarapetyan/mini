@@ -47,22 +47,22 @@ char *get_value(t_shell *shell, char *key)
 	return (NULL);
 }
 
-void pwd_error(t_shell *shell)
-{
-	env_list *env;
-	char *pwd;
-	char *oldpwd;
+// void pwd_error(t_shell *shell)
+// {
+// 	env_list *env;
+// 	char *pwd;
+// 	char *oldpwd;
 
-	env = shell->env;
-	pwd = get_value(shell, "PWD=");
-	oldpwd=get_value(shell,"OLDPWD=");
-	pwd=ft_strjoin(pwd, "/..");
-	printf("pwd=%s\n", pwd);
-	chdir("/..");
-	char *new=getcwd(NULL,0);
-	printf("new=%s\n", new);
-	changes_in_list(env, pwd, "PWD=");
-	free(pwd);
-	// printf("pwd=%s\n", pwd);
-	// printf("oldpwd=%s\n", oldpwd);
-}
+// 	env = shell->env;
+// 	pwd = get_value(shell, "PWD=");
+// 	oldpwd=get_value(shell,"OLDPWD=");
+// 	pwd=ft_strjoin(pwd, "/..");
+// 	printf("pwd=%s\n", pwd);
+// 	chdir("/..");
+// 	char *new=getcwd(NULL,0);
+// 	printf("new=%s\n", new);
+// 	changes_in_list(env, pwd, "PWD=");
+// 	free(pwd);
+// 	// printf("pwd=%s\n", pwd);
+// 	// printf("oldpwd=%s\n", oldpwd);
+// }

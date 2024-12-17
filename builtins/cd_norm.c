@@ -63,7 +63,7 @@ static int my_cd_helper_norm(t_shell *shell, char *argv, char *oldpwd)
 			{
 				if(only_cd(shell))
 				{
-					pwd_error(shell);
+					// pwd_error(shell);
 					error(GETCWDERROR, shell);
 					free(oldpwd);
 					return (1);
@@ -96,7 +96,7 @@ int	my_cd_helper(char *argv, t_shell *shell)//en apushutyuny
 		}
 		else
 		{
-			pwd_error(shell);
+			// pwd_error(shell);
 			error(GETCWDERROR, shell);
 			free(oldpwd);
 			return(1);
