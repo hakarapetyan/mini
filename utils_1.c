@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:42:48 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/14 19:04:25 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/17 20:02:04 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,8 @@ int	spec_strcmp(const char *s1, const char *s2)
 	size_t	i;
 
 	i = 0;
-	// if (!s1 || !s1[i] || !s2 || !s2[i])
-    //     return (0);
-	// if (!s1 || !s1[i] || !s2 || !s2[i])
-    //     return (0);
+	if (!s1 || !s2)
+		return (-1);
 	while ((s1[i] == s2[i]) && s1[i] && s1[i] != '=' && s2[i] != '=')
 		i++;
 

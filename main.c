@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:32:14 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/16 17:15:59 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/17 18:53:05 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,48 +52,7 @@ static int	check_redir_errors(t_shell *shell)
 }
 
 
-static int create_pipes(t_shell *shell)
-{
-	int	i;
-	int	(*fd)[2];
 
-	i = 0;
-	fd = malloc(sizeof(int[2]) * (shell -> pipe_count));
-	if (!fd)
-		error(ALLOCATION_ERR, shell);
-	while (i < shell -> pipe_count)
-	{
-		if (pipe(fd[i]) == -1)
-		{
-			while (i > 0)
-			{
-				i--;
-				close(fd[i][0]);
-				close(fd[i][1]);
-			}
-			free(fd);
-			return (-1);
-		}
-		i++;
-	}
-	shell -> fd = fd;
-	return (0);
-}
-
-
-int close_pipes(t_shell *shell)
-{
-	int i;
-
-	i = 0;
-	while (i < shell -> pipe_count)
-	{
-		close(shell -> fd[i][0]);
-		close(shell -> fd[i][1]);
-		i++;
-	}
-	return (0);
-}
 
 static void	wait_and_status(pid_t pid, int *status)
 {
@@ -103,46 +62,7 @@ static void	wait_and_status(pid_t pid, int *status)
 	set_status(WEXITSTATUS(*status));
 }
 
-static void dups(t_shell *shell)
-{
-	if (shell->pipe_index == 0)
-	{
-		//printf("first\n");
-		if (dup2(shell->fd[0][1], 1) == -1)
-		{
-			close_pipes(shell);
-			printf("pipe dup failed\n");
-			clean_shell_exit(shell, 1);
-		}
-	}
-	else if (shell->pipe_index == shell->pipe_count)
-	{
-		//printf("last\n");
-		if (dup2(shell->fd[shell->pipe_index - 1][0], 0) == -1)
-		{
-			close_pipes(shell);
-			printf("pipe dup failed\n");
-			clean_shell_exit(shell, 1);
-		}
-	}
-	else
-	{
-		//printf("middle\n");
-		if (dup2(shell->fd[shell->pipe_index - 1][0], 0) == -1)
-		{
-			close_pipes(shell);
-			printf("pipe dup failed\n");
-			clean_shell_exit(shell, 1);
-		}
-		if (dup2(shell->fd[shell->pipe_index][1], 1) == - 1)
-		{
-			close_pipes(shell);
-			printf("pipe dup failed\n");
-			clean_shell_exit(shell, 1);
-		}
-	}
-	close_pipes(shell);
-}
+
 static int	execution(t_shell *shell)
 {
 	t_commands *cmd;

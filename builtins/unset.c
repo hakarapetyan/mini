@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 20:18:16 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/14 17:24:17 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/17 19:58:00 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@ int	del_one(env_list *env)
 	if (!(env))
 		return (1);
 	free(env->value);
+	env ->value =NULL;
 	free(env->key);
-	free(env);
+	env->key=NULL;
 	return (0);
 }
 int del_from_lst(env_list *env, char *nv)
@@ -43,7 +44,6 @@ int del_from_lst(env_list *env, char *nv)
 	if (!env ->next && spec_strcmp(env->key, nv) == 0)
 	{
 		del_one(env);
-		free(env);
 		return (0);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:52:08 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/14 16:48:09 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/17 18:40:05 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,6 @@ void	syntax_error(char *message)
 	write(STDERR_FILENO, str, ft_strlen(str));
 	write(STDERR_FILENO, message, ft_strlen(message));
 	write(STDERR_FILENO, "'\n", 2);
-	set_status(2);
+	set_status(SYNTAX_ERROR);
 	return ;
 }

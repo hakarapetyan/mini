@@ -29,13 +29,15 @@
 # define SYNTAX_ERROR 258
 
 
-
+//dups
+void dups(t_shell *shell);
 int close_pipes(t_shell *shell);
+int create_pipes(t_shell *shell);
+
 int	check_command_access(t_shell *shell,char *name);
 
 int handle_output_redirection(t_shell *shell, t_commands **cmd);
 int handle_input_redirection(t_shell *shell, t_commands **cmd);
-int single_redir_file(t_commands *command);
 
 int prepare_redirections(t_shell *shell, t_commands * cmd);
 
@@ -43,7 +45,7 @@ int	get_redir(t_token **token,t_commands **tmp,  t_shell *shell);
 
 char	*ft_itoa(int n);
 void	print_commands(t_shell *shell);
-//void execute_execve(t_shell *shell);
+
 //find_path
 char	*find_path(t_shell *shell, char	*command_name);
 
@@ -54,30 +56,18 @@ int		is_builtin(char *name);
 
 //ft_split
 char	**ft_split(char const *s, char c);
-
-//void execute_command(t_commands *cmd);
-
-//char *extract_var(char *str, t_shell *shell);
-
 char	*extract_whitespace(char **current);
-char	*extract_whitespace(char **current);
-
-//char	*var_without_quotes(t_shell *shell, char **str);
-
 
 void handle_builtin(t_shell *shell, t_commands * command);
 int handle_heredoc_redirection_case(t_token **token, t_commands **tmp, t_shell *shell);
 
 void	token_count(t_shell *shell);
 //builtins
-//void	my_pwd(void);
-//void	my_pwd(void);
+
 void	my_echo_helper_one(int argc, char **input, int i);
 void	my_echo_helper_two(int argc, char **input, int i);
 void	my_echo(int argc, char **input);
-// void	execute_echo(t_shell *shell);
-// int		ham_strlen(char *str);
-// int		ham_strcmp(char *s1, char *s2);
+
 
 void	init_shell(t_shell *shell);
 
@@ -87,11 +77,8 @@ void	handle_special_chars(t_shell *shell, char *current);
 char	*extract_separator(char **current);
 int		tokenization(t_shell *shell);
 void	expand_var(t_shell *shell);
-//void	add_space(t_shell *shell, char **current, int *flag);
 
 //create_token
-//t_token	*create_token(t_shell *shell, t_token_type type, t_lexer_state state, char *value);
-//t_token	*create_token(t_shell *shell, t_token_type type, t_lexer_state state, char *value);
 void	add_token(t_shell *shell,t_token_type type, t_lexer_state state, char *value);
 void	print_tokens(t_shell *shell);
 
@@ -113,14 +100,11 @@ int		is_separator(char c);
 int		is_quote(char c);
 int		are_quotes_even(char *str);
 int		is_sep(char c);
-int		is_sep(char c);
 
 
 ///utils2
 char	*is_key(t_shell *shell, char *need_to_be_find);
-char	*is_key(t_shell *shell, char *need_to_be_find);
 char	*ft_strjoin(char *s1, char *s2);
-char	*another_strjoin(char *s1, char *s2);
 char	*another_strjoin(char *s1, char *s2);
 int		ft_strchr(char *str, char c);
 char	*ft_strdup_interval(char **str,int *len);
@@ -137,12 +121,7 @@ void	expand_var(t_shell *shell);
 t_token *get_last_token(t_shell *shell);
 t_commands *get_last_command(t_shell *shell);
 t_token *get_the_token_i_want(t_shell *shell);
-//int	redir_check(t_token_type type,t_shell *shell);
 
-
-t_commands *get_last_command(t_shell *shell);
-t_token *get_the_token_i_want(t_shell *shell);
-//int	redir_check(t_token_type type,t_shell *shell);
 
 
 //extract_word

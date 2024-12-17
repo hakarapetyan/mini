@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 21:36:16 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/15 19:43:55 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/17 19:16:04 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void in_ctrl(int num)
 }
 static void nonin_ctrl(int num)
 {
-	//write(1, "\n", 1);
+	// write(1, "\n", 1);
 	(void)num;
 }
 static void b_slash(int num)

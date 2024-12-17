@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:43:43 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/17 15:24:23 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/17 18:38:19 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void run_execve(t_shell *shell, char **pathname, t_commands *cmd)
 	// 	error_message(1, cmd -> error);
 	//check this darling
 	if (execve(*pathname, cmd->args,list_to_arr(shell -> env)) == -1)
-	simple_error(127, cmd->name, "command not found");
+	simple_error(CMD_NOT_FOUND, cmd->name, "command not found");
 	clean_shell_exit(shell, get_status());
 }
 
@@ -105,22 +105,16 @@ int	check_command_access(t_shell *shell,char *name)
 	{
 		if (is_directory(name))
 		{
-			simple_error(126, name, "is a directory");
+			simple_error(CMD_NOT_EXEC, name, "is a directory");
 			clean_shell_exit(shell, get_status());
 			return (1);
 		}
 	}
-	// else if (access(name, W_OK) != 0 &&  access(name, X_OK) != 0)
-	// {
-	// 	simple_error(126, name, "Permission denied");
-	// 	clean_shell_exit(shell, get_status());
-	// 	return (1);
-	// }
 	else if (name[0] == '/' || (name[0] == '.' && name[1] == '/') )
 	{
 		if (access(name, F_OK) != 0)
 		{
-			simple_error(127, name, "No such file or directory");
+			simple_error(CMD_NOT_FOUND, name, "No such file or directory");
 			clean_shell_exit(shell, get_status());
 			return (1);
 		}
@@ -142,7 +136,7 @@ int execute_command(t_shell *shell, t_commands *command)
 	{
 		if (is_directory(command -> name))
 		{
-			simple_error(126, command -> name, "is a directory");
+			simple_error(CMD_NOT_EXEC, command -> name, "is a directory");
 			clean_shell_exit(shell, get_status());
 		}
 			pathname = ft_strdup(command -> name);
@@ -156,7 +150,7 @@ int execute_command(t_shell *shell, t_commands *command)
 		}
 		if (access(command -> name, X_OK) != 0)
 		{
-			error_message(126, command -> name);
+			error_message(CMD_NOT_EXEC, command -> name);
 			clean_shell_exit(shell, get_status());
 		}
 			pathname = ft_strdup(command -> name);
@@ -166,7 +160,7 @@ int execute_command(t_shell *shell, t_commands *command)
 	else {
         pathname = find_path(shell, command -> name);
         if (!pathname ) {
-            simple_error(127, command -> name, "command not found");
+            simple_error(CMD_NOT_FOUND, command -> name, "command not found");
             clean_shell_exit(shell, get_status());
         }
         run_execve(shell, &pathname, command);

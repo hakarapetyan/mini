@@ -39,6 +39,9 @@ SRCS =  main.c\
 		utils_1.c\
 		utils_2.c\
 		utils_3.c\
+		signal.c\
+		dups.c\
+		pipes.c\
 		./builtins/builtins.c\
 		./builtins/utils_builtins.c\
 		./builtins/cd.c\
@@ -54,7 +57,6 @@ SRCS =  main.c\
 		./builtins/unset_helper.c\
 		./builtins/unset.c\
 		./builtins/shlvl.c\
-		signal.c\
 
 OBJS = $(SRCS:.c=.o)
 

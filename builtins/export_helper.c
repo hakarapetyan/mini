@@ -6,7 +6,7 @@
 /*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 14:33:10 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/14 17:16:58 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/17 19:50:02 by ashahbaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	print_env(t_shell *shell)
 		return ;
 	while (current)
 	{
-		printf("%s%s\n", current->key, current->value);
+		if (current -> key && current -> value)
+			printf("%s%s\n", current->key, current->value);
 		current = current->next;
 	}
 }

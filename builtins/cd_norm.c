@@ -38,7 +38,7 @@ static int	cd_minus(t_shell *shell)
 	{
 		chdir(oldpwd);
 		printf("%s\n", oldpwd);
-		return (0);	
+		return (0);
 	}
 	if (oldpwd && pwd)
 	{
@@ -71,10 +71,7 @@ static int my_cd_helper_norm(t_shell *shell, char *argv, char *oldpwd)
 			}
 			else
 			{
-				//error_message(EXIT_FAILURE, argv);
 				another_simple_error(EXIT_FAILURE, "cd: ", argv, "No such file or directory");
-				//simple_error(127, argv, )
-				//printf("cd: %s: No such file or directory\n", argv);
 				return(1);
 			}
 	return (0);
