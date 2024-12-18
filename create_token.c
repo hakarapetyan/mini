@@ -22,7 +22,13 @@ static t_token	*create_token(t_shell *shell, t_token_type type, t_lexer_state st
 	token = malloc(sizeof(t_token));
 	if (!token)
 	{
-		clean_shell_exit(shell, EXIT_FAILURE);
+		error(ALLOCATION_ERR, shell);
+		return (NULL); // alocation failed
+	}
+	if (!token)
+	{
+		error(ALLOCATION_ERR, shell);
+		return (NULL); // alocation failed
 	}
 	token->type = type;
 	token->value = value;
@@ -39,12 +45,16 @@ void	add_token(t_shell *shell, t_token_type type, t_lexer_state state,
 	t_token	*current;
 
 	if (!value)
+	if (!value)
 		return ;
 	if (!((shell)->token))
 	{
 		(shell)->token = create_token(shell, type, state, value);
+		(shell)->token = create_token(shell, type, state, value);
 		if (!((shell)->token))
 			error(ALLOCATION_ERR, shell);
+		//(shell)->token_count++;
+		expand_var(shell);
 		//(shell)->token_count++;
 		expand_var(shell);
 	}
@@ -54,8 +64,11 @@ void	add_token(t_shell *shell, t_token_type type, t_lexer_state state,
 		while (current->next)
 			current = current->next;
 		current->next = create_token(shell, type, state, value);
+		current->next = create_token(shell, type, state, value);
 		if (!(current->next))
 			error(ALLOCATION_ERR, shell);
+		//shell)->token_count++;
+		expand_var(shell);
 		//shell)->token_count++;
 		expand_var(shell);
 	}

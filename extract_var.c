@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extract_var.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:05:24 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/14 16:49:02 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/18 20:11:22 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,7 @@ static void extract_var_helper(char **str, int *i, char **res, char **tmp)
 		(*i)++;
 	*tmp = ft_strdup_interval(str, i);
 	*res = ft_strjoin(*res, *tmp);
-	free(*tmp);
-	*tmp = NULL;
+	free_str(*tmp);
 
 }
 char	*extract_var(char *str, t_shell *shell)
@@ -110,8 +109,7 @@ char	*extract_var(char *str, t_shell *shell)
 		{
 			tmp = var_in_quotes(shell, &str);
 			res = ft_strjoin(res, tmp);
-			free(tmp);
-			tmp = NULL;
+			free_str(tmp);
 		}
 	}
 	return (res);

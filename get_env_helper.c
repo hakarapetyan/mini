@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env_helper.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 18:52:10 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/14 17:05:24 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/18 20:01:39 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,6 @@ char **list_to_arr(env_list *list)
 		size++;
 		list = list ->next;
 	}
-	// if(cmp)
-	// 	free(cmp);
 	arr[size] = NULL;
 	return (arr);
 }

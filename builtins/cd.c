@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:48:42 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/18 13:23:08 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/18 20:02:58 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ static void  add_oldpwd_to_env(env_list *list, char *pwd, t_shell *shell)
 		while (list -> next)
 			list = list->next;
 		if (ft_strcmp(list->value, "\0") == 0)
+		{
+			free(list -> value);	
 			list->value = ft_strdup(pwd);
+		}
 	}
 }
 
@@ -52,6 +55,8 @@ static void add_oldpwd_to_exp(env_list *list, char *pwd, t_shell *shell)
 		{
 			if (ft_strcmp(list->key, "OLDPWD") == 0 /*&& ft_strcmp(list->value, "\0") == 0*/)
 				{
+					free(list->key);
+					free(list -> value);
 					list->key = ft_strdup("OLDPWD=");
 					list->value = ft_strdup(pwd);
 					shell->flag = 1;
@@ -88,10 +93,12 @@ static void list_changes(env_list *list, char *pwd, char *oldpwd)
 	{
 		if (ft_strcmp(list ->key, "OLDPWD=") == 0)
 		{
+			free_str(list -> value);
 			list -> value = ft_strdup(oldpwd);
 		}
 		if (ft_strcmp(list ->key, "PWD=") == 0)
-		{	
+		{
+			free_str(list -> value);
 			list -> value = ft_strdup(pwd);
 		}
 		list = list -> next;	
@@ -116,6 +123,8 @@ static int list_changes_norm(t_shell *shell, char *pwd, char *argv)
 		changes_in_list(shell->env, pwd, "OLDPWD=");
 		changes_in_list(shell->exp, pwd, "OLDPWD=");
 	}
+	free_str(new);
+	free_str(pwd);
 	return (0);
 }
 int	my_cd(int argc, char **argv, t_shell *shell)
@@ -125,12 +134,16 @@ int	my_cd(int argc, char **argv, t_shell *shell)
 	int		i;
 	
 	i = 0;
-	pwd = get_value(shell, "PWD=");
-	home = get_value(shell, "HOME=");
+	pwd = ft_strdup(get_value(shell, "PWD="));
+	home = ft_strdup(get_value(shell, "HOME="));
 	if (argc > 1)
 	{
 		if(my_cd_norm( argv, shell))
+		{	
+			free_str(pwd);
+			free_str(home);
 			return(1);
+		}
 	}
 	if (argc == 1)
 	{
@@ -144,6 +157,8 @@ int	my_cd(int argc, char **argv, t_shell *shell)
 	}
 	if (argv[i] && (!ft_strcmp(argv[i], "cd")))
 		i++;
+	//free_str(pwd);
+	free_str(home);
 	//list_changes_norm(shell, pwd, argv[i]);
 	return (list_changes_norm(shell, pwd, argv[i]),0);
 }

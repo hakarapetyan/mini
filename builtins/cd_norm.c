@@ -24,10 +24,10 @@ static int  only_cd(t_shell *shell)
 	}
 	else
 	{
-		free(pwd);
+		free_str(pwd);
 		return (1);
 	}
-	free(pwd);
+	free_str(pwd);
 	return (0);
 }
 static int	cd_minus(t_shell *shell)
@@ -89,19 +89,20 @@ int	my_cd_helper(char *argv, t_shell *shell)//en apushutyuny
 		{
 			if(my_cd_helper_norm(shell, argv))
 			{
-				free(oldpwd);
+				free_str(oldpwd);
 				return (1);
 			}
 		}
 		else
 		{
 			// pwd_error(shell);
+			printf("hihio\n");
 			error(GET_CWD_ERROR, shell);
-			free(oldpwd);
+			free_str(oldpwd);
 			return(1);
 		}
 	}
-	free(oldpwd);
+	free_str(oldpwd);
 	return (0);
 }
 

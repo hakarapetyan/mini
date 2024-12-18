@@ -18,6 +18,7 @@ void changes_in_list(env_list *list, char *pwd, const char *key)
 	{
 		if (ft_strcmp(list ->key, key) == 0)
 		{	
+			free_str(list -> value);
 			list -> value = ft_strdup(pwd);
 		}
 		list = list -> next;	

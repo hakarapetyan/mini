@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 14:33:23 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/17 17:13:39 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/18 20:04:29 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,10 @@ int check_two_keys(env_list *list, env_list *new)
 	{
 		if (spec_strcmp(list->key, new->key) == 0)
 			{
+				free_str(list -> value);
+				free_str(list -> key);
 				list->value = ft_strdup(new->value);
-				list->key =ft_strdup(new->key);
+				list->key = ft_strdup(new->key);
 				return (1);
 			}
 		list=list->next;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:51:46 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/17 14:19:14 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/18 20:39:24 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ static void free_path(char **arr)
 
     if (arr == NULL || *arr == NULL)
         return;
-    while (arr[i])
+
+    while ((arr)[i])
     {
-        free(arr[i]);
-        arr[i] = NULL;
+        free((arr)[i]);
+        (arr)[i] = NULL;
         i++;
     }
     free(arr);
-    arr = NULL;
 }
 
 static char	**find_path_from_env(t_shell *shell)
@@ -54,8 +54,6 @@ char	*find_path(t_shell *shell, char	*command_name)
 	int		i;
 
 	i = 0;
-	if (!command_name)
-		return (NULL);
 	path = find_path_from_env(shell);
 	if (!path)
 		return (NULL);
@@ -63,7 +61,9 @@ char	*find_path(t_shell *shell, char	*command_name)
 	{
 		tmp = another_strjoin(path[i], "/");
 		tmp2 = ft_strjoin(tmp,command_name);
-		if (tmp2 && access(tmp2,X_OK | F_OK) == 0)
+		// if (access(tmp2, W_OK) != 0)
+		// 	printf("araaa\n");
+		 if (access(tmp2,X_OK | F_OK) == 0)
 		{
 			free_path(path);
 			return (tmp2);

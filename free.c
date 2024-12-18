@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 17:54:50 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/16 16:50:50 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/18 20:38:02 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,10 @@ void	free_env(env_list *env)
 				free(env -> value);
 			if (env -> key)
 				free(env -> key);
-			free(env);
-			env = NULL;
+			free_str(env);
 			env = tmp;
 		}
-		free(env);
-		env = NULL;
+		free_str(env);
 	}
 }
 
@@ -113,6 +111,8 @@ void	free_shell(t_shell *shell)
 	shell -> input = NULL;
 	free_tokens(shell -> token);
 	free_commands(shell -> command);
+	free(shell -> pid);
+	shell -> pid = 0;
 	shell -> token_count = 0;
 	shell -> command_count = 0;
 	shell -> heredoc_flag = 0;

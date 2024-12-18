@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:43:43 by ashahbaz          #+#    #+#             */
-/*   Updated: 2024/12/17 18:38:19 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/18 20:11:02 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ int execute_command(t_shell *shell, t_commands *command)
 		return (get_status());
         // clean_shell_exit(shell, get_status());
     }
-	if (command -> name && access(command -> name, X_OK | F_OK) == 0)
+	if (access(command -> name, X_OK | F_OK) == 0)
 	{
 		if (is_directory(command -> name))
 		{
@@ -161,14 +161,12 @@ int execute_command(t_shell *shell, t_commands *command)
         pathname = find_path(shell, command -> name);
         if (!pathname) {
             simple_error(CMD_NOT_FOUND, command -> name, "command nojjt found");
-			free(pathname);
-			pathname = NULL;
+			free_str(pathname);
             clean_shell_exit(shell, get_status());
         }
         run_execve(shell, &pathname, command);
     }
-	free(pathname);
-	pathname = NULL;
+	free_str(pathname);
 	return (get_status());
 }
 

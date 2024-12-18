@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 15:53:50 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/17 13:04:51 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/18 20:05:06 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,14 @@ void chang_shlvl_in_env(t_shell *shell)
 	{
 		if (ft_strcmp(list->key, "SHLVL=") == 0)
 		{
-			free(list->value);
+			free_str(list->value);
 			list->value=ft_strdup(shlvl);
 			free(shlvl);
 			return;
 		}
 		list = list->next;
 	}
-	free(shlvl);
+	free_str(shlvl);
 	return ;
 }
 void chang_shlvl_in_exp(t_shell *shell)
@@ -77,13 +77,13 @@ void chang_shlvl_in_exp(t_shell *shell)
 	{
 		if (ft_strcmp(list->key, "SHLVL=") == 0)
 		{
-			free(list->value);
+			free_str(list->value);
 			list->value=ft_strdup(shlvl);
-			free(shlvl);
+			free_str(shlvl);
 			return;
 		}
 		list = list->next;
 	}
-	free(shlvl);
+	free_str(shlvl);
 	return ;
 }
