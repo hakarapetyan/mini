@@ -115,7 +115,6 @@ void	free_shell(t_shell *shell)
 	free_commands(shell -> command);
 	shell -> token_count = 0;
 	shell -> command_count = 0;
-	shell -> flag = 0;
 	shell -> heredoc_flag = 0;
 	shell -> pipe_count = 0;
 	shell -> pipe_index = 0;
