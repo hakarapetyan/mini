@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 14:12:18 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/15 19:18:00 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/18 13:46:01 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void my_echo(int count, char **args)
 	int	i;
 
 	i = 0;
-	while (args[i] && (!ft_strcmp(args[i], "echo")))
+	if (args[i] && (!ft_strcmp(args[i], "echo")))
 		i++;
 	if (args[i] && !ham_strcmp(args[i], "-n"))
 	{

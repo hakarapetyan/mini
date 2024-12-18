@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 14:32:26 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/17 12:47:10 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/18 16:08:35 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,8 @@ static int builtins_helper(t_shell *shell, t_commands *command, char *name)
 }
 int	builtins(t_shell *shell, t_commands * command)
 {
-	// t_commands *cmd;
 	char *name;
 
-	// cmd = shell -> command;
 	name = ft_tolower(command -> name);
 	set_status(0);
 	if (command && ft_strcmp(name, "pwd") == 0)
@@ -51,9 +49,7 @@ int	builtins(t_shell *shell, t_commands * command)
 	else if (command && ham_strcmp(name, "echo") == 0)
 		my_echo(command -> arg_count, command -> args);
 	else if (command && ft_strcmp(command -> name, "exit") == 0)
-	{
 		execute_exit(shell, command);
-	}
 	else if (builtins_helper(shell, command, name))
 		return (1);
 	return (0);

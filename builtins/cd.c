@@ -6,7 +6,7 @@
 /*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:48:42 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/17 12:51:20 by hakarape         ###   ########.fr       */
+/*   Updated: 2024/12/18 13:23:08 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ static void list_changes(env_list *list, char *pwd, char *oldpwd)
 		list = list -> next;	
 	}
 }
-static int list_changes_norm(t_shell *shell, char *pwd)
+static int list_changes_norm(t_shell *shell, char *pwd, char *argv)
 {
 	char *new;
 	env_list *env;
@@ -106,7 +106,7 @@ static int list_changes_norm(t_shell *shell, char *pwd)
 	env = shell->env;
 	exp = shell->exp;
 	new = getcwd(NULL, 0);
-	if (shell -> flag != 1 && ft_strcmp(pwd, new) != 0)
+	if (shell -> flag != 1 && (ft_strcmp(pwd, new) != 0 || ft_strcmp(argv, ".") == 0))
 	{
 		add_oldpwd_to_env(env, pwd, shell);
 		add_oldpwd_to_exp(exp, pwd, shell);
@@ -122,9 +122,9 @@ int	my_cd(int argc, char **argv, t_shell *shell)
 {
 	char	*pwd;
 	char	*home;
+	int		i;
 	
-	// env_list *env=shell->env;
-	// env_list *exp = shell->exp;
+	i = 0;
 	pwd = get_value(shell, "PWD=");
 	home = get_value(shell, "HOME=");
 	if (argc > 1)
@@ -138,25 +138,12 @@ int	my_cd(int argc, char **argv, t_shell *shell)
 		{
 			list_changes(shell->env, home, pwd);
 			list_changes(shell->exp, home, pwd);
-			// changes_in_list(shell->env, home, "PWD=");
-			// changes_in_list(shell->exp, home, "PWD=");
-			// changes_in_list(shell->env, pwd, "OLDPWD=");
-			// changes_in_list(shell->exp, pwd, "OLDPWD=");
 		}
 		else
 			simple_error(EXIT_FAILURE, "cd", "HOME not set");		
 	}
-	list_changes_norm(shell, pwd);
-	// new = getcwd(NULL, 0);
-	// if (shell -> flag != 1 && ft_strcmp(pwd, new) != 0)
-	// {
-	// 	add_oldpwd_to_env(env, pwd, shell);
-	// 	add_oldpwd_to_exp(exp, pwd, shell);
-	// }
-	// else if (ft_strcmp(pwd, new) != 0)
-	// {
-	// 	changes_in_list(shell->env, pwd, "OLDPWD=");
-	// 	changes_in_list(shell->exp, pwd, "OLDPWD=");
-	// }	
-	return (0);
+	if (argv[i] && (!ft_strcmp(argv[i], "cd")))
+		i++;
+	//list_changes_norm(shell, pwd, argv[i]);
+	return (list_changes_norm(shell, pwd, argv[i]),0);
 }

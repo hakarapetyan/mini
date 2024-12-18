@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 20:18:16 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/17 19:58:00 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/18 16:04:04 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ int del_from_lst(env_list *env, char *nv)
 	{
 		while (env -> next)
 		{
-			if (spec_strcmp(env->next->key, nv) == 0)
+			if (spec_strcmp(env->key, nv) == 0)
 			{
-				temp = env->next;
-				env->next = env->next->next;
+				temp = env;
+				env = env->next;
 				del_one(temp);
 				return (0);
 			}
@@ -60,10 +60,6 @@ int my_unset_helper(char **arg, env_list *env, env_list *exp)
 		if (!is_alpha(arg[i]) /*|| !my_strchr(arg[i], '_')*/)
 		{
 			another_simple_error(EXIT_FAILURE, "unset: ", arg[1], "numeric argument required");
-			// simple_error(EXIT_FAILURE, arg[i],"not a valid identifier");
-			// write_print(arg[i], "minishell: export:", 2);
-			// ft_putendl_fd(" not a valid identifier", 2);
-			// write(2, "\n", 1);
 			return (1);
 		}
 		if (!del_from_lst(env, arg[i]))

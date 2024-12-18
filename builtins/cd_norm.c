@@ -23,13 +23,16 @@ static int  only_cd(t_shell *shell)
 		changes_in_list(shell->exp, pwd, "PWD=");
 	}
 	else
+	{
+		free(pwd);
 		return (1);
+	}
 	free(pwd);
 	return (0);
 }
 static int	cd_minus(t_shell *shell)
 {
-	 char *oldpwd;
+	char *oldpwd;
 	char *pwd;
 
 	oldpwd = get_value(shell, "OLDPWD=");
@@ -52,7 +55,7 @@ static int	cd_minus(t_shell *shell)
 	return (0);
 }
 
-static int my_cd_helper_norm(t_shell *shell, char *argv, char *oldpwd)
+static int my_cd_helper_norm(t_shell *shell, char *argv)
 {
 			if (ft_strcmp(argv, "-") == 0)
 			{
@@ -65,7 +68,6 @@ static int my_cd_helper_norm(t_shell *shell, char *argv, char *oldpwd)
 				{
 					// pwd_error(shell);
 					error(GET_CWD_ERROR, shell);
-					free(oldpwd);
 					return (1);
 				}
 			}
@@ -85,7 +87,7 @@ int	my_cd_helper(char *argv, t_shell *shell)//en apushutyuny
 	{
 		if (oldpwd != NULL)
 		{
-			if(my_cd_helper_norm(shell, argv, oldpwd))
+			if(my_cd_helper_norm(shell, argv))
 			{
 				free(oldpwd);
 				return (1);

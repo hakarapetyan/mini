@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_helper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ashahbaz <ashahbaz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hakarape <hakarape@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 14:33:10 by hakarape          #+#    #+#             */
-/*   Updated: 2024/12/17 19:50:02 by ashahbaz         ###   ########.fr       */
+/*   Updated: 2024/12/18 15:59:32 by hakarape         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ void	print_exp(t_shell *shell)
 }
 void	print_exp_helper(char *exp)
 {
-
+	if (!exp || !(*exp))
+		return ;
 	if(ft_strchr(exp, '='))
 	{
 		printf("declare -x ");
