@@ -12,22 +12,21 @@
 
 #include "./include/minishell.h"
 
-static void free_path(char ***arr)
+static void free_path(char **arr)
 {
 
     int i = 0;
 
     if (arr == NULL || *arr == NULL)
         return;
-
-    while ((*arr)[i])
+    while (arr[i])
     {
-        free((*arr)[i]);
-        (*arr)[i] = NULL;
+        free(arr[i]);
+        arr[i] = NULL;
         i++;
     }
-    free(*arr);
-    *arr = NULL;
+    free(arr);
+    arr = NULL;
 }
 
 static char	**find_path_from_env(t_shell *shell)
@@ -55,6 +54,8 @@ char	*find_path(t_shell *shell, char	*command_name)
 	int		i;
 
 	i = 0;
+	if (!command_name)
+		return (NULL);
 	path = find_path_from_env(shell);
 	if (!path)
 		return (NULL);
@@ -62,16 +63,14 @@ char	*find_path(t_shell *shell, char	*command_name)
 	{
 		tmp = another_strjoin(path[i], "/");
 		tmp2 = ft_strjoin(tmp,command_name);
-		// if (access(tmp2, W_OK) != 0)
-		// 	printf("araaa\n");
-		 if (access(tmp2,X_OK | F_OK) == 0)
+		if (tmp2 && access(tmp2,X_OK | F_OK) == 0)
 		{
-			free_path(&path);
+			free_path(path);
 			return (tmp2);
 		}
 		i++;
 		free_arr(&tmp2);
 	}
-	free_path(&path);
+	free_path(path);
 	return (NULL);
 }
