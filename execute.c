@@ -126,7 +126,7 @@ int execute_command(t_shell *shell, t_commands *command)
  {
     char *pathname = NULL;
 
-    if (is_builtin(command -> name))
+    if (command -> name && is_builtin(command -> name))
 	{
         handle_builtin(shell, command);
 		return (get_status());
@@ -141,14 +141,14 @@ int execute_command(t_shell *shell, t_commands *command)
 		}
 			pathname = ft_strdup(command -> name);
 	}
-	if (command -> name[0] == '/' || (command -> name[0] == '.' && command -> name[1] == '/') )
+	if (command -> name && (command -> name[0] == '/' || (command -> name[0] == '.' && command -> name[1] == '/')) )
 	{
 		if (access(command -> name, F_OK) != 0)
 		{
 			simple_error(127, command -> name, "No such file or directory");
 			clean_shell_exit(shell, get_status());
 		}
-		if (access(command -> name, X_OK) != 0)
+		if (command -> name && access(command -> name, X_OK) != 0)
 		{
 			error_message(CMD_NOT_EXEC, command -> name);
 			clean_shell_exit(shell, get_status());
@@ -159,8 +159,10 @@ int execute_command(t_shell *shell, t_commands *command)
 			run_execve(shell, &pathname, command);
 	else {
         pathname = find_path(shell, command -> name);
-        if (!pathname ) {
-            simple_error(CMD_NOT_FOUND, command -> name, "command not found");
+        if (!pathname) {
+            simple_error(CMD_NOT_FOUND, command -> name, "command nojjt found");
+			free(pathname);
+			pathname = NULL;
             clean_shell_exit(shell, get_status());
         }
         run_execve(shell, &pathname, command);
