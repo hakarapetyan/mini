@@ -27,6 +27,7 @@ static void free_path(char **arr)
         i++;
     }
     free(arr);
+	arr = NULL;
 }
 
 static char	**find_path_from_env(t_shell *shell)
@@ -54,6 +55,8 @@ char	*find_path(t_shell *shell, char	*command_name)
 	int		i;
 
 	i = 0;
+	if (!command_name)
+		return (NULL);
 	path = find_path_from_env(shell);
 	if (!path)
 		return (NULL);
@@ -61,9 +64,7 @@ char	*find_path(t_shell *shell, char	*command_name)
 	{
 		tmp = another_strjoin(path[i], "/");
 		tmp2 = ft_strjoin(tmp,command_name);
-		// if (access(tmp2, W_OK) != 0)
-		// 	printf("araaa\n");
-		 if (access(tmp2,X_OK | F_OK) == 0)
+		 if (tmp2 && access(tmp2,X_OK | F_OK) == 0)
 		{
 			free_path(path);
 			return (tmp2);

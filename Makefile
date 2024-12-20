@@ -2,7 +2,7 @@ NAME = minishell
 
 RM = rm -f
 
-CFLAGS = -Wall -I ./readline_local/include -Wextra  #-fsanitize=address  -g3
+CFLAGS = -Wall -I ./readline_local/include -Wextra  -fsanitize=address  -g3
 
 INCLUDE = ./include/minishell.h\
 			./include/env.h\
@@ -42,6 +42,7 @@ SRCS =  main.c\
 		signal.c\
 		dups.c\
 		pipes.c\
+		execution.c\
 		./builtins/builtins.c\
 		./builtins/utils_builtins.c\
 		./builtins/cd.c\
@@ -63,7 +64,7 @@ OBJS = $(SRCS:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS) $(INCLUDE) Makefile
-	cc $(CFLAGS) $(OBJS) -L./readline_local/lib -lreadline -o $(NAME)
+	cc $(CFLAGS) $(OBJS) -L./readline_local/lib -lreadline  -o $(NAME)
 
 clean:
 	$(RM) $(OBJS)

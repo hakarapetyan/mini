@@ -132,7 +132,7 @@ int execute_command(t_shell *shell, t_commands *command)
 		return (get_status());
         // clean_shell_exit(shell, get_status());
     }
-	if (access(command -> name, X_OK | F_OK) == 0)
+	if (command -> name && access(command -> name, X_OK | F_OK) == 0)
 	{
 		if (is_directory(command -> name))
 		{

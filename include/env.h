@@ -32,8 +32,8 @@ typedef struct s_shell
 
 char		*get_the_key(char *str);
 char		*get_the_value(char *str);
-void		get_env_list(t_shell **shell, char *str);
-void		get_exp_list(t_shell **shell, char *str);
+void		get_env_list(t_shell *shell, char *str);
+void		get_exp_list(t_shell *shell, char *str);
 char		**ascii_sort_env(char **env);
 void		get_environment(t_shell *shell, char **env);
 env_list	*add_node(char *str);

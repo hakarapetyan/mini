@@ -29,6 +29,11 @@
 # define SYNTAX_ERROR 258
 
 
+
+// exec
+int	execution(t_shell *shell);
+
+
 //dups
 void dups(t_shell *shell);
 int close_pipes(t_shell *shell);

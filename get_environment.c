@@ -69,73 +69,88 @@ char	*get_the_value(char *str)
 	return (value);
 }
 
-void	get_env_list(t_shell **shell, char *str)
+void	get_env_list(t_shell *shell, char *str)//dzel
 {
 	env_list *current;
 
-	if (!str)
+	if (!str || !(*str))
 		return ;
-	if (!(*shell) -> env)
-		(*shell) -> env = add_node(str);
+	if (!shell -> env)
+		shell -> env = add_node(str);
 	else
 	{
-		 current = (*shell)->env;
+		 current = shell->env;
         while (current -> next)
             current = current -> next;
         current -> next = add_node(str);
 	}
 }
-void	get_exp_list(t_shell **shell, char *str)
+void	get_exp_list(t_shell *shell, char *str)//dzel
 {
 	env_list *current;
 
 	if (!str)
 		return ;
-	if (!(*shell) -> exp)
+	if (!shell -> exp)
 	{
-		(*shell) -> exp = add_node(str);
+		shell -> exp = add_node(str);
 	}
 	else
 	{
-		 current = (*shell) -> exp;
+		 current = shell -> exp;
         while (current -> next)
             current = current -> next;
         current -> next = add_node(str);
 	}
 }
 
-static void norm_get_env(char *env, t_shell *shell, int *i)
+static int norm_get_env(char *env, t_shell *shell)
 {
 	if (spec_strcmp(env, "OLDPWD=") == 0)
 	{
 		get_exp_list(&shell, "OLDPWD");
-		(*i)++;
+		return (1);
+	}
+	return (0);
+}
+
+static void get_env_variables(t_shell *shell, char **env)
+{
+	int	i;
+
+	i = 0;
+	while (env[i])
+	{
+		if (spec_strcmp(env[i], "OLDPWD=") == 0)
+		{
+			i++;
+			continue;
+		}
+		get_env_list(&shell, env[i]);
+		i++;
+	}
+}
+
+static void get_exp_variables(t_shell *shell, char **env)
+{
+	int	i;
+
+	i = 0;
+	while (env[i])
+	{
+		if (norm_get_env(env[i], shell))
+		{
+			i++;
+			continue;
+		}
+		get_exp_list(&shell, env[i]);
+		i++;
 	}
 }
 void	get_environment(t_shell *shell, char **env)
 {
-	// char **envir;
-	int	i;
-
-	i = 0;
 	if (!(shell -> env))
-	{
-		while (env[i])
-		{
-			if (spec_strcmp(env[i], "OLDPWD=") == 0)
-				i++;
-			get_env_list(&shell, env[i]);
-			i++;
-		}
-	}
+		get_env_variables(shell, env);
 	if (!(shell -> exp))
-	{
-		i = 0;
-		while (env[i])
-		{
-			norm_get_env(env[i], shell, &i);
-			get_exp_list(&shell, env[i]);
-			i++;
-		}
-	}
+		get_exp_variables(shell, env);
 }
